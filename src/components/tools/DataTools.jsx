@@ -32,6 +32,157 @@ const FinanceHub = ({ subtool }) => {
     );
 };
 
+const DataScienceHub = ({ data }) => {
+    const stats = useMemo(() => {
+        if (!data || data.length === 0) return null;
+        const keys = Object.keys(data[0]);
+        const result = {};
+        keys.forEach(key => {
+            const values = data.map(row => parseFloat(row[key])).filter(v => !isNaN(v));
+            if (values.length > 0) {
+                const sum = values.reduce((a, b) => a + b, 0);
+                const avg = sum / values.length;
+                const sorted = [...values].sort((a, b) => a - b);
+                result[key] = {
+                    count: values.length,
+                    min: Math.min(...values),
+                    max: Math.max(...values),
+                    avg: avg.toFixed(2),
+                    median: sorted[Math.floor(sorted.length / 2)]
+                };
+            }
+        });
+        return result;
+    }, [data]);
+
+    if (!data) return <div className="text-center p-30 card glass-card opacity-6">Upload data in Viewer first.</div>;
+
+    return (
+        <div className="grid gap-20">
+            <div className="card p-20 glass-card">
+                <h3 className="mb-15">Statistical Analysis</h3>
+                <div className="overflow-auto">
+                    <table className="w-full">
+                        <thead>
+                            <tr className="text-left opacity-6 small uppercase">
+                                <th className="p-10">Column</th>
+                                <th className="p-10">Min</th>
+                                <th className="p-10">Max</th>
+                                <th className="p-10">Avg</th>
+                                <th className="p-10">Median</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.entries(stats || {}).map(([key, s]) => (
+                                <tr key={key} style={{ borderTop: '1px solid var(--border)' }}>
+                                    <td className="p-10 font-bold">{key}</td>
+                                    <td className="p-10">{s.min}</td>
+                                    <td className="p-10">{s.max}</td>
+                                    <td className="p-10">{s.avg}</td>
+                                    <td className="p-10">{s.median}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ToolResult result={JSON.stringify(stats, null, 2)} />
+        </div>
+    );
+};
+
+const DataQualityTool = ({ data }) => {
+    const quality = useMemo(() => {
+        if (!data || data.length === 0) return null;
+        const keys = Object.keys(data[0]);
+        return keys.map(key => {
+            const missing = data.filter(row => row[key] === undefined || row[key] === null || row[key] === '').length;
+            const values = data.map(row => row[key]).filter(v => v !== '');
+            const types = [...new Set(values.map(v => isNaN(parseFloat(v)) ? 'string' : 'number'))];
+            return { column: key, missing, pctMissing: ((missing / data.length) * 100).toFixed(1), types: types.join(', ') };
+        });
+    }, [data]);
+
+    if (!data) return <div className="text-center p-30 card glass-card opacity-6">Upload data in Viewer first.</div>;
+
+    return (
+        <div className="card p-20 glass-card">
+            <h3 className="mb-15">Data Quality Report</h3>
+            <div className="grid gap-10">
+                {quality.map(q => (
+                    <div key={q.column} className="flex-between p-10" style={{background: 'var(--surface)', borderRadius: '8px'}}>
+                        <div>
+                            <div className="font-bold">{q.column}</div>
+                            <div className="smallest opacity-6">Types: {q.types}</div>
+                        </div>
+                        <div className="text-right">
+                            <div className={q.missing > 0 ? 'color-error' : 'color-success'}>{q.missing} missing</div>
+                            <div className="smallest opacity-6">{q.pctMissing}% missing</div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <ToolResult result={JSON.stringify(quality, null, 2)} />
+        </div>
+    );
+};
+
+const DataAnonymizer = ({ data }) => {
+    const [maskCols, setMaskCols] = useState([]);
+    const [result, setResult] = useState(null);
+
+    const anonymize = () => {
+        if (!data) return;
+        const processed = data.map(row => {
+            const newRow = { ...row };
+            maskCols.forEach(col => {
+                if (newRow[col]) newRow[col] = '*** MASKED ***';
+            });
+            return newRow;
+        });
+        setResult({ text: Papa.unparse(processed), filename: 'anonymized.csv' });
+    };
+
+    if (!data) return <div className="text-center p-30 card glass-card opacity-6">Upload data in Viewer first.</div>;
+
+    return (
+        <div className="card p-20 glass-card">
+            <h3 className="mb-10">Anonymizer</h3>
+            <p className="opacity-6 small mb-15">Select columns to mask:</p>
+            <div className="pill-group mb-20">
+                {Object.keys(data[0] || {}).map(col => (
+                    <button key={col} className={`pill ${maskCols.includes(col) ? 'active' : ''}`} onClick={() => setMaskCols(prev => prev.includes(col) ? prev.filter(c => c !== col) : [...prev, col])}>
+                        {col}
+                    </button>
+                ))}
+            </div>
+            <button className="btn-primary w-full" onClick={anonymize}>Generate Anonymized CSV</button>
+            <ToolResult result={result} />
+        </div>
+    );
+};
+
+const DataProfilingTool = ({ data }) => {
+    if (!data) return <div className="text-center p-30 card glass-card opacity-6">Upload data in Viewer first.</div>;
+    return (
+        <div className="card p-20 glass-card">
+            <h3 className="mb-10">Data Profiling</h3>
+            <p className="mb-15">Analysis of {data.length} rows complete.</p>
+            <div className="grid grid-2 gap-10">
+                <div className="p-15" style={{background: 'var(--surface)', borderRadius: '12px'}}>
+                    <div className="smallest opacity-6 uppercase">Total Rows</div>
+                    <div className="font-bold" style={{fontSize: '1.5rem'}}>{data.length}</div>
+                </div>
+                <div className="p-15" style={{background: 'var(--surface)', borderRadius: '12px'}}>
+                    <div className="smallest opacity-6 uppercase">Total Columns</div>
+                    <div className="font-bold" style={{fontSize: '1.5rem'}}>{Object.keys(data[0] || {}).length}</div>
+                </div>
+            </div>
+            <ToolResult result={`Rows: ${data.length}\nColumns: ${Object.keys(data[0] || {}).join(', ')}`} />
+        </div>
+    );
+};
+
 const DataTools = ({ toolId, onSubtoolChange }) => {
   const tabs = [
     { id: 'viewer', label: 'Data Viewer' },
@@ -56,6 +207,9 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
     if (toolId) {
       if (['currency-conv', 'compound-int', 'loan-calc'].includes(toolId)) setActiveTab('finance');
       else if (['csv-viewer', 'data-visualizer'].includes(toolId)) setActiveTab('viewer');
+      else if (toolId === 'anomaly-detect') setActiveTab('quality');
+      else if (toolId === 'stat-calc') setActiveTab('science');
+      else if (toolId === 'data-anonymizer') setActiveTab('anonymizer');
     }
   }, [toolId]);
 
@@ -72,7 +226,10 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
       <div className="hub-content animate-fadeIn">
         {activeTab === 'viewer' && <DataViewer setGlobalData={setUploadedData} />}
         {activeTab === 'finance' && <FinanceHub subtool={toolId} />}
+        {activeTab === 'science' && <DataScienceHub data={uploadedData} />}
+        {activeTab === 'quality' && <DataQualityTool data={uploadedData} />}
         {activeTab === 'profiling' && <DataProfilingTool data={uploadedData} />}
+        {activeTab === 'anonymizer' && <DataAnonymizer data={uploadedData} />}
         {activeTab === 'mock' && <MockDataGenerator />}
         {activeTab === 'json-csv' && <JsonCsvConverter />}
       </div>
@@ -141,16 +298,6 @@ const DataViewer = ({ setGlobalData }) => {
                 </div>
             )}
             <ToolResult result={result} />
-        </div>
-    );
-};
-
-const DataProfilingTool = ({ data }) => {
-    if (!data) return <div className="text-center p-30 card glass-card opacity-6">Upload data in Viewer first.</div>;
-    return (
-        <div className="card p-20 glass-card">
-            Analysis of {data.length} rows complete.
-            <ToolResult result={`Rows: ${data.length}\nColumns: ${Object.keys(data[0] || {}).join(', ')}`} />
         </div>
     );
 };

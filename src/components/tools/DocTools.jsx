@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { PDFDocument, rgb } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
+import Tesseract from 'tesseract.js';
 import html2canvas from 'html2canvas';
 import mammoth from 'mammoth';
 import API_BASE from '../../api';
@@ -506,13 +507,24 @@ const ImageToPdf = ({ setToolResult }) => {
 };
 
 const PdfHub = ({ subtool }) => {
-    const [activeSub, setActiveSub] = useState(subtool || 'merge');
+    const [activeSub, setActiveSub] = useState('merge');
     const [files, setFiles] = useState([]);
     const [isProcessing, setIsProcessing] = useState(false);
     const [progress, setProgress] = useState(0);
     const [password, setPassword] = useState('');
+    const [pageRange, setPageRange] = useState('1-2');
     const [fileName, setFileName] = useState('');
     const [result, setResult] = useState(null);
+
+    useEffect(() => {
+        if (subtool) {
+            const map = {
+                'pdf-merge': 'merge', 'pdf-split': 'split', 'pdf-rotate': 'rotate',
+                'pdf-lock': 'lock', 'pdf-unlock': 'unlock', 'pdf2img': 'pdf2img', 'ocr': 'ocr'
+            };
+            if (map[subtool]) setActiveSub(map[subtool]);
+        }
+    }, [subtool]);
 
     const handleFileUpload = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -537,6 +549,24 @@ const PdfHub = ({ subtool }) => {
         finally { setIsProcessing(false); }
     };
 
+    const splitPdf = async () => {
+        if (files.length === 0) return;
+        setIsProcessing(true);
+        try {
+            const pdfDoc = await PDFDocument.load(await files[0].arrayBuffer());
+            const newPdf = await PDFDocument.create();
+            const range = pageRange.split('-').map(n => parseInt(n.trim()) - 1);
+            const indices = [];
+            for (let i = range[0]; i <= (range[1] || range[0]); i++) {
+                if (i >= 0 && i < pdfDoc.getPageCount()) indices.push(i);
+            }
+            const pages = await newPdf.copyPages(pdfDoc, indices);
+            pages.forEach(p => newPdf.addPage(p));
+            setResult({ text: `Split pages ${pageRange}`, blob: new Blob([await newPdf.save()], { type: 'application/pdf' }), filename: 'split.pdf' });
+        } catch (e) { alert(e.message); }
+        finally { setIsProcessing(false); }
+    };
+
     const rotatePdf = async () => {
         if (files.length === 0) return;
         setIsProcessing(true);
@@ -546,6 +576,54 @@ const PdfHub = ({ subtool }) => {
             pdfDoc.getPages().forEach(p => p.setRotation({ angle: (p.getRotation().angle + 90) % 360 }));
             setResult({ text: 'Rotated PDF', blob: new Blob([await pdfDoc.save()], { type: 'application/pdf' }), filename: 'rotated.pdf' });
         } catch (e) { alert("Error: " + e.message); }
+        finally { setIsProcessing(false); }
+    };
+
+    const unlockPdf = async () => {
+        if (files.length === 0) return;
+        setIsProcessing(true);
+        try {
+            const pdfDoc = await PDFDocument.load(await files[0].arrayBuffer(), { password });
+            setResult({ text: 'Unlocked PDF', blob: new Blob([await pdfDoc.save()], { type: 'application/pdf' }), filename: 'unlocked.pdf' });
+        } catch (e) { alert("Invalid password or error: " + e.message); }
+        finally { setIsProcessing(false); }
+    };
+
+    const pdfToImage = async () => {
+        if (files.length === 0) return;
+        setIsProcessing(true);
+        try {
+            const pdf = await pdfjsLib.getDocument(await files[0].arrayBuffer()).promise;
+            const page = await pdf.getPage(1);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width; canvas.height = viewport.height;
+            await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+            canvas.toBlob(blob => {
+                setResult({ text: 'Rendered Page 1 to Image', blob, filename: 'page1.png' });
+                setIsProcessing(false);
+            });
+        } catch (e) { alert(e.message); setIsProcessing(false); }
+    };
+
+    const ocrScan = async () => {
+        if (files.length === 0) return;
+        setIsProcessing(true);
+        try {
+            // If PDF, we need to convert to image first, but let's assume image for now or use the first page of PDF
+            let imageSource = files[0];
+            if (files[0].type === 'application/pdf') {
+                const pdf = await pdfjsLib.getDocument(await files[0].arrayBuffer()).promise;
+                const page = await pdf.getPage(1);
+                const viewport = page.getViewport({ scale: 2 });
+                const canvas = document.createElement('canvas');
+                canvas.width = viewport.width; canvas.height = viewport.height;
+                await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+                imageSource = canvas.toDataURL();
+            }
+            const { data: { text } } = await Tesseract.recognize(imageSource, 'eng', { logger: m => setProgress(Math.round(m.progress * 100)) });
+            setResult({ text, filename: 'ocr_result.txt' });
+        } catch (e) { alert(e.message); }
         finally { setIsProcessing(false); }
     };
 
@@ -559,24 +637,30 @@ const PdfHub = ({ subtool }) => {
                 ))}
             </div>
             <div className="form-group">
-                <label>Upload PDF(s)</label>
+                <label>Upload {activeSub === 'ocr' ? 'Image or PDF' : 'PDF(s)'}</label>
                 <div className="file-input-wrapper">
-                    <input type="file" multiple onChange={handleFileUpload} accept="application/pdf" />
+                    <input type="file" multiple={activeSub === 'merge'} onChange={handleFileUpload} accept={activeSub === 'ocr' ? 'application/pdf,image/*' : 'application/pdf'} />
                     <div className="file-input-label">
-                        <span className="material-icons">{fileName ? 'picture_as_pdf' : 'cloud_upload'}</span>
-                        <span>{fileName || 'Select PDF files'}</span>
+                        <span className="material-icons">{fileName ? (activeSub === 'ocr' && !files[0]?.type.includes('pdf') ? 'image' : 'picture_as_pdf') : 'cloud_upload'}</span>
+                        <span>{fileName || `Select ${activeSub === 'ocr' ? 'file' : 'PDF'} for ${activeSub}`}</span>
                     </div>
                 </div>
             </div>
 
             {isProcessing && (
-                <div className="progress-bar-container" style={{background: 'var(--border)', height: '8px', borderRadius: '4px', overflow: 'hidden'}}>
-                    <div style={{width: `${progress}%`, height: '100%', background: 'var(--primary)', transition: 'width 0.3s'}}></div>
+                <div className="progress-bar-container" style={{background: 'var(--border)', height: '8px', borderRadius: '4px', overflow: 'hidden', marginBottom: '10px'}}>
+                    <div style={{width: `${progress || 0}%`, height: '100%', background: 'var(--brand-accent)', transition: 'width 0.3s'}}></div>
                 </div>
             )}
 
             <div className="animate-fadeIn">
                 {activeSub === 'merge' && <button className="btn-primary w-full" onClick={mergePdfs} disabled={files.length < 2 || isProcessing}>Merge {files.length} PDFs</button>}
+                {activeSub === 'split' && (
+                    <div className="grid gap-10">
+                        <input className="pill w-full" value={pageRange} onChange={e=>setPageRange(e.target.value)} placeholder="Range (e.g. 1-5)" />
+                        <button className="btn-primary w-full" onClick={splitPdf} disabled={!files.length || isProcessing}>Split PDF</button>
+                    </div>
+                )}
                 {activeSub === 'rotate' && <button className="btn-primary w-full" onClick={rotatePdf} disabled={files.length === 0 || isProcessing}>Rotate 90°</button>}
                 {activeSub === 'lock' && (
                     <div className="grid gap-10">
@@ -592,6 +676,14 @@ const PdfHub = ({ subtool }) => {
                         }} disabled={!files.length || !password}>Lock PDF</button>
                     </div>
                 )}
+                {activeSub === 'unlock' && (
+                    <div className="grid gap-10">
+                        <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password (if known)" className="pill w-full" />
+                        <button className="btn-primary w-full" onClick={unlockPdf} disabled={!files.length || isProcessing}>Unlock PDF</button>
+                    </div>
+                )}
+                {activeSub === 'pdf2img' && <button className="btn-primary w-full" onClick={pdfToImage} disabled={!files.length || isProcessing}>Convert Page 1 to Image</button>}
+                {activeSub === 'ocr' && <button className="btn-primary w-full" onClick={ocrScan} disabled={!files.length || isProcessing}>{isProcessing ? `Processing... ${progress}%` : 'Start OCR Scan'}</button>}
                 {activeSub === 'img2pdf' && <ImageToPdf setToolResult={setResult} />}
                 {activeSub === 'word2pdf' && (
                     <div className="card p-20 text-center glass-card">

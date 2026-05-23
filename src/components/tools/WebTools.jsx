@@ -19,7 +19,12 @@ const WebTools = ({ toolId, onSubtoolChange }) => {
   }, [activeTab]);
 
   useEffect(() => {
-    if (toolId === 'url-to-pdf') setActiveTab('url2pdf');
+    if (toolId) {
+        if (toolId === 'url-to-pdf') setActiveTab('url2pdf');
+        else if (['social-downloader', 'web-to-md', 'web-mhtml'].includes(toolId)) setActiveTab('social');
+        else if (toolId === 'userscripts') setActiveTab('userscripts');
+        else if (toolId === 'bookmarklets') setActiveTab('bookmarklets');
+    }
   }, [toolId]);
 
   return (
@@ -71,7 +76,7 @@ const UrlToPdf = () => {
         <div className="card p-30 glass-card grid gap-15">
             <div className="form-group">
                 <label>Web URL</label>
-                <input type="text" className="pill w-full" value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://example.com" />
+            <input type="text" className="pill w-full" value={url} onChange={e=>setUrl(e.target.value)} placeholder="Enter Web URL..." />
             </div>
             <button className="btn-primary w-full" onClick={handleConvert} disabled={isConverting || !url}>
                 {isConverting ? 'Converting...' : 'Convert URL to PDF'}

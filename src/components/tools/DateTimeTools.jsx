@@ -24,17 +24,23 @@ const DateTimeTools = ({ toolId, onSubtoolChange }) => {
   useEffect(() => {
     if (toolId) {
       const mapping = {
+        'age': 'age',
         'age-calculator': 'age',
+        'timestamp': 'timestamp',
         'timestamp-conv': 'timestamp',
         'stopwatch': 'stopwatch',
+        'pomodoro': 'pomodoro',
         'pomodoro-timer': 'pomodoro',
+        'worldclock': 'worldclock',
         'world-clock': 'worldclock',
+        'timezone': 'timezone',
         'timezone-conv': 'timezone',
+        'datediff': 'datediff',
         'date-diff': 'datediff',
         'countdown': 'countdown',
         'panchangam': 'panchangam'
       };
-      if (mapping[toolId]) setActiveTab(mapping[toolId]); else if (tabs.length > 0) setActiveTab(tabs[0].id);
+      if (mapping[toolId]) setActiveTab(mapping[toolId]);
     }
   }, [toolId]);
 

@@ -19,9 +19,9 @@ const TOOLS = [
     { id: 'network-main', title: 'Network Hub', icon: 'router', category: 'Web', component: NetworkTools, subTools: ['ip-info', 'ping', 'dns', 'whois', 'speed', 'geo', 'ssl', 'subnet', 'bluetooth'] },
     { id: 'ai-main', title: 'AI Hub', icon: 'auto_awesome', category: 'Web', component: AiTools, subTools: ['ai-chat', 'ai-image', 'ai-text'] },
     { id: 'dev-main', title: 'Dev Hub', icon: 'terminal', category: 'Developer', component: DevTools, subTools: ['json-formatter', 'jwt-decoder', 'sql-formatter', 'diff-viewer', 'regex-tester', 'length-conv', 'weight-conv', 'temp-conv', 'data-conv', 'color-picker', 'password-gen', 'hash-gen', 'base64', 'cron-helper', 'uuid-gen', 'url-tool', 'yaml-conv', 'minifier', 'xml-json', 'xml-formatter', 'json-to-ts'] },
-    { id: 'doc-main', title: 'Document Tools', icon: 'description', category: 'Developer', component: DocTools, subTools: ['md-editor', 'doc-translator', 'pdf-merge', 'pdf-split', 'pdf-rotate', 'img-format', 'img-resize', 'case-converter', 'word-counter'] },
-    { id: 'data-main', title: 'Data Science', icon: 'insights', category: 'Data', component: DataTools, subTools: ['csv-viewer', 'data-visualizer', 'anomaly-detect', 'stat-calc', 'currency-conv', 'compound-int', 'loan-calc', 'mock-gen'] },
-    { id: 'time-main', title: 'Date & Time Tools', icon: 'schedule', category: 'Productivity', component: DateTimeTools, subTools: ['stopwatch', 'pomodoro', 'worldclock', 'age', 'timestamp', 'panchangam', 'datediff', 'countdown'] },
+    { id: 'doc-main', title: 'Document Tools', icon: 'description', category: 'Developer', component: DocTools, subTools: ['md-editor', 'doc-translator', 'pdf-merge', 'pdf-split', 'pdf-rotate', 'pdf-lock', 'pdf-unlock', 'pdf2img', 'ocr', 'img-format', 'img-resize', 'case-converter', 'word-counter'] },
+    { id: 'data-main', title: 'Data Science', icon: 'insights', category: 'Data', component: DataTools, subTools: ['csv-viewer', 'data-visualizer', 'anomaly-detect', 'stat-calc', 'data-anonymizer', 'currency-conv', 'compound-int', 'loan-calc', 'mock-gen'] },
+    { id: 'time-main', title: 'Date & Time Tools', icon: 'schedule', category: 'Productivity', component: DateTimeTools, subTools: ['stopwatch', 'pomodoro', 'worldclock', 'age', 'timestamp', 'panchangam', 'datediff', 'countdown', 'timezone'] },
 ];
 
 const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRecentTools, hideRecentTools, hideIcons }) => {
@@ -201,9 +201,7 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
   const cats = groupedTools ? Object.keys(groupedTools).sort() : [];
 
   const handleSubtoolClick = (match) => {
-    openTool(match.hubId);
-    // After opening the hub, we might need a small delay or a way to trigger the sub-tool selection
-    // In current implementation, passing toolId to components like DevTools handles it.
+    openTool(match.id);
   };
 
   return (
