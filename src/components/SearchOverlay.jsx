@@ -28,7 +28,7 @@ const SearchOverlay = ({ active, setActive, query, onChange, onClear, currentTab
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && query.trim()) {
-        // Implementation for "Search First Result" could go here if desired
+        window.dispatchEvent(new CustomEvent('hub-search-submit', { detail: { query: query.trim() } }));
     }
   };
 

@@ -65,8 +65,11 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
     if (activeToolId === id) return;
     setActiveToolId(id);
     setActiveSubtoolLabel(null);
-    if (TOOLS.find(t => t.id === id)) {
-      const newRecents = [id, ...recentTools.filter(t => t !== id)].slice(0, 4);
+
+    const tool = TOOLS.find(t => t.id === id || t.subTools?.includes(id));
+    if (tool) {
+      const hubId = tool.id;
+      const newRecents = [hubId, ...recentTools.filter(t => t !== hubId)].slice(0, 4);
       setRecentTools(newRecents);
       storage.setJSON('hub_recent_tools', newRecents);
     }
@@ -154,6 +157,18 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
     return matches;
   }, [searchQuery]);
 
+  useEffect(() => {
+    const handleSubmit = () => {
+        if (matchedSubtools.length > 0) {
+            openTool(matchedSubtools[0].id);
+        } else if (filteredTools.length > 0) {
+            openTool(filteredTools[0].id);
+        }
+    };
+    window.addEventListener('hub-search-submit', handleSubmit);
+    return () => window.removeEventListener('hub-search-submit', handleSubmit);
+  }, [matchedSubtools, filteredTools]);
+
   if (activeToolId) {
     let tool = TOOLS.find(t => t.id === activeToolId);
     let effectiveToolId = activeToolId;
@@ -240,6 +255,21 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
            </>
         ) : (
            <p>Your essential tools, simplified and unified.</p>
+        )}
+
+        {activeCategory === 'All' && !searchQuery && !hideRecentTools && recentTools.length > 0 && (
+          <div className="p-0-10 mb-20 text-left">
+            <h3 className="uppercase tracking-wider opacity-6 mb-10 flex-center gap-10" style={{ fontSize: '0.9rem', justifyContent: 'flex-start' }}>
+              <span className="material-icons" style={{ fontSize: '1.2rem' }}>history</span> Recently Used Hubs
+            </h3>
+            <div className="category-grid">
+              {recentTools.map((id, idx) => {
+                  const tool = TOOLS.find(t => t.id === id);
+                  if (!tool) return null;
+                  return <ToolCard key={`recent-${tool.id}`} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} highlightText={highlightText} noAnimation={!!searchQuery} hideIcons={hideIcons} />;
+              })}
+            </div>
+          </div>
         )}
 
         {activeCategory === 'All' && !searchQuery && pinnedTools.length > 0 && (
