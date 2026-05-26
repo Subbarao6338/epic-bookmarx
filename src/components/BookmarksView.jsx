@@ -92,7 +92,7 @@ const BookmarksView = ({ profileId, searchQuery, onEdit, onDelete, onPin, refres
 
   const currentLinks = Array.isArray(links) ? links : [];
   const filteredLinks = currentLinks.filter(l => {
-    if (l.is_internal) return false;
+    if (l.is_internal || l.isInternal) return false;
 
     let matchesSearch = true;
     let matchesCat = true;
@@ -153,7 +153,7 @@ const BookmarksView = ({ profileId, searchQuery, onEdit, onDelete, onPin, refres
   const stats = {};
   const visibleCategories = {};
   currentLinks.forEach(l => {
-    if (l.is_internal) return;
+    if (l.is_internal || l.isInternal) return;
     const cat = l.category || 'Uncategorized';
     stats[cat] = (stats[cat] || 0) + 1;
     visibleCategories[cat] = categories[cat] || 'folder';
