@@ -167,7 +167,7 @@
     "urls": [
       "https://smallpdf.com"
     ],
-    "category": "Tools"
+    "category": "Documents"
   },
   {
     "title": "Immersive Translate",
@@ -738,7 +738,7 @@
   {
     "title": "PDF24 Tools",
     "url": "https://www.pdf24.org/en",
-    "category": "Tools",
+    "category": "Documents",
     "urls": [
       "https://www.pdf24.org/en"
     ]
@@ -868,7 +868,7 @@
   {
     "title": "Your Metric Birthday",
     "url": "https://www.yourmetricbirthday.com",
-    "category": "Utilities",
+    "category": "Date & Time",
     "urls": [
       "https://www.yourmetricbirthday.com"
     ]
@@ -876,7 +876,7 @@
   {
     "title": "Worldometers",
     "url": "https://www.worldometers.info",
-    "category": "Utilities",
+    "category": "Date & Time",
     "urls": [
       "https://www.worldometers.info"
     ]
@@ -892,7 +892,7 @@
   {
     "title": "Word Rank Calculator",
     "url": "https://l-kaushik.github.io/Word-rank-calculator/",
-    "category": "Tools",
+    "category": "Documents",
     "urls": [
       "https://l-kaushik.github.io/Word-rank-calculator/"
     ]
@@ -932,7 +932,7 @@
   {
     "title": "endoflife.date",
     "url": "https://endoflife.date/",
-    "category": "Utilities",
+    "category": "Date & Time",
     "urls": [
       "https://endoflife.date/"
     ]
@@ -1132,7 +1132,7 @@
   {
     "title": "ILovePDF",
     "url": "https://www.ilovepdf.com/",
-    "category": "Tools",
+    "category": "Documents",
     "urls": [
       "https://www.ilovepdf.com/"
     ]
@@ -1148,7 +1148,7 @@
   {
     "title": "Microsoft Word Online",
     "url": "https://word.cloud.microsoft/",
-    "category": "Productivity",
+    "category": "Documents",
     "urls": [
       "https://word.cloud.microsoft/"
     ]
@@ -1156,7 +1156,7 @@
   {
     "title": "Microsoft Excel Online",
     "url": "https://excel.cloud.microsoft/",
-    "category": "Productivity",
+    "category": "Documents",
     "urls": [
       "https://excel.cloud.microsoft/"
     ]
@@ -1164,7 +1164,7 @@
   {
     "title": "Microsoft PowerPoint Online",
     "url": "https://powerpoint.cloud.microsoft/",
-    "category": "Productivity",
+    "category": "Documents",
     "urls": [
       "https://powerpoint.cloud.microsoft/"
     ]
@@ -2001,15 +2001,6 @@
     "category": "Android",
     "urls": [
       "https://filecr.com/android/"
-    ]
-  },
-  {
-    "title": "Repo Hub",
-    "url": "https://repo-hub.com/",
-    "optional_icon": "https://repo-hub.com/favicon.ico",
-    "category": "Linux",
-    "urls": [
-      "https://repo-hub.com/"
     ]
   },
   {

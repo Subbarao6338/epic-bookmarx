@@ -34,5 +34,7 @@
   "System": "settings_input_component",
   "Developer": "terminal",
   "Power Tools": "handyman",
-  "Toolbox": "handyman"
+  "Toolbox": "handyman",
+  "Documents": "description",
+  "Date & Time": "schedule"
 }
