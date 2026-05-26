@@ -63,7 +63,7 @@
     "urls": [
       "https://folio-playground.pages.dev"
     ],
-    "category": "Tools"
+    "category": "Tools & Utilities"
   },
   {
     "title": "Tango",
@@ -71,7 +71,7 @@
     "urls": [
       "https://app.tangoapp.dev"
     ],
-    "category": "Tools"
+    "category": "Tools & Utilities"
   },
   {
     "title": "Napkin AI",
@@ -125,7 +125,7 @@
     "urls": [
       "https://defuddle.md/"
     ],
-    "category": "Tools"
+    "category": "Tools & Utilities"
   },
   {
     "title": "VibeShare",
@@ -159,7 +159,7 @@
     "urls": [
       "https://notegpt.io"
     ],
-    "category": "Tools"
+    "category": "Tools & Utilities"
   },
   {
     "title": "Smallpdf",
@@ -177,7 +177,7 @@
       "https://immersivetranslate.com",
       "https://immersivetranslate.com/docs"
     ],
-    "category": "Tools"
+    "category": "Tools & Utilities"
   },
   {
     "title": "Google Translate",
@@ -435,7 +435,7 @@
   {
     "title": "PaperKnife",
     "url": "https://potatameister.github.io/PaperKnife/",
-    "category": "Tools",
+    "category": "Documents",
     "urls": [
       "https://potatameister.github.io/PaperKnife/"
     ]
@@ -443,7 +443,7 @@
   {
     "title": "Panchang",
     "url": "https://www.drikpanchang.com/",
-    "category": "Utilities",
+    "category": "Date & Time",
     "urls": [
       "https://www.drikpanchang.com/"
     ]
@@ -484,7 +484,7 @@
   {
     "title": "Cobalt",
     "url": "https://cobalt.tools/",
-    "category": "Tools",
+    "category": "Media",
     "urls": [
       "https://cobalt.tools/"
     ]
@@ -625,7 +625,7 @@
   {
     "title": "JSFiddle",
     "url": "https://jsfiddle.net",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://jsfiddle.net"
     ]
@@ -633,7 +633,7 @@
   {
     "title": "Regex101",
     "url": "https://regex101.com",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://regex101.com"
     ]
@@ -641,7 +641,7 @@
   {
     "title": "JSON Formatter",
     "url": "https://jsonformatter.org",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://jsonformatter.org"
     ]
@@ -714,7 +714,7 @@
   {
     "title": "WolframAlpha (Mobile)",
     "url": "http://m.wolframalpha.com",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "http://m.wolframalpha.com"
     ]
@@ -722,7 +722,7 @@
   {
     "title": "Omni Calculator",
     "url": "https://www.omnicalculator.com",
-    "category": "Tools",
+    "category": "Calculators",
     "urls": [
       "https://www.omnicalculator.com"
     ]
@@ -730,7 +730,7 @@
   {
     "title": "Unitto",
     "url": "https://sadellie.github.io/unitto/app",
-    "category": "Tools",
+    "category": "Calculators",
     "urls": [
       "https://sadellie.github.io/unitto/app"
     ]
@@ -746,7 +746,7 @@
   {
     "title": "Online-Convert",
     "url": "https://www.online-convert.com",
-    "category": "Tools",
+    "category": "Media",
     "urls": [
       "https://www.online-convert.com"
     ]
@@ -754,7 +754,7 @@
   {
     "title": "123Apps",
     "url": "https://123apps.com",
-    "category": "Tools",
+    "category": "Media",
     "urls": [
       "https://123apps.com"
     ]
@@ -762,7 +762,7 @@
   {
     "title": "Networking Toolbox",
     "url": "https://networking-toolbox.as93.net",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://networking-toolbox.as93.net"
     ]
@@ -770,7 +770,7 @@
   {
     "title": "OmniTools",
     "url": "https://omnitools.netlify.app",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://omnitools.netlify.app"
     ]
@@ -778,7 +778,7 @@
   {
     "title": "Woodbox",
     "url": "https://ol.woobx.cn",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://ol.woobx.cn"
     ]
@@ -844,7 +844,7 @@
   {
     "title": "Neal.fun",
     "url": "https://neal.fun",
-    "category": "Utilities",
+    "category": "Tools & Utilities",
     "urls": [
       "https://neal.fun"
     ]
@@ -852,7 +852,7 @@
   {
     "title": "100k Stars",
     "url": "https://stars.chromeexperiments.com",
-    "category": "Utilities",
+    "category": "Tools & Utilities",
     "urls": [
       "https://stars.chromeexperiments.com"
     ]
@@ -860,7 +860,7 @@
   {
     "title": "Getting Old",
     "url": "https://you.regettingold.com",
-    "category": "Utilities",
+    "category": "Date & Time",
     "urls": [
       "https://you.regettingold.com"
     ]
@@ -892,7 +892,7 @@
   {
     "title": "Word Rank Calculator",
     "url": "https://l-kaushik.github.io/Word-rank-calculator/",
-    "category": "Documents",
+    "category": "Calculators",
     "urls": [
       "https://l-kaushik.github.io/Word-rank-calculator/"
     ]
@@ -916,7 +916,7 @@
   {
     "title": "Datayze",
     "url": "https://datayze.com/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://datayze.com/"
     ]
@@ -940,7 +940,7 @@
   {
     "title": "FMHY",
     "url": "https://fmhy.pages.dev/",
-    "category": "Utilities",
+    "category": "Tools & Utilities",
     "urls": [
       "https://fmhy.pages.dev/"
     ]
@@ -948,7 +948,7 @@
   {
     "title": "Killed by Google",
     "url": "https://killedbygoogle.com/",
-    "category": "Utilities",
+    "category": "Tools & Utilities",
     "urls": [
       "https://killedbygoogle.com/"
     ]
@@ -956,7 +956,7 @@
   {
     "title": "Killed by Microsoft",
     "url": "https://killedbymicrosoft.info/",
-    "category": "Utilities",
+    "category": "Tools & Utilities",
     "urls": [
       "https://killedbymicrosoft.info/"
     ]
@@ -1321,7 +1321,7 @@
   {
     "title": "Vert.sh",
     "url": "https://vert.sh/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://vert.sh/"
     ]
@@ -1337,7 +1337,7 @@
   {
     "title": "Yoink",
     "url": "https://yoink.tools/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://yoink.tools/"
     ]
@@ -1353,7 +1353,7 @@
   {
     "title": "Raindrop.io",
     "url": "https://app.raindrop.io/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://app.raindrop.io/"
     ]
@@ -1467,7 +1467,7 @@
   {
     "title": "Days Old",
     "url": "https://www.daysold.com",
-    "category": "Utilities",
+    "category": "Date & Time",
     "urls": [
       "https://www.daysold.com"
     ]
@@ -1475,7 +1475,7 @@
   {
     "title": "Multi Calculator",
     "url": "https://www.multicalculator.app/",
-    "category": "Tools",
+    "category": "Calculators",
     "urls": [
       "https://www.multicalculator.app/"
     ]
@@ -1804,7 +1804,7 @@
   {
     "title": "AccuWeather",
     "url": "https://www.accuweather.com/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://www.accuweather.com/"
     ]
@@ -1812,7 +1812,7 @@
   {
     "title": "Poco F5 Firmware (marble)",
     "url": "https://xmfirmwareupdater.com/firmware/marble/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://xmfirmwareupdater.com/firmware/marble/"
     ]
@@ -2096,7 +2096,7 @@
   {
     "title": "TinyWow",
     "url": "https://tinywow.com/",
-    "category": "Tools",
+    "category": "Media",
     "urls": [
       "https://tinywow.com/"
     ]
@@ -2120,7 +2120,7 @@
   {
     "title": "10015.io",
     "url": "https://10015.io/",
-    "category": "Tools",
+    "category": "Tools & Utilities",
     "urls": [
       "https://10015.io/"
     ]
@@ -2228,99 +2228,27 @@
     "category": "Coding"
   },
   {
-    "title": "History",
-    "url": "internal://history",
-    "isInternal": true,
-    "toolId": "history",
-    "category": "Toolbox",
-    "icon": "history"
-  },
-  {
-    "title": "Saved",
-    "url": "internal://saved",
-    "isInternal": true,
-    "toolId": "saved",
-    "category": "Toolbox",
-    "icon": "bookmark"
-  },
-  {
-    "title": "Notes",
-    "url": "internal://notes",
-    "isInternal": true,
-    "toolId": "notes",
-    "category": "Toolbox",
-    "icon": "description"
-  },
-  {
-    "title": "AI Summary",
-    "url": "internal://ai-summary",
-    "isInternal": true,
-    "toolId": "ai-summary",
-    "category": "Toolbox",
-    "icon": "auto_fix_high"
-  },
-  {
     "title": "Calculator",
     "url": "internal://calculator",
     "isInternal": true,
     "toolId": "calculator",
-    "category": "Toolbox",
+    "category": "Calculators",
     "icon": "calculate"
-  },
-  {
-    "title": "Translate",
-    "url": "internal://translate",
-    "isInternal": true,
-    "toolId": "translate",
-    "category": "Toolbox",
-    "icon": "translate"
-  },
-  {
-    "title": "QR Gen",
-    "url": "internal://qr-gen",
-    "isInternal": true,
-    "toolId": "qr-gen",
-    "category": "Toolbox",
-    "icon": "qr_code_2"
-  },
-  {
-    "title": "Password Generator",
-    "url": "internal://password-gen",
-    "isInternal": true,
-    "toolId": "password-gen",
-    "category": "Toolbox",
-    "icon": "vpn_key"
   },
   {
     "title": "Unit Converter",
     "url": "internal://unit-converter",
     "isInternal": true,
     "toolId": "unit-converter",
-    "category": "Toolbox",
+    "category": "Calculators",
     "icon": "balance"
-  },
-  {
-    "title": "Stopwatch",
-    "url": "internal://stopwatch",
-    "isInternal": true,
-    "toolId": "stopwatch",
-    "category": "Toolbox",
-    "icon": "timer"
-  },
-  {
-    "title": "Morse",
-    "url": "internal://morse",
-    "isInternal": true,
-    "toolId": "morse",
-    "category": "Toolbox",
-    "icon": "timeline"
   },
   {
     "title": "BMI Calculator",
     "url": "internal://bmi-calculator",
     "isInternal": true,
     "toolId": "bmi-calculator",
-    "category": "Toolbox",
+    "category": "Calculators",
     "icon": "person"
   },
   {
@@ -2328,119 +2256,23 @@
     "url": "internal://age-calculator",
     "isInternal": true,
     "toolId": "age-calculator",
-    "category": "Toolbox",
+    "category": "Calculators",
     "icon": "calendar_today"
-  },
-  {
-    "title": "Color Picker",
-    "url": "internal://color-picker",
-    "isInternal": true,
-    "toolId": "color-picker",
-    "category": "Toolbox",
-    "icon": "palette"
   },
   {
     "title": "Telugu Panchangam",
     "url": "internal://panchangam",
     "isInternal": true,
     "toolId": "panchangam",
-    "category": "Toolbox",
+    "category": "Date & Time",
     "icon": "auto_awesome"
-  },
-  {
-    "title": "Omni Hub",
-    "url": "internal://omni-hub",
-    "isInternal": true,
-    "toolId": "omni-hub",
-    "category": "Toolbox",
-    "icon": "public"
-  },
-  {
-    "title": "Network Tools",
-    "url": "internal://network-tools",
-    "isInternal": true,
-    "toolId": "network-tools",
-    "category": "Toolbox",
-    "icon": "timeline"
-  },
-  {
-    "title": "Cookies",
-    "url": "internal://cookies",
-    "isInternal": true,
-    "toolId": "cookies",
-    "category": "Toolbox",
-    "icon": "cookie"
-  },
-  {
-    "title": "Translator",
-    "url": "internal://translator",
-    "isInternal": true,
-    "toolId": "translator",
-    "category": "Toolbox",
-    "icon": "language"
-  },
-  {
-    "title": "Inspect",
-    "url": "internal://inspect",
-    "isInternal": true,
-    "toolId": "inspect",
-    "category": "Toolbox",
-    "icon": "search"
-  },
-  {
-    "title": "Reader",
-    "url": "internal://reader",
-    "isInternal": true,
-    "toolId": "reader",
-    "category": "Toolbox",
-    "icon": "article"
-  },
-  {
-    "title": "Text Utilities",
-    "url": "internal://text-utils",
-    "isInternal": true,
-    "toolId": "text-utils",
-    "category": "Toolbox",
-    "icon": "title"
-  },
-  {
-    "title": "JSON Formatter",
-    "url": "internal://json-formatter",
-    "isInternal": true,
-    "toolId": "json-formatter",
-    "category": "Toolbox",
-    "icon": "code"
   },
   {
     "title": "Base64 Converter",
     "url": "internal://base64-converter",
     "isInternal": true,
     "toolId": "base64-converter",
-    "category": "Toolbox",
+    "category": "Calculators",
     "icon": "transform"
-  },
-  {
-    "title": "Device Info",
-    "url": "internal://device-info",
-    "isInternal": true,
-    "toolId": "device-info",
-    "category": "Toolbox",
-    "icon": "memory"
-  },
-  {
-    "title": "Security Info",
-    "url": "internal://security-info",
-    "isInternal": true,
-    "toolId": "security-info",
-    "category": "Toolbox",
-    "icon": "verified_user"
-  },
-  {
-    "title": "User Scripts",
-    "url": "internal://user-scripts",
-    "isInternal": true,
-    "toolId": "user-scripts",
-    "category": "Toolbox",
-    "icon": "add"
   }
 ]
