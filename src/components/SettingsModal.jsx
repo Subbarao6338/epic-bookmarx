@@ -207,26 +207,50 @@ const SettingsModal = ({
 
           <div className="form-group">
             <label>Data Management</label>
-            <p className="smallest opacity-6 mb-10">Refresh local data or clear specific application states.</p>
+            <p className="smallest opacity-6 mb-10">Reset specific parts of the application data or settings.</p>
             <div className="pill-group">
                 <button className="pill" onClick={() => {
-                    if(confirm("Refresh data from JSON files? This will reload the app.")) {
-                        fetch(`${getApiBase()}/debug/reset-db`, { method: 'POST' })
-                            .then(() => window.location.reload())
-                            .catch(e => alert("Refresh failed: " + e.message));
+                    if(confirm("Refresh bookmarks from defaults? Your settings will be preserved, but custom bookmarks will be reset.")) {
+                        if (getApiBase() === 'JSON-MODE') {
+                            Object.keys(localStorage).forEach(key => {
+                                if (key.startsWith('hub_links_p') || key.startsWith('hub_cats_p')) {
+                                    localStorage.removeItem(key);
+                                }
+                            });
+                            window.location.reload();
+                        } else {
+                            fetch(`${getApiBase()}/debug/reset-db`, { method: 'POST' })
+                                .then(() => window.location.reload())
+                                .catch(e => alert("Refresh failed: " + e.message));
+                        }
                     }
                 }}>
-                    <span className="material-icons mr-10">refresh</span> Initialize from Defaults
+                    <span className="material-icons mr-10">refresh</span> Refresh Local Storage
                 </button>
-                <button className="pill" onClick={() => { if(confirm("Clear local storage? This will reset all your settings and bookmarks.")) { localStorage.clear(); window.location.reload(); } }}>
-                    <span className="material-icons mr-10">history_toggle_off</span> Reset App Settings
+                <button className="pill" onClick={() => {
+                    if(confirm("Reset all settings to default? Your bookmarks will be preserved.")) {
+                        Object.keys(localStorage).forEach(key => {
+                            if (key && key.startsWith('hub_') && !key.startsWith('hub_links_p') && !key.startsWith('hub_cats_p')) {
+                                localStorage.removeItem(key);
+                            }
+                        });
+                        window.location.reload();
+                    }
+                }}>
+                    <span className="material-icons mr-10">settings_backup_restore</span> Reset Settings
                 </button>
             </div>
           </div>
 
           <div className="form-group">
              <label style={{color: 'var(--danger)'}}>Danger Zone</label>
-             <button className="pill w-full" style={{color: 'var(--danger)', borderColor: 'var(--danger)'}} onClick={resetData}>
+             <p className="smallest opacity-6 mb-10">Completely wipe all data and settings, returning the app to its original state. This action is permanent and cannot be undone.</p>
+             <button className="pill w-full" style={{color: 'var(--danger)', borderColor: 'var(--danger)'}} onClick={() => {
+                if (window.confirm("CRITICAL: This will permanently delete ALL your bookmarks and settings. Are you absolutely sure?")) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+             }}>
                 <span className="material-icons mr-10">delete_forever</span> Wipe All Data & Factory Reset
              </button>
           </div>
