@@ -159,7 +159,7 @@
     "urls": [
       "https://notegpt.io"
     ],
-    "category": "Tools & Utilities"
+    "category": "AI"
   },
   {
     "title": "Smallpdf",
@@ -625,7 +625,7 @@
   {
     "title": "JSFiddle",
     "url": "https://jsfiddle.net",
-    "category": "Tools & Utilities",
+    "category": "Coding",
     "urls": [
       "https://jsfiddle.net"
     ]
@@ -633,7 +633,7 @@
   {
     "title": "Regex101",
     "url": "https://regex101.com",
-    "category": "Tools & Utilities",
+    "category": "Coding",
     "urls": [
       "https://regex101.com"
     ]
@@ -641,7 +641,7 @@
   {
     "title": "JSON Formatter",
     "url": "https://jsonformatter.org",
-    "category": "Tools & Utilities",
+    "category": "Coding",
     "urls": [
       "https://jsonformatter.org"
     ]
@@ -714,7 +714,7 @@
   {
     "title": "WolframAlpha (Mobile)",
     "url": "http://m.wolframalpha.com",
-    "category": "Tools & Utilities",
+    "category": "Calculators",
     "urls": [
       "http://m.wolframalpha.com"
     ]
@@ -1321,7 +1321,7 @@
   {
     "title": "Vert.sh",
     "url": "https://vert.sh/",
-    "category": "Tools & Utilities",
+    "category": "Media",
     "urls": [
       "https://vert.sh/"
     ]
@@ -1337,7 +1337,7 @@
   {
     "title": "Yoink",
     "url": "https://yoink.tools/",
-    "category": "Tools & Utilities",
+    "category": "Media",
     "urls": [
       "https://yoink.tools/"
     ]
@@ -1369,7 +1369,7 @@
   {
     "title": "AI Code Translator",
     "url": "https://ai-code-translator.com/#translate",
-    "category": "AI",
+    "category": "Coding",
     "urls": [
       "https://ai-code-translator.com/#translate"
     ]
@@ -2226,53 +2226,5 @@
       "https://replit.com/"
     ],
     "category": "Coding"
-  },
-  {
-    "title": "Calculator",
-    "url": "internal://calculator",
-    "isInternal": true,
-    "toolId": "calculator",
-    "category": "Calculators",
-    "icon": "calculate"
-  },
-  {
-    "title": "Unit Converter",
-    "url": "internal://unit-converter",
-    "isInternal": true,
-    "toolId": "unit-converter",
-    "category": "Calculators",
-    "icon": "balance"
-  },
-  {
-    "title": "BMI Calculator",
-    "url": "internal://bmi-calculator",
-    "isInternal": true,
-    "toolId": "bmi-calculator",
-    "category": "Calculators",
-    "icon": "person"
-  },
-  {
-    "title": "Age Calculator",
-    "url": "internal://age-calculator",
-    "isInternal": true,
-    "toolId": "age-calculator",
-    "category": "Calculators",
-    "icon": "calendar_today"
-  },
-  {
-    "title": "Telugu Panchangam",
-    "url": "internal://panchangam",
-    "isInternal": true,
-    "toolId": "panchangam",
-    "category": "Date & Time",
-    "icon": "auto_awesome"
-  },
-  {
-    "title": "Base64 Converter",
-    "url": "internal://base64-converter",
-    "isInternal": true,
-    "toolId": "base64-converter",
-    "category": "Calculators",
-    "icon": "transform"
   }
 ]
