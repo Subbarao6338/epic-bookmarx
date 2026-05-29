@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import API_BASE from '../../api';
 import ToolResult from './ToolResult';
 
 const AiTools = ({ toolId, onSubtoolChange }) => {
