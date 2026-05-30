@@ -7,7 +7,6 @@ import * as pdfjsLib from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import html2canvas from 'html2canvas';
 import mammoth from 'mammoth';
-import API_BASE from '../../api';
 import ToolResult from './ToolResult';
 
 // Setup PDF.js worker
@@ -554,15 +553,28 @@ const PdfHub = ({ subtool }) => {
         setIsProcessing(true);
         try {
             const pdfDoc = await PDFDocument.load(await files[0].arrayBuffer());
+            const pageCount = pdfDoc.getPageCount();
             const newPdf = await PDFDocument.create();
-            const range = pageRange.split('-').map(n => parseInt(n.trim()) - 1);
-            const indices = [];
-            for (let i = range[0]; i <= (range[1] || range[0]); i++) {
-                if (i >= 0 && i < pdfDoc.getPageCount()) indices.push(i);
+
+            // Validation
+            const parts = pageRange.split('-').map(n => parseInt(n.trim()));
+            if (parts.some(isNaN)) throw new Error("Invalid page range format (e.g. 1-5)");
+
+            const start = parts[0] - 1;
+            const end = (parts[1] || parts[0]) - 1;
+
+            if (start < 0 || start >= pageCount || end < 0 || end >= pageCount) {
+                throw new Error(`Page range out of bounds. Document has ${pageCount} pages.`);
             }
+
+            const indices = [];
+            for (let i = Math.min(start, end); i <= Math.max(start, end); i++) {
+                indices.push(i);
+            }
+
             const pages = await newPdf.copyPages(pdfDoc, indices);
             pages.forEach(p => newPdf.addPage(p));
-            setResult({ text: `Split pages ${pageRange}`, blob: new Blob([await newPdf.save()], { type: 'application/pdf' }), filename: 'split.pdf' });
+            setResult({ text: `Split pages ${pageRange} (${indices.length} pages)`, blob: new Blob([await newPdf.save()], { type: 'application/pdf' }), filename: 'split.pdf' });
         } catch (e) { alert(e.message); }
         finally { setIsProcessing(false); }
     };
@@ -802,9 +814,18 @@ const DocTranslator = () => {
 };
 
 const MarkdownEditor = () => {
-  const [md, setMd] = useState('# New Document\n\nStart typing...');
+  const [md, setMd] = useState('# New Document\n\nStart typing...\n\n- [x] GFM Support\n- [ ] Task lists\n- Tables | Work\n---|---\nYes | True');
   const [result, setResult] = useState(null);
-  const html = useMemo(() => DOMPurify.sanitize(marked.parse(md)), [md]);
+
+  const html = useMemo(() => {
+    marked.setOptions({
+        gfm: true,
+        breaks: true,
+        headerIds: true,
+        mangle: false
+    });
+    return DOMPurify.sanitize(marked.parse(md));
+  }, [md]);
 
   const stats = useMemo(() => ({
     words: md.trim() ? md.trim().split(/\s+/).length : 0,
@@ -823,6 +844,11 @@ const MarkdownEditor = () => {
       const content = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Document</title><style>body{font-family:sans-serif;padding:40px;line-height:1.6;max-width:800px;margin:0 auto;}</style></head><body>${html}</body></html>`;
       const blob = new Blob([content], { type: 'text/html' });
       setResult({ text: 'Exported Markdown to HTML', blob, filename: 'document.html' });
+  };
+
+  const copyHtml = () => {
+      navigator.clipboard.writeText(html);
+      setResult({ text: 'HTML copied to clipboard!' });
   };
 
   return (
@@ -847,6 +873,7 @@ const MarkdownEditor = () => {
       <div className="flex-gap">
           <button className="btn-primary flex-1" onClick={exportPdf}>Export to PDF</button>
           <button className="pill flex-1" onClick={exportHtml}>Export to HTML</button>
+          <button className="pill flex-1" onClick={copyHtml}><span className="material-icons" style={{fontSize: '1rem'}}>code</span> Copy HTML</button>
       </div>
       <ToolResult result={result} />
     </div>

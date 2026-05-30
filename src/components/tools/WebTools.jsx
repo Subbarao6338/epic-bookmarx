@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import API_BASE from '../../api';
 import ToolResult from './ToolResult';
 
 const WebTools = ({ toolId, onSubtoolChange }) => {

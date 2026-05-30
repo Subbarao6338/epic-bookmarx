@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { diffLines } from 'diff';
+import { create, all } from 'mathjs';
+import { QRCodeSVG } from 'qrcode.react';
+import JsBarcode from 'jsbarcode';
 import ToolResult from './ToolResult';
+
+const math = create(all);
 
 // --- UNIT CONVERTER HUB ---
 const UnitConverterHub = ({ subtool }) => {
@@ -8,34 +13,72 @@ const UnitConverterHub = ({ subtool }) => {
         { id: 'length-conv', label: 'Length' },
         { id: 'weight-conv', label: 'Weight' },
         { id: 'temp-conv', label: 'Temperature' },
-        { id: 'data-conv', label: 'Data' }
+        { id: 'data-conv', label: 'Data' },
+        { id: 'area-conv', label: 'Area' },
+        { id: 'volume-conv', label: 'Volume' },
+        { id: 'energy-conv', label: 'Energy' }
     ];
-    const [activeTab, setActiveTab] = useState(subtool || 'length-conv');
+    const [activeTab, setActiveTab] = useState('length-conv');
     const [value, setValue] = useState(1);
     const [fromUnit, setFromUnit] = useState('km');
     const [toUnit, setToUnit] = useState('m');
     const [result, setResult] = useState(0);
 
-    const rates = {
-        'km_m': 1000, 'm_km': 0.001, 'km_mi': 0.621371, 'mi_km': 1.60934,
-        'kg_lb': 2.20462, 'lb_kg': 0.453592,
-        'gb_mb': 1024, 'mb_gb': 1 / 1024, 'mb_kb': 1024, 'kb_mb': 1 / 1024
+    const unitOptions = {
+        'length-conv': [
+            { v: 'mm', l: 'Millimeter' }, { v: 'cm', l: 'Centimeter' }, { v: 'm', l: 'Meter' },
+            { v: 'km', l: 'Kilometer' }, { v: 'inch', l: 'Inch' }, { v: 'foot', l: 'Foot' },
+            { v: 'yard', l: 'Yard' }, { v: 'mile', l: 'Mile' }
+        ],
+        'weight-conv': [
+            { v: 'mg', l: 'Milligram' }, { v: 'g', l: 'Gram' }, { v: 'kg', l: 'Kilogram' },
+            { v: 'oz', l: 'Ounce' }, { v: 'lb', l: 'Pound' }, { v: 'ton', l: 'Ton' }
+        ],
+        'temp-conv': [
+            { v: 'degC', l: 'Celsius' }, { v: 'degF', l: 'Fahrenheit' }, { v: 'K', l: 'Kelvin' }
+        ],
+        'data-conv': [
+            { v: 'b', l: 'Bit' }, { v: 'B', l: 'Byte' }, { v: 'KB', l: 'KB' },
+            { v: 'MB', l: 'MB' }, { v: 'GB', l: 'GB' }, { v: 'TB', l: 'TB' }
+        ],
+        'area-conv': [
+            { v: 'm2', l: 'Sq Meter' }, { v: 'km2', l: 'Sq Kilometer' }, { v: 'ft2', l: 'Sq Foot' },
+            { v: 'mi2', l: 'Sq Mile' }, { v: 'acre', l: 'Acre' }, { v: 'hectare', l: 'Hectare' }
+        ],
+        'volume-conv': [
+            { v: 'ml', l: 'Milliliter' }, { v: 'l', l: 'Liter' }, { v: 'm3', l: 'Cubic Meter' },
+            { v: 'gal', l: 'Gallon' }, { v: 'qt', l: 'Quart' }, { v: 'pt', l: 'Pint' }
+        ],
+        'energy-conv': [
+            { v: 'J', l: 'Joule' }, { v: 'kJ', l: 'Kilojoule' }, { v: 'cal', l: 'Calorie' },
+            { v: 'kcal', l: 'Kilocalorie' }, { v: 'Wh', l: 'Watt-hour' }, { v: 'kWh', l: 'Kilowatt-hour' }
+        ]
     };
 
     useEffect(() => {
-        const val = parseFloat(value) || 0;
-        let res = val;
-        if (activeTab === 'temp-conv') {
-            if (fromUnit === 'c' && toUnit === 'f') res = (val * 9 / 5) + 32;
-            else if (fromUnit === 'f' && toUnit === 'c') res = (val - 32) * 5 / 9;
-            else if (fromUnit === 'c' && toUnit === 'k') res = val + 273.15;
-            else if (fromUnit === 'k' && toUnit === 'c') res = val - 273.15;
-        } else if (fromUnit !== toUnit) {
-            const key = `${fromUnit}_${toUnit}`;
-            res = rates[key] ? val * rates[key] : (rates[`${toUnit}_${fromUnit}`] ? val / rates[`${toUnit}_${fromUnit}`] : val);
+        if (subtool) {
+            if (['length-conv', 'weight-conv', 'temp-conv', 'data-conv'].includes(subtool)) {
+                setActiveTab(subtool);
+            }
         }
-        setResult(res.toFixed(2));
-    }, [value, fromUnit, toUnit, activeTab]);
+    }, [subtool]);
+
+    useEffect(() => {
+        const units = unitOptions[activeTab];
+        if (units) {
+            setFromUnit(units[0].v);
+            setToUnit(units[1] ? units[1].v : units[0].v);
+        }
+    }, [activeTab]);
+
+    useEffect(() => {
+        try {
+            const res = math.unit(parseFloat(value) || 0, fromUnit).toNumber(toUnit);
+            setResult(res.toLocaleString(undefined, { maximumFractionDigits: 4 }));
+        } catch (e) {
+            setResult('Error');
+        }
+    }, [value, fromUnit, toUnit]);
 
     return (
         <div className="grid gap-15">
@@ -48,20 +91,16 @@ const UnitConverterHub = ({ subtool }) => {
                 <input type="number" className="pill mb-15 text-center h2" value={value} onChange={e => setValue(e.target.value)} />
                 <div className="flex-center gap-10">
                     <select className="pill flex-1" value={fromUnit} onChange={e=>setFromUnit(e.target.value)}>
-                        <option value="km">KM</option><option value="m">M</option><option value="mi">MI</option>
-                        <option value="kg">KG</option><option value="lb">LB</option>
-                        <option value="c">°C</option><option value="f">°F</option>
+                        {unitOptions[activeTab].map(u => <option key={u.v} value={u.v}>{u.l}</option>)}
                     </select>
                     <span className="material-icons">arrow_forward</span>
                     <select className="pill flex-1" value={toUnit} onChange={e=>setToUnit(e.target.value)}>
-                        <option value="m">M</option><option value="km">KM</option><option value="mi">MI</option>
-                        <option value="lb">LB</option><option value="kg">KG</option>
-                        <option value="f">°F</option><option value="c">°C</option>
+                        {unitOptions[activeTab].map(u => <option key={u.v} value={u.v}>{u.l}</option>)}
                     </select>
                 </div>
                 <div className="tool-result text-center mt-20">
                     <div className="h2 color-primary">{result}</div>
-                    <div className="opacity-6 font-bold">{toUnit.toUpperCase()}</div>
+                    <div className="opacity-6 font-bold">{toUnit}</div>
                 </div>
             </div>
             <ToolResult result={`${value} ${fromUnit} = ${result} ${toUnit}`} />
@@ -95,11 +134,19 @@ const DiffViewer = () => {
 };
 
 const SqlFormatter = () => {
-    const [sql, setSql] = useState("SELECT * FROM users WHERE id = 1");
-    const formatted = useMemo(() => sql.replace(/\s+/g, ' ').replace(/SELECT|FROM|WHERE|AND|OR|ORDER BY|GROUP BY/gi, m => `\n${m.toUpperCase()}`).trim(), [sql]);
+    const [sql, setSql] = useState("SELECT u.id, u.name, o.order_date FROM users u JOIN orders o ON u.id = o.user_id WHERE u.active = 1 AND o.total > 100 GROUP BY u.id ORDER BY o.order_date DESC");
+    const formatted = useMemo(() => {
+        if (!sql) return '';
+        const keywords = ['SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'ORDER BY', 'GROUP BY', 'LIMIT', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'ON', 'HAVING', 'INSERT INTO', 'UPDATE', 'SET', 'DELETE FROM', 'VALUES', 'CREATE TABLE', 'DROP TABLE', 'UNION', 'ALL'];
+        const regex = new RegExp(`\\b(${keywords.join('|')})\\b`, 'gi');
+        let result = sql.replace(/\s+/g, ' ').trim();
+        result = result.replace(regex, (m) => `\n${m.toUpperCase()}`);
+        return result.split('\n').map(line => line.trim()).filter(line => line).join('\n').trim();
+    }, [sql]);
+
     return (
         <div className="card p-20 glass-card">
-            <textarea className="pill font-mono mb-15" rows="4" value={sql} onChange={e=>setSql(e.target.value)} />
+            <textarea className="pill font-mono mb-15" rows="6" value={sql} onChange={e=>setSql(e.target.value)} placeholder="Paste SQL here..." />
             <ToolResult result={{ text: formatted, filename: 'formatted.sql' }} />
         </div>
     );
@@ -333,15 +380,37 @@ const JsonToTs = () => {
 
 const CronHelper = () => {
     const [exp, setExp] = useState('* * * * *');
-    const [desc, setDesc] = useState('Runs every minute');
-    const update = (v) => {
-        setExp(v);
-        // Simple mock description
-        let d = 'Custom schedule';
-        if (v === '0 0 * * *') d = 'Daily at midnight';
-        else if (v === '*/5 * * * *') d = 'Every 5 minutes';
-        setDesc(d);
+
+    const parseCron = (cron) => {
+        const parts = cron.trim().split(/\s+/);
+        if (parts.length !== 5) return 'Invalid cron expression (must be 5 parts)';
+
+        const [min, hour, dom, mon, dow] = parts;
+
+        const parsePart = (val, type) => {
+            if (val === '*') return 'every ' + type;
+            if (val.includes('/')) {
+                const [range, step] = val.split('/');
+                return `every ${step} ${type}s`;
+            }
+            if (val.includes(',')) return `at ${type}s ${val}`;
+            if (val.includes('-')) return `from ${type} ${val.split('-')[0]} to ${val.split('-')[1]}`;
+            return `at ${type} ${val}`;
+        };
+
+        let description = 'Runs ';
+        if (min === '0' && hour === '0' && dom === '*' && mon === '*' && dow === '*') return 'Daily at midnight';
+        if (min === '0' && hour === '*' && dom === '*' && mon === '*' && dow === '*') return 'Hourly at minute 0';
+        if (min === '*' && hour === '*' && dom === '*' && mon === '*' && dow === '*') return 'Every minute';
+
+        description += `${parsePart(min, 'minute')}, ${parsePart(hour, 'hour')}, ${parsePart(dom, 'day of month')}, ${parsePart(mon, 'month')}, ${parsePart(dow, 'day of week')}`;
+        return description;
     };
+
+    const desc = useMemo(() => parseCron(exp), [exp]);
+
+    const update = (v) => setExp(v);
+
     return (
         <div className="card p-20 glass-card text-center">
             <input className="pill text-center h3 mb-10 w-full" value={exp} onChange={e=>update(e.target.value)} />
@@ -350,8 +419,81 @@ const CronHelper = () => {
                 <button className="pill" onClick={()=>update('0 0 * * *')}>Daily</button>
                 <button className="pill" onClick={()=>update('*/5 * * * *')}>5 Min</button>
                 <button className="pill" onClick={()=>update('0 * * * *')}>Hourly</button>
+                <button className="pill" onClick={()=>update('30 15 * * 1-5')}>Workdays 3:30 PM</button>
             </div>
             <ToolResult result={`Cron: ${exp}\nDescription: ${desc}`} />
+        </div>
+    );
+};
+
+const QrBarcodeGenerator = () => {
+    const [text, setText] = useState('Epic Toolbox');
+    const [type, setType] = useState('qr');
+    const barcodeRef = useRef(null);
+
+    useEffect(() => {
+        if (type === 'barcode' && barcodeRef.current) {
+            try {
+                JsBarcode(barcodeRef.current, text, {
+                    format: "CODE128",
+                    displayValue: true,
+                    fontSize: 18,
+                    margin: 10
+                });
+            } catch (e) {
+                console.error("Barcode generation failed", e);
+            }
+        }
+    }, [text, type]);
+
+    const download = () => {
+        const svg = document.querySelector(type === 'qr' ? '.qr-container svg' : '.barcode-container svg');
+        if (!svg) return;
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            const pngFile = canvas.toDataURL("image/png");
+            const downloadLink = document.createElement("a");
+            downloadLink.download = `${type}.png`;
+            downloadLink.href = pngFile;
+            downloadLink.click();
+        };
+        img.src = "data:image/svg+xml;base64," + btoa(svgData);
+    };
+
+    return (
+        <div className="grid gap-20">
+            <div className="card p-25 glass-card grid gap-15">
+                <div className="pill-group mb-10">
+                    <button className={`pill ${type === 'qr' ? 'active' : ''}`} onClick={() => setType('qr')}>QR Code</button>
+                    <button className={`pill ${type === 'barcode' ? 'active' : ''}`} onClick={() => setType('barcode')}>Barcode (CODE128)</button>
+                </div>
+                <input className="pill" value={text} onChange={e => setText(e.target.value)} placeholder="Enter text or URL..." />
+
+                <div className="flex-center p-20 bg-white rounded-lg" style={{ minHeight: '200px' }}>
+                    {type === 'qr' ? (
+                        <div className="qr-container">
+                            <QRCodeSVG value={text} size={200} level="H" includeMargin={true} />
+                        </div>
+                    ) : (
+                        <div className="barcode-container">
+                            <svg ref={barcodeRef}></svg>
+                        </div>
+                    )}
+                </div>
+
+                <button className="btn-primary w-full" onClick={download}>
+                    <span className="material-icons">download</span> Download PNG
+                </button>
+            </div>
+            <ToolResult result={`Type: ${type.toUpperCase()}\nContent: ${text}`} />
         </div>
     );
 };
@@ -523,7 +665,8 @@ const DevTools = ({ toolId, onSubtoolChange }) => {
     { id: 'xml-json', label: 'XML ↔ JSON' },
     { id: 'xml-fmt', label: 'XML Formatter' },
     { id: 'json-ts', label: 'JSON to TS' },
-    { id: 'color', label: 'Color Picker' }
+    { id: 'color', label: 'Color Picker' },
+    { id: 'qr-barcode', label: 'QR & Barcode' }
   ].sort((a, b) => a.label.localeCompare(b.label));
 
   const [activeTab, setActiveTab] = useState('json-fmt');
@@ -551,6 +694,7 @@ const DevTools = ({ toolId, onSubtoolChange }) => {
         else if (toolId === 'xml-formatter') setActiveTab('xml-fmt');
         else if (toolId === 'json-to-ts') setActiveTab('json-ts');
         else if (toolId === 'color-picker') setActiveTab('color');
+        else if (toolId === 'qr-barcode') setActiveTab('qr-barcode');
     }
   }, [toolId]);
 
@@ -586,6 +730,7 @@ const DevTools = ({ toolId, onSubtoolChange }) => {
         {activeTab === 'xml-fmt' && <XmlFormatter />}
         {activeTab === 'json-ts' && <JsonToTs />}
         {activeTab === 'color' && <ColorPicker />}
+        {activeTab === 'qr-barcode' && <QrBarcodeGenerator />}
       </div>
     </div>
   );

@@ -1,8 +1,34 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 import ToolResult from './ToolResult';
 
 const FinanceHub = ({ subtool }) => {
+    const [activeTab, setActiveTab] = useState('compound');
+
+    useEffect(() => {
+        if (subtool === 'compound-int') setActiveTab('compound');
+        else if (subtool === 'loan-calc') setActiveTab('loan');
+        else if (subtool === 'currency-conv') setActiveTab('currency');
+    }, [subtool]);
+
+    return (
+        <div className="grid gap-20">
+            <div className="pill-group scrollable-x">
+                <button className={`pill ${activeTab === 'compound' ? 'active' : ''}`} onClick={() => setActiveTab('compound')}>Compound Interest</button>
+                <button className={`pill ${activeTab === 'loan' ? 'active' : ''}`} onClick={() => setActiveTab('loan')}>Loan Calculator</button>
+                <button className={`pill ${activeTab === 'currency' ? 'active' : ''}`} onClick={() => setActiveTab('currency')}>Currency Converter</button>
+            </div>
+            <div className="hub-content animate-fadeIn">
+                {activeTab === 'compound' && <CompoundInterestTool />}
+                {activeTab === 'loan' && <LoanCalculatorTool />}
+                {activeTab === 'currency' && <CurrencyConverterTool />}
+            </div>
+        </div>
+    );
+};
+
+const CompoundInterestTool = () => {
     const [amt, setAmt] = useState(1000);
     const [rate, setRate] = useState(10);
     const [years, setYears] = useState(5);
@@ -10,7 +36,7 @@ const FinanceHub = ({ subtool }) => {
     const compound = amt * Math.pow((1 + (rate/100)), years);
 
     return (
-        <div className="card p-20 glass-card grid gap-15">
+        <div className="grid gap-15">
             <div className="form-group">
                 <label>Principal Amount</label>
                 <input type="number" className="pill" value={amt} onChange={e=>setAmt(e.target.value)} />
@@ -27,7 +53,87 @@ const FinanceHub = ({ subtool }) => {
                 <div className="opacity-6 smallest uppercase font-bold">Maturity Value</div>
                 <div className="font-bold color-primary" style={{fontSize: '2.5rem'}}>{compound.toFixed(2)}</div>
             </div>
-            <ToolResult result={{ text: `Compound Interest: ${compound.toFixed(2)}`, filename: 'finance.txt' }} />
+            <ToolResult result={{ text: `Principal: ${amt}\nRate: ${rate}%\nYears: ${years}\nMaturity Value: ${compound.toFixed(2)}`, filename: 'compound_interest.txt' }} />
+        </div>
+    );
+};
+
+const LoanCalculatorTool = () => {
+    const [loanAmt, setLoanAmt] = useState(100000);
+    const [interest, setInterest] = useState(7.5);
+    const [tenure, setTenure] = useState(15);
+
+    const calcEMI = () => {
+        const r = interest / 12 / 100;
+        const n = tenure * 12;
+        const emi = (loanAmt * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        return emi || 0;
+    };
+
+    const emi = calcEMI();
+    const totalPayment = emi * tenure * 12;
+    const totalInterest = totalPayment - loanAmt;
+
+    return (
+        <div className="grid gap-15">
+            <div className="form-group">
+                <label>Loan Amount</label>
+                <input type="number" className="pill" value={loanAmt} onChange={e=>setLoanAmt(e.target.value)} />
+            </div>
+            <div className="form-group">
+                <label>Interest Rate (%)</label>
+                <input type="number" className="pill" value={interest} onChange={e=>setInterest(e.target.value)} />
+            </div>
+            <div className="form-group">
+                <label>Tenure (Years)</label>
+                <input type="number" className="pill" value={tenure} onChange={e=>setTenure(e.target.value)} />
+            </div>
+            <div className="grid grid-2 gap-10">
+                <div className="card p-15 text-center glass-card">
+                    <div className="opacity-6 smallest uppercase">Monthly EMI</div>
+                    <div className="font-bold h2">{emi.toFixed(0)}</div>
+                </div>
+                <div className="card p-15 text-center glass-card">
+                    <div className="opacity-6 smallest uppercase">Total Interest</div>
+                    <div className="font-bold h2">{totalInterest.toFixed(0)}</div>
+                </div>
+            </div>
+            <ToolResult result={{ text: `Loan: ${loanAmt}\nEMI: ${emi.toFixed(2)}\nTotal Interest: ${totalInterest.toFixed(2)}`, filename: 'loan_calc.txt' }} />
+        </div>
+    );
+};
+
+const CurrencyConverterTool = () => {
+    const [amount, setAmount] = useState(100);
+    const [from, setFrom] = useState('USD');
+    const [to, setTo] = useState('EUR');
+
+    const rates = {
+        'USD': 1, 'EUR': 0.92, 'GBP': 0.79, 'INR': 83.3, 'JPY': 151.8, 'CAD': 1.35, 'AUD': 1.52, 'CNY': 7.23, 'CHF': 0.9, 'SGD': 1.34
+    };
+
+    const convert = () => {
+        const result = (amount / rates[from]) * rates[to];
+        return result.toFixed(2);
+    };
+
+    return (
+        <div className="grid gap-15">
+            <input type="number" className="pill text-center h2" value={amount} onChange={e=>setAmount(e.target.value)} />
+            <div className="flex-center gap-10">
+                <select className="pill flex-1" value={from} onChange={e=>setFrom(e.target.value)}>
+                    {Object.keys(rates).map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <span className="material-icons">swap_horiz</span>
+                <select className="pill flex-1" value={to} onChange={e=>setTo(e.target.value)}>
+                    {Object.keys(rates).map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+            </div>
+            <div className="tool-result text-center mt-20">
+                <div className="h2 color-primary">{convert()}</div>
+                <div className="opacity-6 font-bold">{to}</div>
+            </div>
+            <ToolResult result={`${amount} ${from} = ${convert()} ${to}`} />
         </div>
     );
 };
@@ -192,7 +298,8 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
     { id: 'profiling', label: 'Data Profiling' },
     { id: 'anonymizer', label: 'Anonymizer' },
     { id: 'json-csv', label: 'JSON ↔ CSV' },
-    { id: 'mock', label: 'Mock Data Gen' }
+    { id: 'mock', label: 'Mock Data Gen' },
+    { id: 'excel', label: 'Excel Converter' }
   ].sort((a, b) => a.label.localeCompare(b.label));
 
   const [activeTab, setActiveTab] = useState('viewer');
@@ -210,6 +317,7 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
       else if (toolId === 'anomaly-detect') setActiveTab('quality');
       else if (toolId === 'stat-calc') setActiveTab('science');
       else if (toolId === 'data-anonymizer') setActiveTab('anonymizer');
+      else if (toolId === 'excel-conv') setActiveTab('excel');
     }
   }, [toolId]);
 
@@ -232,6 +340,7 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
         {activeTab === 'anonymizer' && <DataAnonymizer data={uploadedData} />}
         {activeTab === 'mock' && <MockDataGenerator />}
         {activeTab === 'json-csv' && <JsonCsvConverter />}
+        {activeTab === 'excel' && <ExcelConverter />}
       </div>
     </div>
   );
@@ -336,23 +445,90 @@ const JsonCsvConverter = () => {
 
 const MockDataGenerator = () => {
     const [rows, setRows] = useState(10);
+    const [fields, setFields] = useState(['id', 'name', 'email']);
     const [result, setResult] = useState(null);
+
     const generate = () => {
-        const data = Array.from({ length: rows }, (_, i) => ({
-            id: i + 1,
-            name: `User ${i + 1}`,
-            email: `user${i + 1}@example.com`,
-            score: Math.floor(Math.random() * 100)
-        }));
+        const data = Array.from({ length: parseInt(rows) || 1 }, (_, i) => {
+            const row = {};
+            if (fields.includes('id')) row.id = i + 1;
+            if (fields.includes('name')) row.name = `User ${i + 1}`;
+            if (fields.includes('email')) row.email = `user${i + 1}@example.com`;
+            if (fields.includes('phone')) row.phone = `+1-555-010${i % 10}${i % 9}`;
+            if (fields.includes('address')) row.address = `${100 + i} Epic St, Tech City, 90210`;
+            if (fields.includes('date')) row.date = new Date(Date.now() - i * 86400000).toISOString();
+            if (fields.includes('score')) row.score = Math.floor(Math.random() * 100);
+            return row;
+        });
         setResult({ text: JSON.stringify(data, null, 2), filename: 'mock_data.json' });
     };
+
+    const toggleField = (f) => setFields(prev => prev.includes(f) ? prev.filter(x => x !== f) : [...prev, f]);
+
     return (
-        <div className="card p-20 text-center glass-card">
+        <div className="card p-20 glass-card">
             <div className="form-group">
                 <label>Number of Rows</label>
                 <input type="number" className="pill mb-15" value={rows} onChange={e=>setRows(e.target.value)} />
             </div>
+            <div className="form-group">
+                <label>Include Fields</label>
+                <div className="pill-group mb-20">
+                    {['id', 'name', 'email', 'phone', 'address', 'date', 'score'].map(f => (
+                        <button key={f} className={`pill ${fields.includes(f) ? 'active' : ''}`} onClick={() => toggleField(f)}>{f.toUpperCase()}</button>
+                    ))}
+                </div>
+            </div>
             <button className="btn-primary w-full" onClick={generate}>Generate Mock Data</button>
+            <ToolResult result={result} />
+        </div>
+    );
+};
+
+const ExcelConverter = () => {
+    const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState('');
+    const [result, setResult] = useState(null);
+
+    const handleUpload = (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        setFile(f);
+        setFileName(f.name);
+    };
+
+    const convert = (format) => {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.SheetNames[0];
+            const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
+
+            if (format === 'json') {
+                setResult({ text: JSON.stringify(jsonData, null, 2), filename: file.name.replace(/\.[^/.]+$/, "") + ".json" });
+            } else {
+                const csv = Papa.unparse(jsonData);
+                setResult({ text: csv, filename: file.name.replace(/\.[^/.]+$/, "") + ".csv" });
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    };
+
+    return (
+        <div className="card p-20 glass-card grid gap-15">
+            <div className="file-input-wrapper">
+                <input type="file" accept=".xlsx,.xls" onChange={handleUpload} />
+                <div className="file-input-label">
+                    <span className="material-icons">{fileName ? 'description' : 'cloud_upload'}</span>
+                    <span>{fileName || 'Select Excel (.xlsx, .xls) file'}</span>
+                </div>
+            </div>
+            <div className="flex-gap">
+                <button className="btn-primary flex-1" onClick={() => convert('json')} disabled={!file}>to JSON</button>
+                <button className="pill flex-1" onClick={() => convert('csv')} disabled={!file}>to CSV</button>
+            </div>
             <ToolResult result={result} />
         </div>
     );

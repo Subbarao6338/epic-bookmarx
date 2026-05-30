@@ -40,6 +40,18 @@ const ProjectsView = ({ searchQuery, openInNewTab, hideUrls, hideIcons }) => {
   };
 
   useEffect(() => {
+    if (API_BASE === 'JSON-MODE') {
+      import('../../data/projects.json').then(m => {
+        setProjects(m.default);
+        setLoading(false);
+      }).catch(err => {
+        console.error(err);
+        setError(err.message);
+        setLoading(false);
+      });
+      return;
+    }
+
     fetch(`${API_BASE}/projects`)
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch projects");
