@@ -327,6 +327,10 @@ body {
   transition: all 0.2s var(--transition-bounce);
   cursor: pointer;
   color: var(--text-muted);
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .matched-subtools-bar {
@@ -1263,19 +1267,38 @@ input:checked + .slider:before {
   transform: scale(1.15);
 }
 
-/* Scrollable sections within settings */
+/* Global Modern Scrollbar Styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-glow) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-glow);
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
 .settings-container {
   scrollbar-width: thin;
   scrollbar-color: var(--primary) transparent;
 }
 
-.settings-container::-webkit-scrollbar {
-  width: 6px;
-}
-
 .settings-container::-webkit-scrollbar-thumb {
   background-color: var(--primary);
-  border-radius: 10px;
 }
 
 /* TabBar Overlay Fix */

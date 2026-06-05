@@ -332,22 +332,38 @@ const ToolCard = memo(({ tool, idx, isPinned, togglePin, handleShare, openTool, 
     }, [openTool, tool.id]);
 
     return (
-        <div id={`card-${tool.id}`} className={`card ${noAnimation ? 'no-animation' : ''}`} style={{'--delay': idx}} onClick={() => openTool(tool.id)} tabIndex="0" onKeyDown={onKeyDown}>
+        <div
+            id={`card-${tool.id}`}
+            className={`card ${noAnimation ? 'no-animation' : ''}`}
+            style={{'--delay': idx}}
+            onClick={() => openTool(tool.id)}
+            tabIndex="0"
+            onKeyDown={onKeyDown}
+            role="button"
+            aria-label={`Open ${tool.title} hub with ${tool.subTools?.length || 0} tools`}
+        >
             <div className="card-body">
                 {!hideIcons && (
-                  <div className="card-icon flex-center"><span className="material-icons">{tool.icon}</span></div>
+                  <div className="card-icon flex-center" aria-hidden="true">
+                    <span className="material-icons">{tool.icon}</span>
+                  </div>
                 )}
                 <div className="card-title-group">
                     <div className="card-title" dangerouslySetInnerHTML={{ __html: highlightText(tool.title, searchQuery) }} />
                 </div>
             </div>
             <div className="card-footer">
-                <span className="fallback-badge" title={`${tool.subTools?.length || 0} sub-tools available`}>
-                    <span className="material-icons">apps</span>
+                <span className="fallback-badge" title={`${tool.subTools?.length || 0} sub-tools available`} aria-label={`${tool.subTools?.length || 0} sub-tools`}>
+                    <span className="material-icons" aria-hidden="true">apps</span>
                     {tool.subTools?.length || 0}
                 </span>
-                <button className={`pin-btn ${isPinned ? 'active' : ''}`} onClick={(e) => togglePin(e, tool.id)} aria-label={isPinned ? 'Unpin tool' : 'Pin tool'}>
-                    <span className="material-icons">push_pin</span>
+                <button
+                    className={`pin-btn ${isPinned ? 'active' : ''}`}
+                    onClick={(e) => togglePin(e, tool.id)}
+                    aria-label={isPinned ? `Unpin ${tool.title}` : `Pin ${tool.title}`}
+                    title={isPinned ? 'Unpin tool' : 'Pin tool'}
+                >
+                    <span className="material-icons" aria-hidden="true">push_pin</span>
                 </button>
             </div>
         </div>

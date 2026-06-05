@@ -36,22 +36,25 @@ const TabBar = memo(({ currentTab, setTab, onAddClick, onBookmarksLongPress, onS
   };
 
   return (
-    <nav className="tab-bar">
-      <div className="tab-group glass-card">
+    <nav className="tab-bar" aria-label="Main Navigation">
+      <div className="tab-group glass-card" role="tablist">
         {!hideToolbox && (
-          <div
+          <button
             id="tab-toolbox"
             className={`tab-item ${currentTab === 'toolbox' ? 'active' : ''}`}
             onClick={() => handleTabClick('toolbox')}
             title="Toolbox"
+            role="tab"
+            aria-selected={currentTab === 'toolbox'}
+            aria-controls="content"
           >
-            <span className="material-icons-outlined">handyman</span>
+            <span className="material-icons-outlined" aria-hidden="true">handyman</span>
             <span className="tab-name">Toolbox</span>
-          </div>
+          </button>
         )}
 
         {!hideBookmarks && (
-          <div
+          <button
             id="tab-bookmarks"
             className={`tab-item ${currentTab === 'bookmarks' ? 'active' : ''}`}
             onClick={handleBookmarksClick}
@@ -62,42 +65,51 @@ const TabBar = memo(({ currentTab, setTab, onAddClick, onBookmarksLongPress, onS
             onTouchEnd={cancelPress}
             onContextMenu={(e) => e.preventDefault()}
             title="Bookmarks"
+            role="tab"
+            aria-selected={currentTab === 'bookmarks'}
+            aria-controls="content"
           >
-            <span className="material-icons-outlined">bookmarks</span>
+            <span className="material-icons-outlined" aria-hidden="true">bookmarks</span>
             <span className="tab-name">Bookmarks</span>
-          </div>
+          </button>
         )}
 
         {showProjectsTab && (
-          <div
+          <button
             id="tab-projects"
             className={`tab-item ${currentTab === 'projects' ? 'active' : ''}`}
             onClick={() => handleTabClick('projects')}
             title="Projects"
+            role="tab"
+            aria-selected={currentTab === 'projects'}
+            aria-controls="content"
           >
-            <span className="material-icons-outlined">architecture</span>
+            <span className="material-icons-outlined" aria-hidden="true">architecture</span>
             <span className="tab-name">Projects</span>
-          </div>
+          </button>
         )}
 
-        <div
+        <button
           id="tab-search"
           className={`tab-item ${searchActive ? 'active' : ''}`}
           onClick={onSearchClick}
           title="Search"
+          aria-label="Toggle search"
+          aria-expanded={searchActive}
         >
-          <span className="material-icons-outlined">search</span>
+          <span className="material-icons-outlined" aria-hidden="true">search</span>
           <span className="tab-name">Search</span>
-        </div>
+        </button>
 
-        <div
+        <button
           className="tab-item"
           onClick={onSettingsClick}
           title="Settings"
+          aria-label="Open settings"
         >
-          <span className="material-icons-outlined">settings</span>
+          <span className="material-icons-outlined" aria-hidden="true">settings</span>
           <span className="tab-name">Settings</span>
-        </div>
+        </button>
       </div>
     </nav>
   );

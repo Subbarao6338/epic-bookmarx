@@ -149,12 +149,19 @@ const DataScienceHub = ({ data }) => {
                 const sum = values.reduce((a, b) => a + b, 0);
                 const avg = sum / values.length;
                 const sorted = [...values].sort((a, b) => a - b);
+                const median = sorted[Math.floor(sorted.length / 2)];
+                const variance = values.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / values.length;
+                const stdDev = Math.sqrt(variance);
+
                 result[key] = {
                     count: values.length,
                     min: Math.min(...values),
                     max: Math.max(...values),
+                    sum: sum.toFixed(2),
                     avg: avg.toFixed(2),
-                    median: sorted[Math.floor(sorted.length / 2)]
+                    median: median.toFixed(2),
+                    variance: variance.toFixed(2),
+                    stdDev: stdDev.toFixed(2)
                 };
             }
         });
@@ -174,8 +181,11 @@ const DataScienceHub = ({ data }) => {
                                 <th className="p-10">Column</th>
                                 <th className="p-10">Min</th>
                                 <th className="p-10">Max</th>
+                                <th className="p-10">Sum</th>
                                 <th className="p-10">Avg</th>
                                 <th className="p-10">Median</th>
+                                <th className="p-10">StdDev</th>
+                                <th className="p-10">Var</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -184,8 +194,11 @@ const DataScienceHub = ({ data }) => {
                                     <td className="p-10 font-bold">{key}</td>
                                     <td className="p-10">{s.min}</td>
                                     <td className="p-10">{s.max}</td>
+                                    <td className="p-10">{s.sum}</td>
                                     <td className="p-10">{s.avg}</td>
                                     <td className="p-10">{s.median}</td>
+                                    <td className="p-10">{s.stdDev}</td>
+                                    <td className="p-10">{s.variance}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -263,12 +276,21 @@ const DataAnonymizer = ({ data }) => {
                 ))}
             </div>
             <button className="btn-primary w-full" onClick={anonymize}>Generate Anonymized CSV</button>
-            <ToolResult result={result} />
+            <ToolResult result={result} onClear={() => setResult(null)} />
         </div>
     );
 };
 
 const DataProfilingTool = ({ data }) => {
+    const [result, setResult] = useState(null);
+    useEffect(() => {
+        if (data) {
+            setResult(`Rows: ${data.length}\nColumns: ${Object.keys(data[0] || {}).join(', ')}`);
+        } else {
+            setResult(null);
+        }
+    }, [data]);
+
     if (!data) return <div className="text-center p-30 card glass-card opacity-6">Upload data in Viewer first.</div>;
     return (
         <div className="card p-20 glass-card">
@@ -284,7 +306,7 @@ const DataProfilingTool = ({ data }) => {
                     <div className="font-bold" style={{fontSize: '1.5rem'}}>{Object.keys(data[0] || {}).length}</div>
                 </div>
             </div>
-            <ToolResult result={`Rows: ${data.length}\nColumns: ${Object.keys(data[0] || {}).join(', ')}`} />
+            <ToolResult result={result} onClear={() => setResult(null)} />
         </div>
     );
 };
@@ -414,6 +436,8 @@ const DataViewer = ({ setGlobalData }) => {
 const JsonCsvConverter = () => {
     const [input, setInput] = useState('');
     const [result, setResult] = useState(null);
+    const [showPreview, setShowPreview] = useState(false);
+
     const convertToCsv = () => {
         try {
             const json = JSON.parse(input);
@@ -438,7 +462,19 @@ const JsonCsvConverter = () => {
                 <button className="btn-primary flex-1" onClick={convertToCsv}>JSON to CSV</button>
                 <button className="pill flex-1" onClick={convertToJson}>CSV to JSON</button>
             </div>
-            <ToolResult result={result} />
+            {result && (
+                <div className="mt-10">
+                    <button className="pill w-full mb-10" onClick={() => setShowPreview(!showPreview)}>
+                        <span className="material-icons">{showPreview ? 'visibility_off' : 'visibility'}</span>
+                        {showPreview ? 'Hide Preview' : 'Show Preview'}
+                    </button>
+                    {showPreview && (
+                        <div className="animate-fadeIn">
+                            <ToolResult result={result} onClear={() => {setResult(null); setShowPreview(false);}} />
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
@@ -480,7 +516,7 @@ const MockDataGenerator = () => {
                 </div>
             </div>
             <button className="btn-primary w-full" onClick={generate}>Generate Mock Data</button>
-            <ToolResult result={result} />
+            <ToolResult result={result} onClear={() => setResult(null)} />
         </div>
     );
 };
@@ -489,12 +525,15 @@ const ExcelConverter = () => {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState('');
     const [result, setResult] = useState(null);
+    const [showPreview, setShowPreview] = useState(false);
 
     const handleUpload = (e) => {
         const f = e.target.files[0];
         if (!f) return;
         setFile(f);
         setFileName(f.name);
+        setResult(null);
+        setShowPreview(false);
     };
 
     const convert = (format) => {
@@ -529,7 +568,19 @@ const ExcelConverter = () => {
                 <button className="btn-primary flex-1" onClick={() => convert('json')} disabled={!file}>to JSON</button>
                 <button className="pill flex-1" onClick={() => convert('csv')} disabled={!file}>to CSV</button>
             </div>
-            <ToolResult result={result} />
+            {result && (
+                <div className="mt-10">
+                    <button className="pill w-full mb-10" onClick={() => setShowPreview(!showPreview)}>
+                        <span className="material-icons">{showPreview ? 'visibility_off' : 'visibility'}</span>
+                        {showPreview ? 'Hide Preview' : 'Show Preview'}
+                    </button>
+                    {showPreview && (
+                        <div className="animate-fadeIn">
+                            <ToolResult result={result} onClear={() => {setResult(null); setShowPreview(false);}} />
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

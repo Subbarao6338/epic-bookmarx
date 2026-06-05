@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { copyToClipboard, downloadFile } from '../../utils/helpers';
 
-const ToolResult = ({ result, title = 'Result', showPreview = true }) => {
+const ToolResult = ({ result, title = 'Result', showPreview = true, onClear }) => {
     const [copySuccess, setCopySuccess] = useState(false);
 
     if (!result) return null;
@@ -18,6 +18,22 @@ const ToolResult = ({ result, title = 'Result', showPreview = true }) => {
         });
     };
 
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `Epic Toolbox - ${title}`,
+                    text: text.length > 200 ? text.substring(0, 200) + '...' : text,
+                    url: url || window.location.href
+                });
+            } catch (err) {
+                if (err.name !== 'AbortError') handleCopy();
+            }
+        } else {
+            handleCopy();
+        }
+    };
+
     const handleDownload = (format) => {
         if (blob && format === 'pdf' && filename.endsWith('.pdf')) {
             downloadFile(blob, filename, 'pdf');
@@ -31,6 +47,24 @@ const ToolResult = ({ result, title = 'Result', showPreview = true }) => {
             <div className="flex-between mb-10">
                 <div className="opacity-6 smallest uppercase font-bold">{title}</div>
                 <div className="flex-gap">
+                    {onClear && (
+                        <button
+                            className="icon-btn"
+                            onClick={onClear}
+                            title="Clear Result"
+                            style={{ width: '32px', height: '32px' }}
+                        >
+                            <span className="material-icons" style={{ fontSize: '1.1rem' }}>delete_outline</span>
+                        </button>
+                    )}
+                    <button
+                        className="icon-btn"
+                        onClick={handleShare}
+                        title="Share Result"
+                        style={{ width: '32px', height: '32px' }}
+                    >
+                        <span className="material-icons" style={{ fontSize: '1.1rem' }}>share</span>
+                    </button>
                     <button
                         className={`icon-btn ${copySuccess ? 'copy-success' : ''}`}
                         onClick={handleCopy}

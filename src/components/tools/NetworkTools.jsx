@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ToolResult from './ToolResult';
+import { copyToClipboard } from '../../utils/helpers';
 
 const NetworkTools = ({ toolId, onSubtoolChange }) => {
   const tabs = [
@@ -71,6 +72,14 @@ const IpInfoTool = () => {
   const [publicIp, setPublicIp] = useState('Loading...');
   const [localIp, setLocalIp] = useState('Detecting...');
   const [geoInfo, setGeoInfo] = useState(null);
+  const [copiedField, setCopiedField] = useState(null);
+
+  const handleCopy = (text, field) => {
+    copyToClipboard(text, () => {
+        setCopiedField(field);
+        setTimeout(() => setCopiedField(null), 2000);
+    });
+  };
 
   useEffect(() => {
     fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {
@@ -94,12 +103,18 @@ const IpInfoTool = () => {
   return (
     <div className="grid gap-15">
       <div className="grid grid-2 gap-15">
-        <div className="card p-20 glass-card">
-            <div className="opacity-6 smallest uppercase font-bold mb-10">Public Address</div>
+        <div className="card p-20 glass-card" onClick={() => handleCopy(publicIp, 'public')}>
+            <div className="flex-between mb-10">
+                <div className="opacity-6 smallest uppercase font-bold">Public Address</div>
+                <span className="material-icons smallest color-primary">{copiedField === 'public' ? 'check' : 'content_copy'}</span>
+            </div>
             <div className="font-mono h2 color-primary text-center">{publicIp}</div>
         </div>
-        <div className="card p-20 glass-card">
-            <div className="opacity-6 smallest uppercase font-bold mb-10">Local Address</div>
+        <div className="card p-20 glass-card" onClick={() => handleCopy(localIp, 'local')}>
+            <div className="flex-between mb-10">
+                <div className="opacity-6 smallest uppercase font-bold">Local Address</div>
+                <span className="material-icons smallest opacity-6">{copiedField === 'local' ? 'check' : 'content_copy'}</span>
+            </div>
             <div className="font-mono h2 opacity-8 text-center">{localIp}</div>
         </div>
       </div>
@@ -145,6 +160,9 @@ const PingTool = () => {
       <div className="flex-gap glass-card card p-10">
         <input type="text" value={host} onChange={e => setHost(e.target.value)} className="pill flex-1 border-none shadow-none" placeholder="google.com" />
         <button className="btn-primary" onClick={runPing} disabled={isRunning}>{isRunning ? '...' : 'Ping'}</button>
+      </div>
+      <div className="text-center opacity-6 smallest uppercase font-bold">
+        Uses HTTPS-based latency detection
       </div>
       <div className="tool-result font-mono" style={{ background: '#1a1a1a', color: '#00ff00' }}>
         {results.map((r, i) => <div key={i}>{r}</div>)}
