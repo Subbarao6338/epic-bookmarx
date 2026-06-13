@@ -88,12 +88,6 @@ const WordRankCalculator = () => {
                 <input className="pill" value={word} onChange={e => setWord(e.target.value.toUpperCase())} />
             </div>
             <button className="btn-primary" onClick={calculate}>Calculate Dictionary Rank</button>
-            {rank && (
-                <div className="tool-result text-center">
-                    <div className="opacity-6 small">The rank of "{word}" is</div>
-                    <div className="font-bold" style={{fontSize: '1.8rem', wordBreak: 'break-all'}}>{rank}</div>
-                </div>
-            )}
             <ToolResult result={rank ? `Rank of "${word}": ${rank}` : null} />
         </div>
     );
@@ -898,7 +892,7 @@ const DocTools = ({ toolId, onSubtoolChange }) => {
 
   useEffect(() => {
     if (toolId) {
-        if (['pdf-merge', 'pdf-split', 'pdf-rotate'].includes(toolId)) setActiveTab('pdf');
+        if (['pdf-merge', 'pdf-split', 'pdf-rotate', 'pdf-lock', 'pdf-unlock', 'pdf2img', 'ocr'].includes(toolId)) setActiveTab('pdf');
         else if (['img-format', 'img-resize', 'img-blur'].includes(toolId)) setActiveTab('image');
         else if (['case-converter', 'word-counter'].includes(toolId)) setActiveTab('text');
         else if (toolId === 'md-editor') setActiveTab('md-editor');

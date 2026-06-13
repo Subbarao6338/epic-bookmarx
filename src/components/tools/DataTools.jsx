@@ -340,6 +340,7 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
       else if (toolId === 'stat-calc') setActiveTab('science');
       else if (toolId === 'data-anonymizer') setActiveTab('anonymizer');
       else if (toolId === 'excel-conv') setActiveTab('excel');
+      else if (toolId === 'mock-gen') setActiveTab('mock');
     }
   }, [toolId]);
 
@@ -395,6 +396,20 @@ const DataViewer = ({ setGlobalData }) => {
                         setLoading(false);
                     }
                 });
+            } else if (file.name.endsWith('.json')) {
+                try {
+                    const jsonData = JSON.parse(content);
+                    const formattedData = Array.isArray(jsonData) ? jsonData : [jsonData];
+                    if (formattedData.length > 0) {
+                        setHeaders(Object.keys(formattedData[0]));
+                        setData(formattedData);
+                        setGlobalData(formattedData);
+                    }
+                    setResult({ text: JSON.stringify(jsonData, null, 2), filename: file.name });
+                } catch (e) {
+                    alert("Invalid JSON file");
+                }
+                setLoading(false);
             }
         };
         reader.readAsText(file);
@@ -404,10 +419,10 @@ const DataViewer = ({ setGlobalData }) => {
         <div className="grid gap-15">
             <div className="card p-20 flex-column align-center text-center glass-card">
                 <div className="file-input-wrapper">
-                    <input type="file" accept=".csv" onChange={handleFileUpload} />
+                    <input type="file" accept=".csv,.json" onChange={handleFileUpload} />
                     <div className="file-input-label">
                         <span className="material-icons">{fileName ? 'description' : 'cloud_upload'}</span>
-                        <span>{fileName || 'Click or drag CSV file to browse'}</span>
+                        <span>{fileName || 'Click or drag CSV/JSON file to browse'}</span>
                     </div>
                 </div>
                 {loading && <div className="mt-10 rotating material-icons color-primary">refresh</div>}

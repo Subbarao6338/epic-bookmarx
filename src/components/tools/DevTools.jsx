@@ -137,7 +137,12 @@ const SqlFormatter = () => {
     const [sql, setSql] = useState("SELECT u.id, u.name, o.order_date FROM users u JOIN orders o ON u.id = o.user_id WHERE u.active = 1 AND o.total > 100 GROUP BY u.id ORDER BY o.order_date DESC");
     const formatted = useMemo(() => {
         if (!sql) return '';
-        const keywords = ['SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'ORDER BY', 'GROUP BY', 'LIMIT', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'ON', 'HAVING', 'INSERT INTO', 'UPDATE', 'SET', 'DELETE FROM', 'VALUES', 'CREATE TABLE', 'DROP TABLE', 'UNION', 'ALL'];
+        const keywords = [
+            'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'ORDER BY', 'GROUP BY', 'LIMIT',
+            'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'CROSS JOIN', 'ON',
+            'HAVING', 'INSERT INTO', 'UPDATE', 'SET', 'DELETE FROM', 'VALUES',
+            'CREATE TABLE', 'DROP TABLE', 'UNION', 'ALL', 'CASE', 'WHEN', 'THEN', 'ELSE', 'END'
+        ];
         const regex = new RegExp(`\\b(${keywords.join('|')})\\b`, 'gi');
         let result = sql.replace(/\s+/g, ' ').trim();
         result = result.replace(regex, (m) => `\n${m.toUpperCase()}`);
