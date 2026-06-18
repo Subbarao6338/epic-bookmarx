@@ -13,8 +13,10 @@ const DateTimeTools = lazy(() => import('./tools/DateTimeTools'));
 const DevTools = lazy(() => import('./tools/DevTools'));
 const WebTools = lazy(() => import('./tools/WebTools'));
 const AiTools = lazy(() => import('./tools/AiTools'));
+const ConvertTools = lazy(() => import('./tools/ConvertTools'));
 
 const TOOLS = [
+    { id: 'convert-main', title: 'Batch Converter', icon: 'auto_fix_high', category: 'Productivity', component: ConvertTools, subTools: ['pdf-to-md', 'docx-to-md', 'html-to-md', 'url-to-md', 'csv-to-md', 'excel-to-md', 'image-ocr', 'mdx-to-md', 'md-to-mdx', 'pptx-to-md'] },
     { id: 'web-main', title: 'Web & Social Tools', icon: 'public', category: 'Web', component: WebTools, subTools: ['social-downloader', 'web-to-md', 'web-mhtml', 'url-to-pdf', 'userscripts', 'bookmarklets'] },
     { id: 'network-main', title: 'Network Hub', icon: 'router', category: 'Web', component: NetworkTools, subTools: ['ip-info', 'ping', 'dns', 'whois', 'speed', 'geo', 'ssl', 'subnet', 'bluetooth'] },
     { id: 'ai-main', title: 'AI Hub', icon: 'auto_awesome', category: 'Web', component: AiTools, subTools: ['ai-chat', 'ai-image', 'ai-text'] },
