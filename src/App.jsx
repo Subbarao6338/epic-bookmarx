@@ -11,11 +11,12 @@ import ProfileModal from './components/ProfileModal';
 import BookmarkModal from './components/BookmarkModal';
 import API_BASE from './api';
 import { storage } from './utils/storage';
+import { useLocalStorageState } from './utils/hooks';
 
 function App() {
-  const [appName, setAppName] = useState(storage.get('hub_app_name', 'Epic Toolbox'));
-  const [enableProfiles, setEnableProfiles] = useState(storage.getBoolean('hub_enable_profiles', false));
-  const [currentProfileName, setCurrentProfileName] = useState(storage.get('hub_current_profile') || storage.get('hub_startup_profile', 'Default'));
+  const [appName, setAppName] = useLocalStorageState('hub_app_name', 'Epic Toolbox');
+  const [enableProfiles, setEnableProfiles] = useLocalStorageState('hub_enable_profiles', false, 'boolean');
+  const [currentProfileName, setCurrentProfileName] = useLocalStorageState('hub_current_profile', storage.get('hub_startup_profile', 'Default'));
   const [profiles, setProfiles] = useState([
     { id: 1, name: 'Default', icon: 'home' },
     { id: 2, name: 'Private', icon: 'security' },
@@ -24,11 +25,11 @@ function App() {
   const [currentTab, setCurrentTab] = useState(storage.get('hub_startup_tab', 'toolbox'));
   const [searchQuery, setSearchQuery] = useState('');
   const [searchActive, setSearchActive] = useState(false);
-  const [theme, setTheme] = useState(storage.get('hub_theme', 'light'));
-  const [accentColor, setAccentColor] = useState(storage.get('hub_accent_color', 'indigo'));
-  const [hideBookmarks, setHideBookmarks] = useState(storage.get('hub_hide_bookmarks') !== null ? storage.getBoolean('hub_hide_bookmarks') : false);
-  const [hideToolbox, setHideToolbox] = useState(storage.getBoolean('hub_hide_toolbox', false));
-  const [showProjectsTab, setShowProjectsTab] = useState(storage.getBoolean('hub_show_projects_tab', false));
+  const [theme, setTheme] = useLocalStorageState('hub_theme', 'light');
+  const [accentColor, setAccentColor] = useLocalStorageState('hub_accent_color', 'indigo');
+  const [hideBookmarks, setHideBookmarks] = useLocalStorageState('hub_hide_bookmarks', false, 'boolean');
+  const [hideToolbox, setHideToolbox] = useLocalStorageState('hub_hide_toolbox', false, 'boolean');
+  const [showProjectsTab, setShowProjectsTab] = useLocalStorageState('hub_show_projects_tab', false, 'boolean');
 
   const setTab = React.useCallback((tab, skipHistory = false) => {
     setCurrentTab(tab);
@@ -91,34 +92,32 @@ function App() {
   };
 
   // Additional Settings
-  const [isCompact, setIsCompact] = useState(storage.getBoolean('hub_compact', false));
-  const [hideBookmarkUrls, setHideBookmarkUrls] = useState(storage.getBoolean('hub_hide_bookmark_urls', false));
-  const [hideBookmarkIcons, setHideBookmarkIcons] = useState(storage.getBoolean('hub_hide_bookmark_icons', false));
-  const [hideToolboxIcons, setHideToolboxIcons] = useState(storage.getBoolean('hub_hide_toolbox_icons', false));
-  const [hideProjectUrls, setHideProjectUrls] = useState(storage.getBoolean('hub_hide_project_urls', false));
-  const [hideProjectIcons, setHideProjectIcons] = useState(storage.getBoolean('hub_hide_project_icons', false));
-  const [showStats, setShowStats] = useState(storage.get('hub_show_stats') !== 'false');
-  const [autoFocusSearch, setAutoFocusSearch] = useState(storage.getBoolean('hub_auto_focus_search', false));
-  const [openInNewTab, setOpenInNewTab] = useState(storage.get('hub_open_newtab') !== 'false');
-  const [startupTab, setStartupTab] = useState(storage.get('hub_startup_tab', 'toolbox'));
-  const [hideRecentTools, setHideRecentTools] = useState(storage.getBoolean('hub_hide_recent_tools', false));
+  const [isCompact, setIsCompact] = useLocalStorageState('hub_compact', false, 'boolean');
+  const [hideBookmarkUrls, setHideBookmarkUrls] = useLocalStorageState('hub_hide_bookmark_urls', false, 'boolean');
+  const [hideBookmarkIcons, setHideBookmarkIcons] = useLocalStorageState('hub_hide_bookmark_icons', false, 'boolean');
+  const [hideToolboxIcons, setHideToolboxIcons] = useLocalStorageState('hub_hide_toolbox_icons', false, 'boolean');
+  const [hideProjectUrls, setHideProjectUrls] = useLocalStorageState('hub_hide_project_urls', false, 'boolean');
+  const [hideProjectIcons, setHideProjectIcons] = useLocalStorageState('hub_hide_project_icons', false, 'boolean');
+  const [showStats, setShowStats] = useLocalStorageState('hub_show_stats', true, 'boolean');
+  const [autoFocusSearch, setAutoFocusSearch] = useLocalStorageState('hub_auto_focus_search', false, 'boolean');
+  const [openInNewTab, setOpenInNewTab] = useLocalStorageState('hub_open_newtab', true, 'boolean');
+  const [startupTab, setStartupTab] = useLocalStorageState('hub_startup_tab', 'toolbox');
+  const [hideRecentTools, setHideRecentTools] = useLocalStorageState('hub_hide_recent_tools', false, 'boolean');
 
   // Ensure recentTools is always an array to avoid crashes
-  const initialRecentTools = storage.getJSON('hub_recent_tools', []);
-  const [recentTools, setRecentTools] = useState(Array.isArray(initialRecentTools) ? initialRecentTools : []);
+  const [recentTools, setRecentTools] = useLocalStorageState('hub_recent_tools', [], 'json');
 
   const clearRecentTools = () => {
     setRecentTools([]);
-    storage.remove('hub_recent_tools');
   };
 
   // Visual Settings
-  const [disableGlass, setDisableGlass] = useState(storage.getBoolean('hub_disable_glass', false));
-  const [disableAnimations, setDisableAnimations] = useState(storage.getBoolean('hub_disable_animations', false));
-  const [reducedMotion, setReducedMotion] = useState(storage.getBoolean('hub_reduced_motion', false));
-  const [confirmDelete, setConfirmDelete] = useState(storage.get('hub_confirm_delete') !== 'false');
-  const [groupToolbox, setGroupToolbox] = useState(storage.get('hub_group_toolbox') !== 'false');
-  const [enableHoverEffects, setEnableHoverEffects] = useState(storage.get('hub_enable_hover_effects') !== 'false');
+  const [disableGlass, setDisableGlass] = useLocalStorageState('hub_disable_glass', false, 'boolean');
+  const [disableAnimations, setDisableAnimations] = useLocalStorageState('hub_disable_animations', false, 'boolean');
+  const [reducedMotion, setReducedMotion] = useLocalStorageState('hub_reduced_motion', false, 'boolean');
+  const [confirmDelete, setConfirmDelete] = useLocalStorageState('hub_confirm_delete', true, 'boolean');
+  const [groupToolbox, setGroupToolbox] = useLocalStorageState('hub_group_toolbox', true, 'boolean');
+  const [enableHoverEffects, setEnableHoverEffects] = useLocalStorageState('hub_enable_hover_effects', true, 'boolean');
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -183,7 +182,6 @@ function App() {
     };
 
     applyTheme(theme);
-    storage.set('hub_theme', theme);
 
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -196,57 +194,31 @@ function App() {
   useEffect(() => {
     if (disableGlass) document.body.classList.add('no-glass');
     else document.body.classList.remove('no-glass');
-    storage.set('hub_disable_glass', disableGlass);
   }, [disableGlass]);
 
   useEffect(() => {
     if (reducedMotion) document.body.classList.add('reduced-motion');
     else document.body.classList.remove('reduced-motion');
-    storage.set('hub_reduced_motion', reducedMotion);
   }, [reducedMotion]);
 
   useEffect(() => {
     if (disableAnimations) document.body.classList.add('no-animations');
     else document.body.classList.remove('no-animations');
-    storage.set('hub_disable_animations', disableAnimations);
   }, [disableAnimations]);
 
   useEffect(() => {
     if (enableHoverEffects) document.body.classList.remove('no-hover-effects');
     else document.body.classList.add('no-hover-effects');
-    storage.set('hub_enable_hover_effects', enableHoverEffects);
   }, [enableHoverEffects]);
-
-  useEffect(() => { storage.set('hub_confirm_delete', confirmDelete); }, [confirmDelete]);
-  useEffect(() => { storage.set('hub_group_toolbox', groupToolbox); }, [groupToolbox]);
-  useEffect(() => { storage.set('hub_app_name', appName); }, [appName]);
-  useEffect(() => { storage.set('hub_startup_tab', startupTab); }, [startupTab]);
-  useEffect(() => { storage.set('hub_show_projects_tab', showProjectsTab); }, [showProjectsTab]);
-  useEffect(() => { storage.set('hub_hide_recent_tools', hideRecentTools); }, [hideRecentTools]);
-  useEffect(() => { storage.set('hub_enable_profiles', enableProfiles); }, [enableProfiles]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-color', accentColor);
-    storage.set('hub_accent_color', accentColor);
   }, [accentColor]);
-
-  useEffect(() => {
-    storage.set('hub_current_profile', currentProfileName);
-  }, [currentProfileName]);
-
-  useEffect(() => {
-    storage.set('hub_hide_bookmarks', hideBookmarks);
-  }, [hideBookmarks]);
-
-  useEffect(() => {
-    storage.set('hub_hide_toolbox', hideToolbox);
-  }, [hideToolbox]);
 
   // Tab Validation and Redirection
   useEffect(() => {
     if (hideBookmarks && hideToolbox) {
         setHideToolbox(false);
-        storage.set('hub_hide_toolbox', false);
         return;
     }
 
@@ -308,15 +280,6 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isSettingsOpen, isProfileOpen]);
 
-  useEffect(() => { storage.set('hub_compact', isCompact); }, [isCompact]);
-  useEffect(() => { storage.set('hub_hide_bookmark_urls', hideBookmarkUrls); }, [hideBookmarkUrls]);
-  useEffect(() => { storage.set('hub_hide_bookmark_icons', hideBookmarkIcons); }, [hideBookmarkIcons]);
-  useEffect(() => { storage.set('hub_hide_toolbox_icons', hideToolboxIcons); }, [hideToolboxIcons]);
-  useEffect(() => { storage.set('hub_hide_project_urls', hideProjectUrls); }, [hideProjectUrls]);
-  useEffect(() => { storage.set('hub_hide_project_icons', hideProjectIcons); }, [hideProjectIcons]);
-  useEffect(() => { storage.set('hub_show_stats', showStats); }, [showStats]);
-  useEffect(() => { storage.set('hub_auto_focus_search', autoFocusSearch); }, [autoFocusSearch]);
-  useEffect(() => { storage.set('hub_open_newtab', openInNewTab); }, [openInNewTab]);
 
   const currentProfile = profiles.find(p => p.name === (enableProfiles ? currentProfileName : 'Default')) || profiles[0];
 

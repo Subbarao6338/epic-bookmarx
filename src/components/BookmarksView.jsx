@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import CategoryNav from './CategoryNav';
 import EmptyState from './EmptyState';
-import { highlightText } from '../utils/helpers';
+import SafeHighlight from './SafeHighlight';
 import { storage } from '../utils/storage';
 
 // Import initial data (Vite will bundle these)
@@ -446,7 +446,9 @@ const BookmarkCard = ({ link, idx, openInNewTab, onPin, onEdit, onDelete, handle
       <div className="card-body">
         {!hideIcons && <BookmarkIcon link={link} categoryIcon={categoryIcon || 'link'} />}
         <div className="card-title-group">
-          <div className="card-title" dangerouslySetInnerHTML={{ __html: highlightText(link.title, searchQuery) }} />
+          <div className="card-title">
+            <SafeHighlight text={link.title} query={searchQuery} />
+          </div>
         </div>
       </div>
 

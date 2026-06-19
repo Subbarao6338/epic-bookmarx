@@ -474,7 +474,7 @@ const ImageToPdf = ({ setToolResult }) => {
             const pdfBytes = await pdfDoc.save();
             setToolResult({ text: 'Converted Images to PDF', blob: new Blob([pdfBytes], { type: 'application/pdf' }), filename: 'converted.pdf' });
         } catch (e) {
-            alert("Error: " + e.message);
+            setToolResult({ error: "Error: " + e.message });
         } finally {
             setIsProcessing(false);
         }
@@ -538,7 +538,7 @@ const PdfHub = ({ subtool }) => {
             }
             const mergedPdfBytes = await mergedPdf.save();
             setResult({ text: 'Merged PDFs', blob: new Blob([mergedPdfBytes], { type: 'application/pdf' }), filename: 'merged.pdf' });
-        } catch (e) { alert("Error: " + e.message); }
+        } catch (e) { setResult({ error: "Error: " + e.message }); }
         finally { setIsProcessing(false); }
     };
 
@@ -569,7 +569,7 @@ const PdfHub = ({ subtool }) => {
             const pages = await newPdf.copyPages(pdfDoc, indices);
             pages.forEach(p => newPdf.addPage(p));
             setResult({ text: `Split pages ${pageRange} (${indices.length} pages)`, blob: new Blob([await newPdf.save()], { type: 'application/pdf' }), filename: 'split.pdf' });
-        } catch (e) { alert(e.message); }
+        } catch (e) { setResult({ error: e.message }); }
         finally { setIsProcessing(false); }
     };
 
@@ -581,7 +581,7 @@ const PdfHub = ({ subtool }) => {
             const pdfDoc = await PDFDocument.load(pdfBytes);
             pdfDoc.getPages().forEach(p => p.setRotation({ angle: (p.getRotation().angle + 90) % 360 }));
             setResult({ text: 'Rotated PDF', blob: new Blob([await pdfDoc.save()], { type: 'application/pdf' }), filename: 'rotated.pdf' });
-        } catch (e) { alert("Error: " + e.message); }
+        } catch (e) { setResult({ error: "Error: " + e.message }); }
         finally { setIsProcessing(false); }
     };
 
@@ -591,7 +591,7 @@ const PdfHub = ({ subtool }) => {
         try {
             const pdfDoc = await PDFDocument.load(await files[0].arrayBuffer(), { password });
             setResult({ text: 'Unlocked PDF', blob: new Blob([await pdfDoc.save()], { type: 'application/pdf' }), filename: 'unlocked.pdf' });
-        } catch (e) { alert("Invalid password or error: " + e.message); }
+        } catch (e) { setResult({ error: "Invalid password or error: " + e.message }); }
         finally { setIsProcessing(false); }
     };
 
@@ -609,7 +609,7 @@ const PdfHub = ({ subtool }) => {
                 setResult({ text: 'Rendered Page 1 to Image', blob, filename: 'page1.png' });
                 setIsProcessing(false);
             });
-        } catch (e) { alert(e.message); setIsProcessing(false); }
+        } catch (e) { setResult({ error: e.message }); setIsProcessing(false); }
     };
 
     const ocrScan = async () => {
@@ -629,7 +629,7 @@ const PdfHub = ({ subtool }) => {
             }
             const { data: { text } } = await Tesseract.recognize(imageSource, 'eng', { logger: m => setProgress(Math.round(m.progress * 100)) });
             setResult({ text, filename: 'ocr_result.txt' });
-        } catch (e) { alert(e.message); }
+        } catch (e) { setResult({ error: e.message }); }
         finally { setIsProcessing(false); }
     };
 
@@ -677,7 +677,7 @@ const PdfHub = ({ subtool }) => {
                                 const pdf = await PDFDocument.load(await files[0].arrayBuffer());
                                 const bytes = await pdf.save({ userPassword: password, ownerPassword: password });
                                 setResult({ text: 'Locked PDF', blob: new Blob([bytes], { type: 'application/pdf' }), filename: 'locked.pdf' });
-                            } catch(e) { alert(e.message); }
+                            } catch(e) { setResult({ error: e.message }); }
                             finally { setIsProcessing(false); }
                         }} disabled={!files.length || !password}>Lock PDF</button>
                     </div>
@@ -711,7 +711,7 @@ const PdfHub = ({ subtool }) => {
                                     const pdf = new jsPDF('p', 'mm', 'a4');
                                     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, (canvas.height*210)/canvas.width);
                                     setResult({ text: 'Word to PDF', blob: pdf.output('blob'), filename: 'converted.pdf' });
-                                } catch(e) { alert(e.message); }
+                                } catch(e) { setResult({ error: e.message }); }
                                 finally { setIsProcessing(false); }
                             }} />
                             <div className="file-input-label">
@@ -756,7 +756,7 @@ const DocTranslator = () => {
                 filename: `translated_${file.name}.txt`
             });
         } catch (e) {
-            alert("Error: " + e.message);
+            setResult({ error: "Error: " + e.message });
         } finally {
             setIsProcessing(false);
         }

@@ -66,7 +66,7 @@ const UrlToPdf = () => {
             const blob = await response.blob();
             setResult({ text: `PDF generated for ${url}`, blob, filename: 'webpage.pdf' });
         } catch (err) {
-            alert("Conversion failed. Please try a different URL or check your connection.");
+            setResult({ error: "Conversion failed. Please try a different URL or check your connection." });
         } finally {
             setIsConverting(false);
         }
@@ -148,7 +148,7 @@ const SocialTools = () => {
       setStatus('idle');
     } catch (err) {
         setStatus('error');
-        alert("Download failed: " + err.message);
+        setResult({ error: "Download failed: " + err.message });
     }
   };
 

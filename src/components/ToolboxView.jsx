@@ -3,7 +3,7 @@ import { storage } from '../utils/storage';
 import CategoryNav from './CategoryNav';
 import EmptyState from './EmptyState';
 import ErrorBoundary from './ErrorBoundary';
-import { highlightText } from '../utils/helpers';
+import SafeHighlight from './SafeHighlight';
 
 // Consolidated Lazy Loaded Hubs
 const DocTools = lazy(() => import('./tools/DocTools'));
@@ -268,7 +268,7 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
               {recentTools.map((id, idx) => {
                   const tool = TOOLS.find(t => t.id === id);
                   if (!tool) return null;
-                  return <ToolCard key={`recent-${tool.id}`} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} highlightText={highlightText} noAnimation={!!searchQuery} hideIcons={hideIcons} />;
+                  return <ToolCard key={`recent-${tool.id}`} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} noAnimation={!!searchQuery} hideIcons={hideIcons} />;
               })}
             </div>
           </div>
@@ -281,7 +281,7 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
             </h3>
             <div className="category-grid">
               {TOOLS.filter(t => pinnedTools.includes(t.id)).map((tool, idx) => (
-                <ToolCard key={`pinned-${tool.id}`} tool={tool} idx={idx} isPinned={true} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} highlightText={highlightText} noAnimation={!!searchQuery} hideIcons={hideIcons} />
+                <ToolCard key={`pinned-${tool.id}`} tool={tool} idx={idx} isPinned={true} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} noAnimation={!!searchQuery} hideIcons={hideIcons} />
               ))}
             </div>
           </div>
@@ -302,7 +302,7 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
       {!groupedTools ? (
         <div className="category-grid p-0-10">
           {filteredTools.map((tool, idx) => (
-            <ToolCard key={tool.id} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} highlightText={highlightText} noAnimation={!!searchQuery} hideIcons={hideIcons} />
+            <ToolCard key={tool.id} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} noAnimation={!!searchQuery} hideIcons={hideIcons} />
           ))}
         </div>
       ) : (
@@ -318,7 +318,7 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
             </div>
             <div className="category-grid">
               {groupedTools[cat].map((tool, idx) => (
-                <ToolCard key={tool.id} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} highlightText={highlightText} noAnimation={!!searchQuery} hideIcons={hideIcons} />
+                <ToolCard key={tool.id} tool={tool} idx={idx} isPinned={pinnedTools.includes(tool.id)} togglePin={togglePin} handleShare={handleShare} openTool={openTool} searchQuery={searchQuery} noAnimation={!!searchQuery} hideIcons={hideIcons} />
               ))}
             </div>
           </div>
@@ -328,7 +328,7 @@ const ToolboxView = ({ searchQuery, groupToolbox, showStats, recentTools, setRec
   );
 };
 
-const ToolCard = memo(({ tool, idx, isPinned, togglePin, handleShare, openTool, searchQuery, highlightText, noAnimation, hideIcons }) => {
+const ToolCard = memo(({ tool, idx, isPinned, togglePin, handleShare, openTool, searchQuery, noAnimation, hideIcons }) => {
     const onKeyDown = React.useCallback(e => {
         if (e.key === 'Enter') openTool(tool.id);
     }, [openTool, tool.id]);
@@ -351,7 +351,9 @@ const ToolCard = memo(({ tool, idx, isPinned, togglePin, handleShare, openTool, 
                   </div>
                 )}
                 <div className="card-title-group">
-                    <div className="card-title" dangerouslySetInnerHTML={{ __html: highlightText(tool.title, searchQuery) }} />
+                    <div className="card-title">
+                        <SafeHighlight text={tool.title} query={searchQuery} />
+                    </div>
                 </div>
             </div>
             <div className="card-footer">

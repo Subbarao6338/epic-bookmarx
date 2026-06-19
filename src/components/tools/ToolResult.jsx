@@ -10,6 +10,7 @@ const ToolResult = ({ result, title = 'Result', showPreview = true, onClear }) =
     const filename = result.filename || 'result';
     const blob = result.blob;
     const url = result.url;
+    const error = result.error;
 
     const handleCopy = () => {
         copyToClipboard(text, () => {
@@ -90,7 +91,14 @@ const ToolResult = ({ result, title = 'Result', showPreview = true, onClear }) =
                 </div>
             </div>
 
-            {showPreview && url ? (
+            {error ? (
+                <div className="tool-result danger-box" style={{ margin: 0 }}>
+                    <div className="flex-center gap-10" style={{ justifyContent: 'flex-start' }}>
+                        <span className="material-icons">error_outline</span>
+                        <span className="font-bold">{error}</span>
+                    </div>
+                </div>
+            ) : showPreview && url ? (
                 <div className="card p-15 text-center glass-card overflow-hidden">
                     <img src={url} alt="Result Preview" style={{ width: '100%', borderRadius: '12px', boxShadow: 'var(--shadow-md)' }} />
                 </div>

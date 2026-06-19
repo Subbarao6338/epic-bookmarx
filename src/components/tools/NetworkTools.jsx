@@ -234,7 +234,10 @@ const SpeedTestTool = () => {
             const duration = (Date.now() - start) / 1000;
             const mbps = ((blob.size * 8) / (duration * 1024 * 1024)).toFixed(2);
             setSpeed(mbps);
-        } catch(e) { alert("Test failed. Check connection."); }
+    } catch(e) {
+        setSpeed(null);
+        alert("Test failed. Check connection.");
+    }
         finally { setLoading(false); }
     };
     return (
@@ -414,7 +417,9 @@ const BluetoothTool = () => (
             try {
                 const device = await navigator.bluetooth.requestDevice({acceptAllDevices: true});
                 alert(`Connected to ${device.name || 'Unnamed Device'}`);
-            } catch(e) { alert("Access denied or unsupported."); }
+            } catch(e) {
+                console.error("Bluetooth access denied or unsupported", e);
+            }
         }}>Scan Devices</button>
     </div>
 );

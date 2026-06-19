@@ -631,7 +631,16 @@ const SecurityHub = ({ subtool }) => {
                 <h3 className="mb-15">Quick Actions</h3>
                 <div className="grid grid-2-cols gap-10">
                     <button className="btn-primary" onClick={() => setResult({text: crypto.randomUUID(), filename: 'uuid.txt'})}>Gen UUID</button>
-                    <button className="pill" onClick={() => setResult({text: Math.random().toString(36).substring(2, 15), filename: 'password.txt'})}>Gen Password</button>
+                    <button className="pill" onClick={() => {
+                        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+                        const array = new Uint32Array(16);
+                        window.crypto.getRandomValues(array);
+                        let password = '';
+                        for (let i = 0; i < array.length; i++) {
+                            password += chars[array[i] % chars.length];
+                        }
+                        setResult({text: password, filename: 'password.txt'});
+                    }}>Gen Password</button>
                 </div>
             </div>
             <div className="card p-25 glass-card">

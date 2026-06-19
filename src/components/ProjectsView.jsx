@@ -1,22 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EmptyState from './EmptyState';
 import API_BASE from '../api';
-
-const HighlightText = ({ text, query }) => {
-  if (!query) return <>{text}</>;
-  const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ? (
-          <mark key={i}>{part}</mark>
-        ) : (
-          part
-        )
-      )}
-    </>
-  );
-};
+import SafeHighlight from './SafeHighlight';
 
 const ProjectsView = ({ searchQuery, openInNewTab, hideUrls, hideIcons }) => {
   const [projects, setProjects] = useState([]);
@@ -145,11 +130,11 @@ const ProjectsView = ({ searchQuery, openInNewTab, hideUrls, hideIcons }) => {
                   )}
                   <div className="card-title-group">
                     <div className="card-title">
-                      <HighlightText text={project.title} query={searchQuery} />
+                      <SafeHighlight text={project.title} query={searchQuery} />
                     </div>
                     {project.description && (
                       <div className="card-subtitle small opacity-7">
-                        <HighlightText text={project.description} query={searchQuery} />
+                        <SafeHighlight text={project.description} query={searchQuery} />
                       </div>
                     )}
                   </div>
