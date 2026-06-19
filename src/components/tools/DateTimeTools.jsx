@@ -202,9 +202,12 @@ const WorldClockTool = () => {
 };
 
 const PomodoroTool = () => {
+    const [workDuration, setWorkDuration] = useState(25);
+    const [breakDuration, setBreakDuration] = useState(5);
     const [timeLeft, setTimeLeft] = useState(25 * 60);
     const [isActive, setIsActive] = useState(false);
     const [isBreak, setIsBreak] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
 
     useEffect(() => {
         let it = null;
@@ -214,22 +217,55 @@ const PomodoroTool = () => {
             setIsActive(false);
             const nextMode = !isBreak;
             setIsBreak(nextMode);
-            setTimeLeft(nextMode ? 5 * 60 : 25 * 60);
+            setTimeLeft(nextMode ? breakDuration * 60 : workDuration * 60);
             if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
         }
         return () => clearInterval(it);
-    }, [isActive, timeLeft, isBreak]);
+    }, [isActive, timeLeft, isBreak, workDuration, breakDuration]);
 
     const format = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 
+    const reset = () => {
+        setIsActive(false);
+        setIsBreak(false);
+        setTimeLeft(workDuration * 60);
+    };
+
+    const applySettings = () => {
+        reset();
+        setShowSettings(false);
+    };
+
     return (
         <div className="card p-20 text-center glass-card">
-            <div className="opacity-6 mb-10">{isBreak ? 'Break Time' : 'Focus Session'}</div>
-            <div style={{fontSize: '4rem', fontWeight: 800}} className="mb-20 color-primary">{format(timeLeft)}</div>
-            <div className="flex-gap">
-                <button className="btn-primary flex-1" onClick={() => setIsActive(!isActive)}>{isActive ? 'Pause' : 'Start'}</button>
-                <button className="pill" onClick={() => { setIsActive(false); setTimeLeft(isBreak ? 5 * 60 : 25 * 60); }}>Reset</button>
+            <div className="flex-between mb-10">
+                <div className="opacity-6 uppercase smallest font-bold">{isBreak ? 'Break Time' : 'Focus Session'}</div>
+                <button className="icon-btn" style={{width: '32px', height: '32px'}} onClick={() => setShowSettings(!showSettings)}>
+                    <span className="material-icons" style={{fontSize: '1.2rem'}}>settings</span>
+                </button>
             </div>
+
+            {showSettings ? (
+                <div className="grid gap-15 mb-20 text-left animate-fadeIn">
+                    <div className="form-group">
+                        <label>Work Duration (minutes)</label>
+                        <input type="number" className="pill w-full" value={workDuration} onChange={e => setWorkDuration(parseInt(e.target.value) || 1)} />
+                    </div>
+                    <div className="form-group">
+                        <label>Break Duration (minutes)</label>
+                        <input type="number" className="pill w-full" value={breakDuration} onChange={e => setBreakDuration(parseInt(e.target.value) || 1)} />
+                    </div>
+                    <button className="btn-primary w-full" onClick={applySettings}>Apply & Reset</button>
+                </div>
+            ) : (
+                <>
+                    <div style={{fontSize: '4rem', fontWeight: 800}} className="mb-20 color-primary">{format(timeLeft)}</div>
+                    <div className="flex-gap">
+                        <button className="btn-primary flex-1" onClick={() => setIsActive(!isActive)}>{isActive ? 'Pause' : 'Start'}</button>
+                        <button className="pill" onClick={reset}>Reset</button>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
@@ -298,23 +334,53 @@ const TimezoneConverter = () => {
 const StopwatchTool = () => {
     const [time, setTime] = useState(0);
     const [active, setActive] = useState(false);
+    const [laps, setLaps] = useState([]);
+
     useEffect(() => {
         let it = null;
         if(active) it = setInterval(() => setTime(t => t + 10), 10);
         else clearInterval(it);
         return () => clearInterval(it);
     }, [active]);
+
     const format = (ms) => {
         const s = Math.floor(ms/1000), m = Math.floor(s/60);
         return `${m}:${(s%60).toString().padStart(2,'0')}.${(ms%1000).toString().slice(0,2)}`;
     };
+
+    const addLap = () => {
+        setLaps(prev => [{ id: Date.now(), time }, ...prev]);
+    };
+
+    const reset = () => {
+        setActive(false);
+        setTime(0);
+        setLaps([]);
+    };
+
     return (
         <div className="text-center p-30 card glass-card">
             <div style={{fontSize: '4.5rem', fontFamily: 'monospace', color: 'var(--primary)'}} className="mb-20">{format(time)}</div>
-            <div className="flex-gap">
+            <div className="flex-gap mb-20">
                 <button className="btn-primary flex-1" onClick={()=>setActive(!active)}>{active ? 'Pause' : 'Start'}</button>
-                <button className="pill flex-1" onClick={()=>{setActive(false); setTime(0);}}>Reset</button>
+                <button className="pill flex-1" onClick={addLap} disabled={!active && time === 0}>Lap</button>
+                <button className="pill flex-1" onClick={reset}>Reset</button>
             </div>
+            {laps.length > 0 && (
+                <div className="tool-result text-left font-mono" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                    <div className="flex-between mb-5 opacity-6 smallest uppercase font-bold">
+                        <span>Lap</span>
+                        <span>Time</span>
+                    </div>
+                    {laps.map((lap, index) => (
+                        <div key={lap.id} className="flex-between py-5 border-top">
+                            <span>Lap {laps.length - index}</span>
+                            <span>{format(lap.time)}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
+            <ToolResult result={laps.length > 0 ? laps.map((l, i) => `Lap ${laps.length - i}: ${format(l.time)}`).join('\n') : null} title="Stopwatch Laps" />
         </div>
     );
 };
@@ -328,8 +394,18 @@ const PanchangamTool = () => {
         const d = new Date(date);
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const masams = ['Chaitra', 'Vaishakha', 'Jyeshtha', 'Ashadha', 'Shravana', 'Bhadrapada', 'Ashvina', 'Kartika', 'Margashirsha', 'Pausha', 'Magha', 'Phalguna'];
-        const samvatsarams = ['Krodhi', 'Vishvavasu', 'Paridhavi', 'Pramadicha', 'Ananda', 'Rakshasa', 'Nala'];
-        const tithis = ['Shukla Pratipada', 'Shukla Dwitiya', 'Shukla Tritiya', 'Shukla Chaturthi', 'Shukla Panchami', 'Shukla Shashti', 'Shukla Saptami', 'Shukla Ashtami', 'Shukla Navami', 'Shukla Dashami', 'Shukla Ekadashi', 'Shukla Dwadashi', 'Shukla Trayodashi', 'Shukla Chaturdashi', 'Purnima'];
+        const samvatsarams = [
+            'Prabhava', 'Vibhava', 'Shukla', 'Pramodoota', 'Prajopathi', 'Angirasa', 'Srimukha', 'Bhava', 'Yuva', 'Dhata',
+            'Eeswara', 'Bahudhanya', 'Pramathi', 'Vikrama', 'Vishu', 'Chitrabhanu', 'Swabhanu', 'Tharana', 'Parthiva', 'Vyaya',
+            'Sarvajitu', 'Sarvadhari', 'Virodhi', 'Vikruthi', 'Khara', 'Nandana', 'Vijaya', 'Jaya', 'Manmadha', 'Durmukhi',
+            'Hevilambi', 'Vilambi', 'Vikari', 'Sharvari', 'Plava', 'Shubhakrutu', 'Shobhakrutu', 'Krodhi', 'Viswavasu', 'Paridhavi',
+            'Pramadicha', 'Ananda', 'Rakshasa', 'Nala', 'Pingala', 'Kalayukti', 'Siddharthi', 'Raudra', 'Durmathi', 'Dundubhi',
+            'Rudhirodgari', 'Raktakshi', 'Krodhana', 'Akshaya'
+        ];
+        const tithis = [
+            'Shukla Pratipada', 'Shukla Dwitiya', 'Shukla Tritiya', 'Shukla Chaturthi', 'Shukla Panchami', 'Shukla Shashti', 'Shukla Saptami', 'Shukla Ashtami', 'Shukla Navami', 'Shukla Dashami', 'Shukla Ekadashi', 'Shukla Dwadashi', 'Shukla Trayodashi', 'Shukla Chaturdashi', 'Purnima',
+            'Krishna Pratipada', 'Krishna Dwitiya', 'Krishna Tritiya', 'Krishna Chaturthi', 'Krishna Panchami', 'Krishna Shashti', 'Krishna Saptami', 'Krishna Ashtami', 'Krishna Navami', 'Krishna Dashami', 'Krishna Ekadashi', 'Krishna Dwadashi', 'Krishna Trayodashi', 'Krishna Chaturdashi', 'Amavasya'
+        ];
         const nakshatras = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];
         const raashis = ['Mesha', 'Vrishabha', 'Mithuna', 'Karka', 'Simha', 'Kanya', 'Tula', 'Vrishchika', 'Dhanu', 'Makara', 'Kumbha', 'Meena'];
 
@@ -339,8 +415,8 @@ const PanchangamTool = () => {
         return {
             vaaram: days[dayIdx],
             masam: masams[seed % 12],
-            samvatsaram: samvatsarams[seed % 7],
-            tithi: tithis[seed % 15],
+            samvatsaram: samvatsarams[seed % samvatsarams.length],
+            tithi: tithis[seed % 30],
             nakshatra: nakshatras[seed % 27],
             raashi: raashis[seed % 12],
             padam: (seed % 4) + 1,

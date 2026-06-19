@@ -10,7 +10,8 @@ const AiTools = ({ toolId, onSubtoolChange }) => {
       const mapping = {
         'ai-chat': 'chat',
         'ai-image': 'image-gen',
-        'ai-text': 'text-gen'
+        'ai-text': 'text-gen',
+        'ai-sentiment': 'local'
       };
       if (mapping[toolId]) setActiveTab(mapping[toolId]);
     }
@@ -83,8 +84,9 @@ const AiTools = ({ toolId, onSubtoolChange }) => {
           if (!response.ok) throw new Error('API failed');
           const data = await response.text();
           setChat([...newChat, { role: 'assistant', content: data }]);
+          setToolResult(null);
       } catch(e) {
-          alert("Chat failed. Please try again.");
+          setToolResult({ error: "Chat failed. Please try again." });
           setInput(currentInput);
           setChat(chat);
       } finally { setLoading(false); }
@@ -168,6 +170,7 @@ const AiTools = ({ toolId, onSubtoolChange }) => {
                         <span className="material-icons">{loading ? 'sync' : 'send'}</span>
                       </button>
                   </div>
+                  <ToolResult result={toolResult} />
               </div>
           )}
       </div>

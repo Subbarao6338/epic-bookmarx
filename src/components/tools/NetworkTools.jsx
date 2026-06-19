@@ -225,8 +225,12 @@ const DnsTool = () => {
 const SpeedTestTool = () => {
     const [speed, setSpeed] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState(null);
+
     const run = async () => {
-        setLoading(true); const start = Date.now();
+        setLoading(true);
+        setResult(null);
+        const start = Date.now();
         try {
             // Using a large image from Wikimedia for speed test
             const res = await fetch('https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg', { cache: 'no-store' });
@@ -234,18 +238,21 @@ const SpeedTestTool = () => {
             const duration = (Date.now() - start) / 1000;
             const mbps = ((blob.size * 8) / (duration * 1024 * 1024)).toFixed(2);
             setSpeed(mbps);
-    } catch(e) {
-        setSpeed(null);
-        alert("Test failed. Check connection.");
-    }
-        finally { setLoading(false); }
+            setResult(`Download Speed: ${mbps} Mbps`);
+        } catch(e) {
+            setSpeed(null);
+            setResult({ error: "Test failed. Check connection." });
+        } finally {
+            setLoading(false);
+        }
     };
+
     return (
         <div className="card p-30 text-center glass-card">
             <span className="material-icons" style={{fontSize: '4rem', color: 'var(--primary)'}}>speed</span>
             <div style={{fontSize: '3rem', fontWeight: 800}} className="mb-20">{speed ? `${speed} Mbps` : '---'}</div>
             <button className="btn-primary w-full" onClick={run} disabled={loading}>{loading ? 'Testing...' : 'Start Test'}</button>
-            <ToolResult result={speed ? `Download Speed: ${speed} Mbps` : null} />
+            <ToolResult result={result} />
         </div>
     );
 };
@@ -302,14 +309,22 @@ const WhoisTool = () => {
 const GeoTool = () => {
     const [ip, setIp] = useState('');
     const [info, setInfo] = useState(null);
+    const [result, setResult] = useState(null);
+
     const run = async () => {
+        setResult(null);
         try {
             const res = await fetch(`https://ipapi.co/${ip}/json/`);
             const data = await res.json();
+            if (data.error) throw new Error(data.reason || "Geo lookup failed");
             setInfo(data);
-        } catch(e) { alert("Geo lookup failed"); }
+            const text = `IP: ${data.ip}\nCity: ${data.city}\nRegion: ${data.region}\nCountry: ${data.country_name}\nISP: ${data.org}`;
+            setResult({ text, filename: 'geo_info.txt' });
+        } catch(e) {
+            setResult({ error: e.message || "Geo lookup failed" });
+        }
     };
-    const resultText = info ? `IP: ${info.ip}\nCity: ${info.city}\nRegion: ${info.region}\nCountry: ${info.country_name}\nISP: ${info.org}` : '';
+
     return (
         <div className="grid gap-15">
             <div className="flex-gap card p-10 glass-card">
@@ -317,7 +332,7 @@ const GeoTool = () => {
                 <button className="btn-primary" onClick={run}>Locate</button>
             </div>
             {info && <div className="tool-result"><b>{info.city}, {info.country_name}</b><br/>{info.org}</div>}
-            <ToolResult result={{ text: resultText, filename: 'geo_info.txt' }} />
+            <ToolResult result={result} />
         </div>
     );
 };
@@ -374,24 +389,34 @@ const SubnetCalculator = () => {
   const [ip, setIp] = useState('192.168.1.1');
   const [mask, setMask] = useState('24');
   const [res, setRes] = useState(null);
+  const [result, setResult] = useState(null);
+
   const calc = () => {
     try {
       const parts = ip.split('.').map(Number);
-      if (parts.length !== 4 || parts.some(p => p < 0 || p > 255)) throw new Error("Invalid IP");
+      if (parts.length !== 4 || parts.some(p => p < 0 || p > 255)) throw new Error("Invalid IP address format.");
       const m = parseInt(mask);
-      if (isNaN(m) || m < 0 || m > 32) throw new Error("Invalid Mask");
+      if (isNaN(m) || m < 0 || m > 32) throw new Error("Invalid Subnet Mask (0-32).");
 
       const ipNum = ((parts[0]<<24)|(parts[1]<<16)|(parts[2]<<8)|parts[3])>>>0;
       const maskNum = m===0?0:(-1<<(32-m))>>>0;
       const netNum = (ipNum & maskNum)>>>0;
       const brNum = (netNum | ~maskNum)>>>0;
       const toIp = n => [(n>>>24)&255, (n>>>16)&255, (n>>>8)&255, n&255].join('.');
-      setRes({ net: toIp(netNum), br: toIp(brNum), hosts: m === 32 ? 1 : m === 31 ? 2 : Math.pow(2, 32-m)-2 });
+      const net = toIp(netNum);
+      const br = toIp(brNum);
+      const hosts = m === 32 ? 1 : m === 31 ? 2 : Math.pow(2, 32-m)-2;
+
+      setRes({ net, br, hosts });
+      setResult({
+          text: `Network: ${net}\nBroadcast: ${br}\nUsable Hosts: ${hosts}`,
+          filename: 'subnet.txt'
+      });
     } catch(e) {
-        alert(e.message);
+        setResult({ error: e.message });
     }
   };
-  const resultText = res ? `Network: ${res.net}\nBroadcast: ${res.br}\nUsable Hosts: ${res.hosts}` : '';
+
   return (
     <div className="grid gap-15">
       <div className="flex-gap card p-10 glass-card">
@@ -400,28 +425,35 @@ const SubnetCalculator = () => {
       </div>
       <button className="btn-primary" onClick={calc}>Calculate</button>
       {res && <div className="tool-result font-mono">Net: {res.net}<br/>Broadcast: {res.br}<br/>Hosts: {res.hosts}</div>}
-      <ToolResult result={{ text: resultText, filename: 'subnet.txt' }} />
+      <ToolResult result={result} />
     </div>
   );
 };
 
-const BluetoothTool = () => (
-    <div className="card p-30 text-center glass-card">
-        <span className="material-icons" style={{fontSize: '4rem', color: 'var(--primary)'}}>bluetooth</span>
-        <div className="mt-15 opacity-6">Web Bluetooth requires secure context and user interaction.</div>
-        <button className="btn-primary mt-20" onClick={async () => {
-            if (!navigator.bluetooth) {
-                alert("Web Bluetooth is not supported in this browser.");
-                return;
-            }
-            try {
-                const device = await navigator.bluetooth.requestDevice({acceptAllDevices: true});
-                alert(`Connected to ${device.name || 'Unnamed Device'}`);
-            } catch(e) {
-                console.error("Bluetooth access denied or unsupported", e);
-            }
-        }}>Scan Devices</button>
-    </div>
-);
+const BluetoothTool = () => {
+    const [result, setResult] = useState(null);
+
+    const scan = async () => {
+        if (!navigator.bluetooth) {
+            setResult({ error: "Web Bluetooth is not supported in this browser." });
+            return;
+        }
+        try {
+            const device = await navigator.bluetooth.requestDevice({acceptAllDevices: true});
+            setResult({ text: `Successfully connected to ${device.name || 'Unnamed Device'}`, filename: 'bluetooth_device.txt' });
+        } catch(e) {
+            setResult({ error: "Bluetooth access denied or unsupported: " + e.message });
+        }
+    };
+
+    return (
+        <div className="card p-30 text-center glass-card">
+            <span className="material-icons" style={{fontSize: '4rem', color: 'var(--primary)'}}>bluetooth</span>
+            <div className="mt-15 opacity-6">Web Bluetooth requires secure context and user interaction.</div>
+            <button className="btn-primary mt-20" onClick={scan}>Scan Devices</button>
+            <ToolResult result={result} />
+        </div>
+    );
+};
 
 export default NetworkTools;

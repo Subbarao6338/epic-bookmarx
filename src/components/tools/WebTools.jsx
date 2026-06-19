@@ -205,9 +205,12 @@ const BookmarkletsTool = () => {
     const [result, setResult] = useState(null);
 
     const copyCode = (b) => {
-        setResult({ text: b.code, filename: `${b.name.toLowerCase().replace(/\s+/g, '_')}.js` });
+        setResult({
+            text: b.code,
+            filename: `${b.name.toLowerCase().replace(/\s+/g, '_')}.js`,
+            info: "Bookmarklet code copied! Create a new bookmark and paste this into the URL field."
+        });
         navigator.clipboard.writeText(b.code);
-        alert("Bookmarklet code copied! Create a new bookmark and paste this into the URL field.");
     };
 
     return (
@@ -232,6 +235,14 @@ const BookmarkletsTool = () => {
                     </div>
                 </div>
             ))}
+    {result?.info && (
+        <div className="alert-info p-10 smallest mt-10 mb-10" style={{background: 'var(--primary-glow)', borderRadius: '8px', borderLeft: '4px solid var(--primary)'}}>
+            <div className="flex-center gap-10" style={{justifyContent: 'flex-start'}}>
+                <span className="material-icons" style={{fontSize: '1.2rem'}}>info</span>
+                <span>{result.info}</span>
+            </div>
+        </div>
+    )}
             <ToolResult result={result} title="Last Copied Bookmarklet" />
         </div>
     );
