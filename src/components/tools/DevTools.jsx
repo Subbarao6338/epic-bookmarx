@@ -195,7 +195,9 @@ const Base64Tool = () => {
                 res = new TextDecoder().decode(uint8);
             }
             setResult({ text: res, filename: `base64_${mode}.txt` });
-        } catch (e) { alert("Invalid input for " + mode); }
+        } catch (e) {
+            setResult({ error: "Invalid input for " + mode });
+        }
     };
     return (
         <div className="card p-20 glass-card">
@@ -213,7 +215,13 @@ const UrlTool = () => {
     const [input, setInput] = useState('');
     const [result, setResult] = useState(null);
     const encode = () => setResult({ text: encodeURIComponent(input) });
-    const decode = () => { try { setResult({ text: decodeURIComponent(input) }); } catch(e) { alert("Invalid URI"); } };
+    const decode = () => {
+        try {
+            setResult({ text: decodeURIComponent(input) });
+        } catch(e) {
+            setResult({ error: "Invalid URI" });
+        }
+    };
     return (
         <div className="card p-20 glass-card">
             <textarea className="pill font-mono mb-15" rows="5" value={input} onChange={e => setInput(e.target.value)} placeholder="URL or text..." />
@@ -254,7 +262,9 @@ const YamlConverter = () => {
                 });
                 setResult({ text: JSON.stringify(obj, null, 2), filename: 'converted.json' });
             }
-        } catch(e) { alert("Invalid format: " + e.message); }
+        } catch(e) {
+            setResult({ error: "Invalid format: " + e.message });
+        }
     };
     return (
         <div className="card p-20 glass-card">
@@ -318,7 +328,9 @@ const XmlJsonConverter = () => {
                 };
                 setResult({ text: toXml(obj, 'root'), filename: 'converted.xml' });
             }
-        } catch(e) { alert("Conversion failed: " + e.message); }
+        } catch(e) {
+            setResult({ error: "Conversion failed: " + e.message });
+        }
     };
     return (
         <div className="card p-20 glass-card">
@@ -372,7 +384,9 @@ const JsonToTs = () => {
             });
             ts += "}";
             setResult({ text: ts, filename: 'types.ts' });
-        } catch(e) { alert("Invalid JSON"); }
+        } catch(e) {
+            setResult({ error: "Invalid JSON" });
+        }
     };
     return (
         <div className="card p-20 glass-card">
@@ -556,7 +570,9 @@ const JwtDecoder = () => {
             const header = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
             const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
             setResult({ text: JSON.stringify({ header, payload }, null, 2), filename: 'jwt_decoded.json' });
-        } catch (e) { alert("Invalid JWT format"); }
+        } catch (e) {
+            setResult({ error: "Invalid JWT format" });
+        }
     };
     return (
         <div className="card p-20 glass-card">
@@ -616,6 +632,22 @@ const SecurityHub = ({ subtool }) => {
     const [hashInput, setHashInput] = useState('');
     const [algo, setAlgo] = useState('SHA-256');
     const [result, setResult] = useState(null);
+    const [password, setPassword] = useState('');
+
+    const calculateStrength = (p) => {
+        if (!p) return 0;
+        let s = 0;
+        if (p.length > 8) s += 1;
+        if (p.length > 12) s += 1;
+        if (/[A-Z]/.test(p)) s += 1;
+        if (/[0-9]/.test(p)) s += 1;
+        if (/[^A-Za-z0-9]/.test(p)) s += 1;
+        return s;
+    };
+
+    const strength = useMemo(() => calculateStrength(password), [password]);
+    const strengthLabels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Excellent'];
+    const strengthColors = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981'];
 
     const genHash = async () => {
         const msgUint8 = new TextEncoder().encode(hashInput);
@@ -635,12 +667,36 @@ const SecurityHub = ({ subtool }) => {
                         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
                         const array = new Uint32Array(16);
                         window.crypto.getRandomValues(array);
-                        let password = '';
+                        let newPass = '';
                         for (let i = 0; i < array.length; i++) {
-                            password += chars[array[i] % chars.length];
+                            newPass += chars[array[i] % chars.length];
                         }
-                        setResult({text: password, filename: 'password.txt'});
+                        setPassword(newPass);
+                        setResult({text: newPass, filename: 'password.txt'});
                     }}>Gen Password</button>
+                </div>
+
+                <div className="mt-20 text-left">
+                    <label className="smallest uppercase font-bold opacity-6 mb-5 block">Test Password Strength</label>
+                    <input
+                        type="text"
+                        className="pill w-full mb-10"
+                        placeholder="Type password..."
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                    <div style={{ height: '6px', background: 'var(--border)', borderRadius: '3px', overflow: 'hidden', marginBottom: '8px' }}>
+                        <div style={{
+                            width: `${(strength / 5) * 100}%`,
+                            height: '100%',
+                            background: strengthColors[strength],
+                            transition: 'all 0.3s ease'
+                        }}></div>
+                    </div>
+                    <div className="flex-between">
+                        <span className="smallest font-bold" style={{ color: strengthColors[strength] }}>{strengthLabels[strength]}</span>
+                        <span className="smallest opacity-6">{password.length} chars</span>
+                    </div>
                 </div>
             </div>
             <div className="card p-25 glass-card">

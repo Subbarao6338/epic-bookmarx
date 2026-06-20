@@ -350,7 +350,13 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
             setUrlStatus('idle');
         } catch (err) {
             console.error(err);
-            alert("Failed to fetch URL. This might be due to CORS restrictions.");
+            setResults(prev => ({
+                ...prev,
+                ['url-error-' + Date.now()]: {
+                    error: "Failed to fetch URL. This might be due to CORS restrictions.",
+                    sourceName: url
+                }
+            }));
             setUrlStatus('error');
         }
     };
@@ -358,7 +364,14 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
     const convertMdxToMhtml = async () => {
         const mdxFile = files.find(f => f.name.endsWith('.mdx'));
         if (!mdxFile) {
-            alert("Please upload an .mdx file first.");
+            const id = 'mdx-error-' + Date.now();
+            setResults(prev => ({
+                ...prev,
+                [id]: {
+                    error: "Please upload an .mdx file first.",
+                    sourceName: "MDX Converter"
+                }
+            }));
             return;
         }
         updateFileStatus(mdxFile.id, { status: 'converting' });

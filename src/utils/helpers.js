@@ -26,7 +26,17 @@ export const downloadFile = async (content, filename, type) => {
       const { jsPDF } = await import('jspdf');
       const doc = new jsPDF();
       const splitText = doc.splitTextToSize(content, 180);
-      doc.text(splitText, 10, 10);
+      const pageHeight = doc.internal.pageSize.height;
+      let y = 10;
+
+      for (let i = 0; i < splitText.length; i++) {
+          if (y + 10 > pageHeight) {
+              doc.addPage();
+              y = 10;
+          }
+          doc.text(splitText[i], 10, y);
+          y += 7;
+      }
       blob = doc.output('blob');
     } else {
       blob = new Blob([content], { type: type === 'md' ? 'text/markdown' : 'text/plain' });

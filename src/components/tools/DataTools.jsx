@@ -341,6 +341,8 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
       else if (toolId === 'data-anonymizer') setActiveTab('anonymizer');
       else if (toolId === 'excel-conv') setActiveTab('excel');
       else if (toolId === 'mock-gen') setActiveTab('mock');
+      else if (toolId === 'json-csv') setActiveTab('json-csv');
+      else if (toolId === 'data-profiling') setActiveTab('profiling');
     }
   }, [toolId]);
 
@@ -407,7 +409,7 @@ const DataViewer = ({ setGlobalData }) => {
                     }
                     setResult({ text: JSON.stringify(jsonData, null, 2), filename: file.name });
                 } catch (e) {
-                    alert("Invalid JSON file");
+                    setResult({ error: "Invalid JSON file" });
                 }
                 setLoading(false);
             }
@@ -458,7 +460,9 @@ const JsonCsvConverter = () => {
             const json = JSON.parse(input);
             const csv = Papa.unparse(json);
             setResult({ text: csv, filename: 'converted.csv' });
-        } catch (e) { alert("Invalid JSON input"); }
+        } catch (e) {
+            setResult({ error: "Invalid JSON input" });
+        }
     };
     const convertToJson = () => {
         Papa.parse(input, {
@@ -467,7 +471,7 @@ const JsonCsvConverter = () => {
             complete: (results) => {
                 setResult({ text: JSON.stringify(results.data, null, 2), filename: 'converted.json' });
             },
-            error: (e) => alert("Invalid CSV input: " + e.message)
+            error: (e) => setResult({ error: "Invalid CSV input: " + e.message })
         });
     };
     return (
