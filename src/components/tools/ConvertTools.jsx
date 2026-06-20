@@ -21,7 +21,8 @@ turndownService.use(gfm);
 const BatchConverter = ({
     files, setFiles, results, setResults, isProcessing, setIsProcessing,
     globalProgress, setGlobalProgress, handleFileUpload, removeFile,
-    updateFileStatus, startBatch, clearAll, url, setUrl, urlStatus, convertUrl
+    updateFileStatus, startBatch, clearAll, url, setUrl, urlStatus, convertUrl,
+    downloadBatchZip
 }) => {
     return (
         <div className="grid gap-20">
@@ -103,7 +104,12 @@ const BatchConverter = ({
 
             {Object.keys(results).length > 0 && (
                 <div className="grid gap-15 animate-fadeIn">
-                    <h3 className="h3">Conversion Results</h3>
+                    <div className="flex-between">
+                        <h3 className="h3">Conversion Results</h3>
+                        <button className="btn-primary" onClick={downloadBatchZip}>
+                            <span className="material-icons">download_for_offline</span> Download All as ZIP
+                        </button>
+                    </div>
                     {Object.entries(results).map(([id, res]) => (
                         <ToolResult key={id} result={res} title={res.sourceName} />
                     ))}
@@ -170,40 +176,143 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
         let fullText = '';
+        const assets = {};
+        let assetCounter = 0;
 
         for (let i = 1; i <= pdf.numPages; i++) {
             const page = await pdf.getPage(i);
             const textContent = await page.getTextContent();
             const pageText = textContent.items.map(item => item.str).join(' ').trim();
+
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
             if (pageText) {
                 fullText += `## Page ${i}\n\n${pageText}\n\n`;
+                // Try extracting images from page operators
+                const ops = await page.getOperatorList();
+                for (let j = 0; j < ops.fnArray.length; j++) {
+                    if (ops.fnArray[j] === pdfjsLib.OPS.paintImageXObject || ops.fnArray[j] === pdfjsLib.OPS.paintInlineImageXObject) {
+                        const imgKey = ops.argsArray[j][0];
+                        try {
+                            const img = await page.objs.get(imgKey);
+                            if (img && img.data) {
+                                assetCounter++;
+                                const assetName = `pdf_img_${assetCounter}.png`;
+                                const tempCanvas = document.createElement('canvas');
+                                tempCanvas.width = img.width; tempCanvas.height = img.height;
+                                const tempCtx = tempCanvas.getContext('2d');
+                                const imgData = tempCtx.createImageData(img.width, img.height);
+                                imgData.data.set(img.data);
+                                tempCtx.putImageData(imgData, 0, 0);
+                                assets[assetName] = await new Promise(res => tempCanvas.toBlob(res, 'image/png'));
+                                fullText += `![Asset](assets/${assetName})\n\n`;
+                            }
+                        } catch(e) {}
+                    }
+                }
             } else if (tryOcr) {
-                const viewport = page.getViewport({ scale: 2 });
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
                 await page.render({ canvasContext: context, viewport }).promise;
+                assetCounter++;
+                const assetName = `pdf_page_${i}_scanned.png`;
+                assets[assetName] = await new Promise(res => canvas.toBlob(res, 'image/png'));
                 const { data: { text } } = await Tesseract.recognize(canvas, 'eng');
-                fullText += `## Page ${i} (OCR)\n\n${text}\n\n`;
+                fullText += `## Page ${i} (OCR)\n\n![Scanned Page](assets/${assetName})\n\n${text}\n\n`;
             }
             updateFileStatus(id, { progress: Math.round((i / pdf.numPages) * 100) });
         }
 
-        return { text: fullText, filename: file.name.replace(/\.[^/.]+$/, "") + ".md" };
+        return { text: fullText, filename: file.name.replace(/\.[^/.]+$/, "") + ".md", assets };
     };
 
     const convertDocx = async (file) => {
         const arrayBuffer = await file.arrayBuffer();
-        const result = await mammoth.convertToHtml({ arrayBuffer });
+        const assets = {};
+        let imageCounter = 0;
+
+        const options = {
+            convertImage: mammoth.images.imgElement(async (image) => {
+                imageCounter++;
+                const extension = image.contentType.split("/")[1] || "png";
+                const assetName = `word_img_${imageCounter}.${extension}`;
+                const blob = await (image.read ? image.read("blob") : image.readAsArrayBuffer().then(buf => new Blob([buf], { type: image.contentType })));
+                assets[assetName] = blob;
+                return { src: `assets/${assetName}` };
+            })
+        };
+
+        const result = await mammoth.convertToHtml({ arrayBuffer }, options);
         const markdown = turndownService.turndown(result.value);
-        return { text: markdown, filename: file.name.replace(/\.[^/.]+$/, "") + ".md" };
+        return { text: markdown, filename: file.name.replace(/\.[^/.]+$/, "") + ".md", assets };
     };
 
     const convertHtml = async (file) => {
         const text = await file.text();
-        const markdown = turndownService.turndown(text);
-        return { text: markdown, filename: file.name.replace(/\.[^/.]+$/, "") + ".md" };
+        const assets = {};
+        let htmlContent = text;
+        let assetCounter = 0;
+
+        // Basic MHTML parsing if needed
+        if (text.includes("multipart/related") || text.includes("Content-Type: multipart/related")) {
+            const boundaryMatch = text.match(/boundary="?([^"]+)"?/);
+            if (boundaryMatch) {
+                const boundary = boundaryMatch[1];
+                const parts = text.split("--" + boundary);
+                let htmlPart = "";
+                for (const part of parts) {
+                    if (part.includes("Content-Type: text/html")) {
+                        htmlPart = part.split(/\r?\n\r?\n/).slice(1).join("\n\n");
+                    } else if (part.includes("Content-Type: image/")) {
+                        const contentTypeMatch = part.match(/Content-Type: (image\/[a-z]+)/);
+                        const contentLocationMatch = part.match(/Content-Location: ([^\s\r\n]+)/);
+                        const contentTransferEncodingMatch = part.match(/Content-Transfer-Encoding: (base64)/);
+                        if (contentTypeMatch && contentLocationMatch && contentTransferEncodingMatch) {
+                            const contentType = contentTypeMatch[1];
+                            const contentLocation = contentLocationMatch[1];
+                            const base64Data = part.split(/\r?\n\r?\n/).slice(1).join("").replace(/\s/g, "");
+                            const res = await fetch(`data:${contentType};base64,${base64Data}`);
+                            const blob = await res.blob();
+                            assetCounter++;
+                            const assetName = `html_img_${assetCounter}.${contentType.split('/')[1]}`;
+                            assets[assetName] = blob;
+                            // We'll replace the location in HTML later
+                            assets[`LOC:${contentLocation}`] = assetName;
+                        }
+                    }
+                }
+                htmlContent = htmlPart || text;
+            }
+        }
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+        const imgs = doc.getElementsByTagName('img');
+        for (let img of Array.from(imgs)) {
+            const src = img.getAttribute('src');
+            if (src) {
+                if (assets[`LOC:${src}`]) {
+                    img.setAttribute('src', `assets/${assets[`LOC:${src}`]}`);
+                } else if (src.startsWith('data:')) {
+                    const res = await fetch(src);
+                    const blob = await res.blob();
+                    assetCounter++;
+                    const extension = blob.type.split('/')[1] || "png";
+                    const assetName = `html_img_${assetCounter}.${extension}`;
+                    assets[assetName] = blob;
+                    img.setAttribute('src', `assets/${assetName}`);
+                }
+                // We don't fetch external URLs to avoid CORS and stay "offline"
+            }
+        }
+
+        const markdown = turndownService.turndown(doc.body.innerHTML);
+        // Clean up internal LOC mapping
+        Object.keys(assets).forEach(key => { if (key.startsWith('LOC:')) delete assets[key]; });
+
+        return { text: markdown, filename: file.name.replace(/\.[^/.]+$/, "") + ".md", assets };
     };
 
     const convertCsv = async (file) => {
@@ -275,7 +384,12 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
                 }
             }
         });
-        return { text, filename: file.name.replace(/\.[^/.]+$/, "") + "_ocr.md" };
+        const assetName = `ocr_img_${file.name}`;
+        return {
+            text: `![Original Image](assets/${assetName})\n\n${text}`,
+            filename: file.name.replace(/\.[^/.]+$/, "") + "_ocr.md",
+            assets: { [assetName]: file }
+        };
     };
 
     const processFile = async (fileObj) => {
@@ -283,16 +397,22 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
         const ext = name.split('.').pop().toLowerCase();
         updateFileStatus(fileObj.id, { progress: 30 });
 
-        if (ext === 'pdf') return await convertPdf(file, fileObj.id, true);
-        if (ext === 'docx') return await convertDocx(file);
-        if (ext === 'html' || ext === 'mhtml') return await convertHtml(file);
-        if (ext === 'csv') return await convertCsv(file);
-        if (ext === 'xlsx' || ext === 'xls') return await convertExcel(file);
-        if (ext === 'pptx') return await convertPptx(file);
-        if (ext === 'md' || ext === 'mdx') return await convertMarkdown(file, ext);
-        if (file.type.startsWith('image/')) return await convertOcr(file, fileObj.id);
+        let res;
+        if (ext === 'pdf') res = await convertPdf(file, fileObj.id, true);
+        else if (ext === 'docx') res = await convertDocx(file);
+        else if (ext === 'html' || ext === 'mhtml') res = await convertHtml(file);
+        else if (ext === 'csv') res = await convertCsv(file);
+        else if (ext === 'xlsx' || ext === 'xls') res = await convertExcel(file);
+        else if (ext === 'pptx') res = await convertPptx(file);
+        else if (ext === 'md' || ext === 'mdx') res = await convertMarkdown(file, ext);
+        else if (file.type.startsWith('image/')) res = await convertOcr(file, fileObj.id);
+        else throw new Error("Unsupported file type");
 
-        throw new Error("Unsupported file type");
+        return {
+            text: res.text,
+            filename: res.filename,
+            assets: res.assets || {}
+        };
     };
 
     const startBatch = async () => {
@@ -361,6 +481,26 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
         }
     };
 
+    const downloadBatchZip = async () => {
+        const zip = new JSZip();
+        const assetFolder = zip.folder("assets");
+
+        Object.entries(results).forEach(([id, res]) => {
+            if (res.text && res.filename) {
+                zip.file(res.filename, res.text);
+                if (res.assets) {
+                    Object.entries(res.assets).forEach(([name, blob]) => {
+                        assetFolder.file(name, blob);
+                    });
+                }
+            }
+        });
+
+        const content = await zip.generateAsync({ type: "blob" });
+        const { downloadFile } = await import('../../utils/helpers');
+        downloadFile(content, "batch_conversion.zip", "zip");
+    };
+
     const convertMdxToMhtml = async () => {
         const mdxFile = files.find(f => f.name.endsWith('.mdx'));
         if (!mdxFile) {
@@ -409,6 +549,7 @@ const ConvertTools = ({ toolId, onSubtoolChange }) => {
                         updateFileStatus={updateFileStatus} startBatch={startBatch}
                         clearAll={clearAll} url={url} setUrl={setUrl}
                         urlStatus={urlStatus} convertUrl={convertUrl}
+                        downloadBatchZip={downloadBatchZip}
                     />
                 )}
                 {activeTab === 'mdx' && (
