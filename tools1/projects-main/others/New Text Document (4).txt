@@ -1,0 +1,543 @@
+[WARNING] The project org.apache.griffin:griffin:pom:0.6.0 uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO]
+[INFO] Apache Griffin 0.6.0                                               [pom]
+[INFO] Apache Griffin :: UI :: Default UI                                 [pom]
+[INFO] Apache Griffin :: Web Service                                      [jar]
+[INFO] Apache Griffin :: Measures                                         [jar]
+[INFO]
+[INFO] ---------------------< org.apache.griffin:griffin >---------------------
+[INFO] Building Apache Griffin 0.6.0 0.6.0                                [1/4]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ griffin ---
+[INFO] Deleting /home/decdpdev/griffin-0.6.0/target
+[INFO]
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ griffin ---
+[INFO]
+[INFO] --- maven-site-plugin:3.4:attach-descriptor (attach-descriptor) @ griffin ---
+[INFO]
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ griffin ---
+[INFO] Installing /home/decdpdev/griffin-0.6.0/pom.xml to /home/decdpdev/.m2/repository/org/apache/griffin/griffin/0.6.0/griffin-0.6.0.pom
+[INFO]
+[INFO] -----------------------< org.apache.griffin:ui >------------------------
+[INFO] Building Apache Griffin :: UI :: Default UI 0.6.0                  [2/4]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ ui ---
+[INFO] Deleting /home/decdpdev/griffin-0.6.0/ui/target
+[INFO]
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ ui ---
+[INFO]
+[INFO] --- frontend-maven-plugin:1.6:install-node-and-npm (install node and npm) @ ui ---
+[INFO] Node v6.11.3 is already installed.
+[INFO] NPM 3.10.10 is already installed.
+[INFO]
+[INFO] --- frontend-maven-plugin:1.6:npm (npm install) @ ui ---
+[INFO] Running 'npm install' in /home/decdpdev/griffin-0.6.0/ui/angular
+[WARNING] npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules/chokidar/node_modules/fsevents):
+[WARNING] npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[WARNING] npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@~2.3.2 (node_modules/watchpack/node_modules/chokidar/node_modules/fsevents):
+[WARNING] npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[WARNING] npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/watchpack-chokidar2/node_modules/chokidar/node_modules/fsevents):
+[WARNING] npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[WARNING] npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.2.7 (node_modules/webpack-dev-server/node_modules/chokidar/node_modules/fsevents):
+[WARNING] npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+[WARNING] npm WARN angular2-datatable@0.6.0 requires a peer of @angular/core@^2.0.0 but none was installed.
+[WARNING] npm WARN angular2-datatable@0.6.0 requires a peer of @angular/common@^2.0.0 but none was installed.
+[WARNING] npm WARN angular2-datatable@0.6.0 requires a peer of @angular/platform-browser@^2.0.0 but none was installed.
+[INFO]
+[INFO] --- frontend-maven-plugin:1.6:npm (npm build) @ ui ---
+[INFO] Running 'npm run build' in /home/decdpdev/griffin-0.6.0/ui/angular
+[INFO]
+[INFO] > griffin@0.0.0 build /home/decdpdev/griffin-0.6.0/ui/angular
+[INFO] > ng build
+[INFO]
+[INFO]
+[INFO] @angular/compiler-cli@4.4.4 requires typescript@'>=2.1.0 <2.4.0' but 2.7.2 was found instead.
+[INFO] Using this version can result in undefined behaviour and difficult to debug problems.
+[INFO]
+[INFO] Please run the following command to install a compatible version of TypeScript.
+[INFO]
+[INFO]     npm install typescript@'>=2.1.0 <2.4.0'
+[INFO]
+[INFO] To disable this warning run "ng set warnings.typescriptMismatch=false".
+[INFO]
+[INFO] Date: 2021-11-08T05:13:59.536Z
+[INFO] Hash: e17eec8a1c9c6225df94
+[INFO] Time: 15722ms
+[INFO] chunk {inline} inline.bundle.js, inline.bundle.js.map (inline) 3.89 kB [entry] [rendered]
+[INFO] chunk {main} main.bundle.js, main.bundle.js.map (main) 1.03 MB [initial] [rendered]
+[INFO] chunk {polyfills} polyfills.bundle.js, polyfills.bundle.js.map (polyfills) 237 kB [initial] [rendered]
+[INFO] chunk {scripts} scripts.bundle.js, scripts.bundle.js.map (scripts) 774 kB [initial] [rendered]
+[INFO] chunk {styles} styles.bundle.js, styles.bundle.js.map (styles) 447 kB [initial] [rendered]
+[INFO] chunk {vendor} vendor.bundle.js, vendor.bundle.js.map (vendor) 7.68 MB [initial] [rendered]
+[INFO]
+[INFO] --- maven-site-plugin:3.4:attach-descriptor (attach-descriptor) @ ui ---
+[INFO]
+[INFO] --- maven-resources-plugin:3.0.2:copy-resources (copy-resources) @ ui ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 27 resources
+[INFO]
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ ui ---
+[INFO] Installing /home/decdpdev/griffin-0.6.0/ui/pom.xml to /home/decdpdev/.m2/repository/org/apache/griffin/ui/0.6.0/ui-0.6.0.pom
+[INFO]
+[INFO] ---------------------< org.apache.griffin:service >---------------------
+[INFO] Building Apache Griffin :: Web Service 0.6.0                       [3/4]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ service ---
+[INFO] Deleting /home/decdpdev/griffin-0.6.0/service/target
+[INFO]
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ service ---
+[INFO]
+[INFO] --- spring-boot-maven-plugin:2.1.7.RELEASE:build-info (default) @ service ---
+[INFO]
+[INFO] --- maven-resources-plugin:2.7:resources (default-resources) @ service ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 52 resources
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.6.1:compile (default-compile) @ service ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 106 source files to /home/decdpdev/griffin-0.6.0/service/target/classes
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/main/java/org/apache/griffin/core/job/JobServiceImpl.java: /home/decdpdev/griffin-0.6.0/service/src/main/java/org/apache/griffin/core/job/JobServiceImpl.java uses or overrides a deprecated API.
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/main/java/org/apache/griffin/core/job/JobServiceImpl.java: Recompile with -Xlint:deprecation for details.
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/main/java/org/apache/griffin/core/measure/entity/DataConnector.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/main/java/org/apache/griffin/core/measure/entity/DataConnector.java: Recompile with -Xlint:unchecked for details.
+[INFO]
+[INFO] --- eclipselink-maven-plugin:2.7.0:weave (default) @ service ---
+[INFO] Entities found : 29
+[INFO] persistence.xml location: /home/decdpdev/griffin-0.6.0/service/target/classes/META-INF/persistence.xml
+[INFO] Source classes dir: /home/decdpdev/griffin-0.6.0/service/target/classes
+[INFO] Target classes dir: /home/decdpdev/griffin-0.6.0/service/target/classes
+[INFO] Eclipselink weaving completed
+[INFO]
+[INFO] --- maven-resources-plugin:2.7:testResources (default-testResources) @ service ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 8 resources
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.6.1:testCompile (default-testCompile) @ service ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 36 source files to /home/decdpdev/griffin-0.6.0/service/target/test-classes
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/test/java/org/apache/griffin/core/job/SparkSubmitJobTest.java: Some input files use or override a deprecated API.
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/test/java/org/apache/griffin/core/job/SparkSubmitJobTest.java: Recompile with -Xlint:deprecation for details.
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/test/java/org/apache/griffin/core/measure/repo/MeasureRepoTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/decdpdev/griffin-0.6.0/service/src/test/java/org/apache/griffin/core/measure/repo/MeasureRepoTest.java: Recompile with -Xlint:unchecked for details.
+[INFO]
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ service ---
+[INFO] --- maven-surefire-plugin:2.22.0:test (test) @ service ---
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO]
+[INFO] --- maven-jar-plugin:3.1.1:jar (default-jar) @ service ---
+[INFO] Building jar: /home/decdpdev/griffin-0.6.0/service/target/service-0.6.0.jar
+[INFO]
+[INFO] --- maven-site-plugin:3.4:attach-descriptor (attach-descriptor) @ service ---
+[INFO]
+[INFO] --- maven-jar-plugin:3.1.1:jar (default) @ service ---
+[INFO] Building jar: /home/decdpdev/griffin-0.6.0/service/target/service-0.6.0-lib.jar
+[INFO]
+[INFO] --- maven-assembly-plugin:2.4.1:single (assembly) @ service ---
+[INFO] Reading assembly descriptor: src/main/resources/assembly/assembly.xml
+[INFO] Building tar: /home/decdpdev/griffin-0.6.0/target/service-0.6.0.tar.gz
+[INFO]
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ service ---
+[INFO] Installing /home/decdpdev/griffin-0.6.0/service/target/service-0.6.0.jar to /home/decdpdev/.m2/repository/org/apache/griffin/service/0.6.0/service-0.6.0.jar
+[INFO] Installing /home/decdpdev/griffin-0.6.0/service/pom.xml to /home/decdpdev/.m2/repository/org/apache/griffin/service/0.6.0/service-0.6.0.pom
+[INFO] Installing /home/decdpdev/griffin-0.6.0/service/target/service-0.6.0-lib.jar to /home/decdpdev/.m2/repository/org/apache/griffin/service/0.6.0/service-0.6.0-lib.jar
+[INFO] Installing /home/decdpdev/griffin-0.6.0/target/service-0.6.0.tar.gz to /home/decdpdev/.m2/repository/org/apache/griffin/service/0.6.0/service-0.6.0.tar.gz
+[INFO]
+[INFO]
+[INFO] ---------------------< org.apache.griffin:measure >---------------------
+[INFO] Building Apache Griffin :: Measures 0.6.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ measure ---
+[INFO] Deleting /home/decdpdev/griffin-0.6.0/measure/target
+[INFO]
+[INFO] --- mvn-scalafmt_2.11:0.12_1.5.1:format (default) @ measure ---
+[INFO] Using config at path: /home/decdpdev/griffin-0.6.0/.scalafmt.conf
+[INFO] Options: --diff --test
+[INFO] Formatting /home/decdpdev/griffin-0.6.0/measure/src/main/scala,/home/decdpdev/griffin-0.6.0/measure/src/test/scala
+All files are formatted with scalafmt :)
+[INFO]
+[INFO] --- scalastyle-maven-plugin:1.0.0:check (default) @ measure ---
+Saving to outputFile=/home/decdpdev/griffin-0.6.0/measure/target/scalastyle-output.xml
+Processed 134 file(s)
+Found 0 errors
+Found 0 warnings
+Found 0 infos
+Finished in 1826 ms
+[INFO]
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ measure ---
+[INFO]
+[INFO] --- maven-resources-plugin:2.7:resources (default-resources) @ measure ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 8 resources
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.6.1:compile (default-compile) @ measure ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- scala-maven-plugin:3.3.1:compile (compile) @ measure ---
+[WARNING]  Expected all dependencies to require Scala version: 2.11.8
+[WARNING]  org.apache.griffin:measure:0.6.0 requires scala version: 2.11.8
+[WARNING]  com.twitter:chill_2.11:0.8.0 requires scala version: 2.11.7
+[WARNING] Multiple versions of scala libraries detected!
+[INFO] /home/decdpdev/griffin-0.6.0/measure/src/main/scala:-1: info: compiling
+[INFO] Compiling 134 source files to /home/decdpdev/griffin-0.6.0/measure/target/classes at 1636349180906
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:35: warning: @deprecated now takes two arguments; see the scaladoc.
+[WARNING]   @deprecated val AvroRegex: Regex = """^(?i)avro$""".r
+[INFO]    ^
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:36: warning: @deprecated now takes two arguments; see the scaladoc.
+[WARNING]   @deprecated val TextDirRegex: Regex = """^(?i)text-dir$""".r
+[INFO]    ^
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:64: warning: value AvroRegex in object DataConnectorFactory is deprecated
+[WARNING]         case AvroRegex() => AvroBatchDataConnector(sparkSession, dcParam, tmstCache)
+[WARNING]              ^
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:66: warning: value TextDirRegex in object DataConnectorFactory is deprecated
+[WARNING]         case TextDirRegex() => TextDirBatchDataConnector(sparkSession, dcParam, tmstCache)
+[WARNING]              ^
+[WARNING] four warnings found
+[INFO] prepare-compile in 0 s
+[INFO] compile in 13 s
+[INFO]
+[INFO] --- scala-maven-plugin:3.3.1:testCompile (compile) @ measure ---
+[WARNING]  Expected all dependencies to require Scala version: 2.11.8
+[WARNING]  org.apache.griffin:measure:0.6.0 requires scala version: 2.11.8
+[WARNING]  com.twitter:chill_2.11:0.8.0 requires scala version: 2.11.7
+[WARNING] Multiple versions of scala libraries detected!
+[INFO] /home/decdpdev/griffin-0.6.0/measure/src/test/scala:-1: info: compiling
+[INFO] Compiling 21 source files to /home/decdpdev/griffin-0.6.0/measure/target/test-classes at 1636349194290
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/test/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactorySpec.scala:103: warning: class MySqlDataConnector in package batch is deprecated
+[WARNING]     assert(res.get.isInstanceOf[MySqlDataConnector])
+[WARNING]                                 ^
+[WARNING] one warning found
+[INFO] prepare-compile in 0 s
+[INFO] compile in 7 s
+[INFO]
+[INFO] --- maven-resources-plugin:2.7:testResources (default-testResources) @ measure ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 44 resources
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.6.1:testCompile (default-testCompile) @ measure ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ measure ---
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- scalatest-maven-plugin:1.0:test (test) @ measure ---
+Discovery starting.
+Discovery completed in 403 milliseconds.
+Run starting. Expected test count is: 71
+ElasticSearchDataConnectorTest:
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.apache.hadoop.security.authentication.util.KerberosUtil (file:/home/decdpdev/.m2/repository/org/apache/hadoop/hadoop-auth/2.6.5/hadoop-auth-2.6.5.jar) to method sun.security.krb5.Config.getInstance()
+WARNING: Please consider reporting this to the maintainers of org.apache.hadoop.security.authentication.util.KerberosUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[INFO] ---------------------< org.apache.griffin:measure >---------------------
+[INFO] Building Apache Griffin :: Measures 0.6.0                          [4/4]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ measure ---
+[INFO] Deleting /home/decdpdev/griffin-0.6.0/measure/target
+[INFO]
+[INFO] --- mvn-scalafmt_2.11:0.12_1.5.1:format (default) @ measure ---
+[INFO] Using config at path: /home/decdpdev/griffin-0.6.0/.scalafmt.conf
+[INFO] Options: --diff --test
+[INFO] Formatting /home/decdpdev/griffin-0.6.0/measure/src/main/scala,/home/decdpdev/griffin-0.6.0/measure/src/test/scala
+All files are formatted with scalafmt :)
+[INFO]
+[INFO] --- scalastyle-maven-plugin:1.0.0:check (default) @ measure ---
+Saving to outputFile=/home/decdpdev/griffin-0.6.0/measure/target/scalastyle-output.xml
+Processed 134 file(s)
+Found 0 errors
+Found 0 warnings
+Found 0 infos
+Finished in 1824 ms
+[INFO]
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ measure ---
+[INFO]
+[INFO] --- maven-resources-plugin:2.7:resources (default-resources) @ measure ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 8 resources
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.6.1:compile (default-compile) @ measure ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- scala-maven-plugin:3.3.1:compile (compile) @ measure ---
+[WARNING]  Expected all dependencies to require Scala version: 2.11.8
+[WARNING]  org.apache.griffin:measure:0.6.0 requires scala version: 2.11.8
+[WARNING]  com.twitter:chill_2.11:0.8.0 requires scala version: 2.11.7
+[WARNING] Multiple versions of scala libraries detected!
+[INFO] /home/decdpdev/griffin-0.6.0/measure/src/main/scala:-1: info: compiling
+[INFO] Compiling 134 source files to /home/decdpdev/griffin-0.6.0/measure/target/classes at 1636348772712
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:35: warning: @deprecated now takes two arguments; see the scaladoc.
+[WARNING]   @deprecated val AvroRegex: Regex = """^(?i)avro$""".r
+[INFO]    ^
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:36: warning: @deprecated now takes two arguments; see the scaladoc.
+[WARNING]   @deprecated val TextDirRegex: Regex = """^(?i)text-dir$""".r
+[INFO]    ^
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:64: warning: value AvroRegex in object DataConnectorFactory is deprecated
+[WARNING]         case AvroRegex() => AvroBatchDataConnector(sparkSession, dcParam, tmstCache)
+[WARNING]              ^
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/main/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactory.scala:66: warning: value TextDirRegex in object DataConnectorFactory is deprecated
+[WARNING]         case TextDirRegex() => TextDirBatchDataConnector(sparkSession, dcParam, tmstCache)
+[WARNING]              ^
+[WARNING] four warnings found
+[INFO] prepare-compile in 0 s
+[INFO] compile in 13 s
+[INFO]
+[INFO] --- scala-maven-plugin:3.3.1:testCompile (compile) @ measure ---
+[WARNING]  Expected all dependencies to require Scala version: 2.11.8
+[WARNING]  org.apache.griffin:measure:0.6.0 requires scala version: 2.11.8
+[WARNING]  com.twitter:chill_2.11:0.8.0 requires scala version: 2.11.7
+[WARNING] Multiple versions of scala libraries detected!
+[INFO] /home/decdpdev/griffin-0.6.0/measure/src/test/scala:-1: info: compiling
+[INFO] Compiling 21 source files to /home/decdpdev/griffin-0.6.0/measure/target/test-classes at 1636348786016
+[WARNING] /home/decdpdev/griffin-0.6.0/measure/src/test/scala/org/apache/griffin/measure/datasource/connector/DataConnectorFactorySpec.scala:103: warning: class MySqlDataConnector in package batch is deprecated
+[WARNING]     assert(res.get.isInstanceOf[MySqlDataConnector])
+[WARNING]                                 ^
+[WARNING] one warning found
+[INFO] prepare-compile in 0 s
+[INFO] compile in 7 s
+[INFO]
+[INFO] --- maven-resources-plugin:2.7:testResources (default-testResources) @ measure ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 44 resources
+[INFO] Copying 3 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.6.1:testCompile (default-testCompile) @ measure ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ measure ---
+[INFO]ElasticSearchDataConnectorTest:
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.apache.hadoop.security.authentication.util.KerberosUtil (file:/home/decdpdev/.m2/repository/org/apache/hadoop/hadoop-auth/2.6.5/hadoop-auth-2.6.5.jar) to method sun.security.krb5.Config.getInstance()
+WARNING: Please consider reporting this to the maintainers of org.apache.hadoop.security.authentication.util.KerberosUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+
+
+CustomSinkTest:
+org.apache.griffin.measure.sink.CustomSinkTest *** ABORTED ***
+
+DataFrameCacheTest:
+org.apache.griffin.measure.context.DataFrameCacheTest *** ABORTED ***
+
+TransformStepTest:
+org.apache.griffin.measure.step.TransformStepTest *** ABORTED ***
+
+BatchDQAppTest:
+org.apache.griffin.measure.job.BatchDQAppTest *** ABORTED ***
+
+FileBasedDataConnectorTest:
+org.apache.griffin.measure.datasource.connector.batch.FileBasedDataConnectorTest *** ABORTED ***
+
+AccuracyTransformationsIntegrationTest:
+org.apache.griffin.measure.transformations.AccuracyTransformationsIntegrationTest *** ABORTED ***
+
+JDBC data connector
+2021-11-08 06:50:35.287 ERROR [org.apache.griffin] - JDBC driver org.postgresql.Driver provided is not found in class path
+java.lang.ClassNotFoundException: org.postgresql.Driver
+ should be able to read data from relational database with where condition *** FAILED ***
+  result._1.isDefined was false (JDBCBasedDataConnectorTest.scala:83)
+
+JDBC data connector
+- should have URL field in config
+JDBC data connector
+- should have table name field in config
+JDBC data connector
+- should have user name field in config
+JDBC data connector
+- should have table password field in config
+2021-11-08 06:50:35.275 ERROR [org.apache.griffin.measure.datasource.connector.batch.JDBCBasedDataConnector] - loading table griffin.employee fails: Error while instantiating 'org.apache.spark.sql.hive.HiveSessionStateBuilder':
+
+Caused by: java.lang.ClassNotFoundException: java.lang.NoClassDefFoundError: org/apache/hadoop/hive/ql/session/SessionState when creating Hive client using classpath: file:/home/decdpdev/griffin-0.6.0/measure/target/classes/, file:/home/decdpdev/griffin-0.6.0/measure/target/test-classes/
+Please make sure that jars for your version of hive and hadoop are included in the paths passed to spark.sql.hive.metastore.jars.
+
+- should be able to read data from relational database *** FAILED ***
+  result._1.isDefined was false (JDBCBasedDataConnectorTest.scala:68)
+JDBC based data connector
+2021-11-08 06:50:35.255 ERROR [org.apache.griffin] - Error occurred while reading data set.
+java.lang.IllegalArgumentException: Error while instantiating 'org.apache.spark.sql.hive.HiveSessionStateBuilder':
+
+
+cd /home/decdpdev/griffinworks
+mv measure/target/measure-0.4.0.jar /home/decdpdev/griffinworks/griffin-measure.jar
+
+spark-submit --class org.apache.griffin.measure.Application --master yarn --deploy-mode client --queue default --driver-memory 1g --executor-memory 1g --num-executors 2 /home/decdpdev/griffinworks/griffin-measure.jar /home/decdpdev/griffinworks/env.json /home/decdpdev/griffinworks/dq.json
+
+spark-submit --class org.apache.griffin.measure.Application --master yarn --deploy-mode client --queue default --driver-memory 1g --executor-memory 1g --num-executors 2 /home/decdpdev/griffinworks/griffin-measure.jar /home/decdpdev/griffin-0.6.0/measure/env.json /home/decdpdev/griffin-0.6.0/measure/dq.json
+
+mvn clean install -DskipTests#cp jars to hdfd griffin working dircp /measure/target/measure-0.1.3-incubating-SNAPSHOT.jar /measure/target/griffin-measure.jarhdfs dfs -put griffin-measure.jar <griffin working dir>
+
+
+java -jar service/target/service-0.6.0.jar
+
+#
+spring.datasource.url=jdbc:postgresql://localhost:5432/quartz?autoReconnect=true&useSSL=false
+spring.datasource.username=griffin
+spring.datasource.password=123456
+spring.jpa.generate-ddl=true
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.show-sql=true
+# Hive metastore
+hive.metastore.uris=thrift://localhost:9083
+hive.metastore.dbname=default
+hive.hmshandler.retry.attempts=15
+hive.hmshandler.retry.interval=2000ms
+#Hive jdbc
+hive.jdbc.className=org.apache.hive.jdbc.HiveDriver
+hive.jdbc.url=jdbc:hive2://localhost:10000/
+hive.need.kerberos=false
+hive.keytab.user=xxx@xx.com
+hive.keytab.path=/path/to/keytab/file
+# Hive cache time
+cache.evict.hive.fixedRate.in.milliseconds=900000
+# Kafka schema registry
+kafka.schema.registry.url=http://localhost:8081
+# Update job instance state at regular intervals
+jobInstance.fixedDelay.in.milliseconds=60000
+# Expired time of job instance which is 7 days that is 604800000 milliseconds.Time unit only suppor>
+jobInstance.expired.milliseconds=604800000
+# schedule predicate job every 5 minutes and repeat 12 times at most
+#interval time unit s:second m:minute h:hour d:day,only support these four units
+predicate.job.interval=5m
+predicate.job.repeat.count=12
+# external properties directory location
+external.config.location=
+# external BATCH or STREAMING env
+external.env.location=
+# login strategy ("default" or "ldap")
+login.strategy=default
+# ldap
+ldap.url=ldap://hostname:port
+ldap.email=@example.com
+ldap.searchBase=DC=org,DC=example
+ldap.searchPattern=(sAMAccountName={0})
+# hdfs default name
+fs.defaultFS=
+# elasticsearch
+elasticsearch.host=localhost
+elasticsearch.port=9200
+elasticsearch.scheme=http
+# elasticsearch.user = user
+# elasticsearch.password = password
+# livy
+livy.uri=http://localhost:8998/batches
+livy.need.queue=false
+livy.task.max.concurrent.count=20
+livy.task.submit.interval.second=3
+livy.task.appId.retry.count=3
+livy.need.kerberos=false
+livy.server.auth.kerberos.principal=livy/kerberos.principal
+livy.server.auth.kerberos.keytab=/path/to/livy/keytab/file
+# yarn url
+yarn.uri=http://localhost:8088
+# griffin event listener
+internal.event.listeners=GriffinJobEventHook
+
+logging.file=logs/griffin-service.log
+
+ pratham-cdp-ubuntu-dev2.internal.cloudapp.net/10.1.0.8 to localhost:9000
+
+
+
+
+hadoop:
+
+ yarn --daemon start resourcemanager
+ yarn --daemon start nodemanager
+
+hdfs dfs -mkdir /home/spark_lib
+hdfs dfs -mkdir /home/spark_conf
+hdfs dfs -put /home/decdpdev/spark/jars/*  hdfs:///home/spark_lib/
+hdfs dfs -put /home/decdpdev/apache-hive-3.1.2-bin/conf/hive-site.xml hdfs:///home/spark_conf/
+
+cp /home/decdpdev/apache-hive-3.1.2-bin/conf/hive-site.xml /home/decdpdev/spark/conf
+hdfs dfs -put /home/decdpdev/griffinworks/griffin-measure.jar hdfs:///griffin/
+"file": "hdfs:///griffin/griffin-measure.jar"
+
+service/src/main/resources/application.properties
+
+cd $GRIFFIN_INSTALL_DIR
+tar -zxvf service-0.6.0.tar.gz
+
+data/batch/demo_src
+ hdfs dfs -mkdir /griffin/data/batch/demo_tgt
+
+/apache-hive-3.1.2-bib/bin/hive
+hive> show tables;
+
+hdfs dfs -ls /
+hdfs dfs -ls /home/spark_lib
+hdfs dfs -ls /home/hadoop/hadoopdata
+
+/home/decdpdev/hadoopdata/dfs/spark_config
+
+hdfs dfs -put /home/decdpdev/spark/jars/derby-10.14.2.0.jar hdfs:///home/spark_lib/
+hdfs dfs -rm /home/spark_lib/derby-10.12.1.1.jar
+hdfs dfs -put /home/decdpdev/apache-hive-3.1.2-bin/lib/* hdfs:///home/spark_lib/
+
+/home/decdpdev/griffinworks
+/home/decdpdev/apache-hive-3.1.2-bin/bin/hive --service metastore
+/home/decdpdev/apache-hive-3.1.2-bin/bin/hiveserver2 
+/home/decdpdev/hadoop-3.2.2/sbin/start-dfs.sh
+/home/decdpdev/hadoop-3.2.2/sbin/start-all.sh
+/home/decdpdev/hadoop-3.2.2/bin/yarn --daemon start nodemanager
+/home/decdpdev/hadoop-3.2.2/bin/yarn --daemon start resourcemanager
+/home/decdpdev/spark/sbin/start-all.sh
+/home/decdpdev/spark/sbin/start-master.sh
+/home/decdpdev/spark/sbin/start-slave.sh  spark://localhost:7077
+/home/decdpdev/apache-livy-0.7.1-incubating/bin/livy-server start
+/home/decdpdev/griffin-0.6.0/target/service-0.6.0/bin/start.sh
+/home/decdpdev/elasticsearch-7.15.2/bin/elasticsearch
+/home/decdpdev/griffinworks/gen-hive-data.sh
+hdfs dfs -chmod 777 /tmp/hive - hive start
+
+/usr/share/elasticsearch
+cd $GRIFFIN_INSTALL_DIR
+tar -zxvf service-${version}.tar.gz
+cd service-${version}
+# start service
+./bin/griffin.sh start  
+# or use ./bin/start.sh
+
+
+export PDSH_RCMD_TYPE=ssh
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export HADOOP_HOME=/home/decdpdev/hadoop-3.2.2
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin 
+export HADOOP_MAPRED_HOME=/home/decdpdev/hadoop-3.2.2
+export HADOOP_COMMON_HOME=/home/decdpdev/hadoop-3.2.2
+export HADOOP_HDFS_HOME=/home/decdpdev/hadoop-3.2.2
+export YARN_HOME=/home/decdpdev/hadoop-3.2.2
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+PATH=/home/decdpdev/spark/bin:$PATH
+export HADOOP_CONF_DIR=/home/decdpdev/hadoop-3.2.2/etc/hadoop
+export SPARK_HOME=/home/decdpdev/spark
+export LD_LIBRARY_PATH=/home/decdpdev/hadoop-3.2.2/lib/native:$LD_LIBRARY_PATH
+export HIVE_HOME=/home/decdpdev/apache-hive-3.1.2-bin
+export PATH=$PATH:$HIVE_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=/home/decdpdev/hadoop-3.2.2/lib/native
+export HADOOP_INSTALL=/home/decdpdev/hadoop-3.2.2
+export HADOOP_USER_CLASSPATH_FIRST=true
+export LIVY_HOME=/home/decdpdev/livy-0.7.1
+export SCALA_HOME=/home/decdpdev/scala-2.12.3
+export PATH=$PATH:$HIVE_HOME/bin:$HADOOP_HOME/bin:$SPARK_HOME/bin:$LIVY_HOME/bin:$SCALA_HOME/bin

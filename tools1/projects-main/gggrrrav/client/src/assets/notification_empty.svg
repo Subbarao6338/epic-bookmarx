@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080">
+  <rect vector-effect="non-scaling-stroke" x="-540" y="-540" rx="0" ry="0" width="1080" height="1080" fill="#FFF" transform="translate(540 540)"/>
+  <path vector-effect="non-scaling-stroke" d="M539.412 774.38c46.306-.049 83.833-37.575 83.881-83.882h117.44V656.94h-33.558V472.383c0-92.513-75.25-167.763-167.763-167.763s-167.763 75.25-167.763 167.763V656.94H338.09v33.558h117.44c.049 46.307 37.576 83.833 83.882 83.882z" fill="#EEE"/>
+  <path vector-effect="non-scaling-stroke" d="M539.932 741.322c-27.78-.033-50.29-22.544-50.323-50.324h100.675c-.064 27.778-22.575 50.275-50.352 50.324z" fill="#EEE" opacity=".8"/>
+  <path vector-effect="non-scaling-stroke" d="M338.09 656.985h402.643v33.558H338.09z" fill="#DDD"/>
+  <path vector-effect="non-scaling-stroke" d="M540.002 657.44V305.12c-92.613.097-167.666 75.15-167.764 167.763V657.44h167.764z" stroke="#D0D0D0" fill="#DDD" opacity=".8"/>
+  <path vector-effect="non-scaling-stroke" d="M590.235 690.808c0 29.36-22.578 50.323-50.323 50.323s-50.323-20.963-50.323-50.323l-33.559-.265c0 46.242 37.64 83.882 83.882 83.882 46.242 0 83.881-37.64 83.881-83.882l-33.558.265z" fill="#C4C4C4"/>
+</svg>

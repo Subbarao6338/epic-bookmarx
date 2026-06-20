@@ -1,0 +1,218 @@
+{% extends 'layouts/base.html' %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link
+  rel="stylesheet"
+  href="/static/assets/css/custom.css"
+/>
+<link
+        rel="stylesheet"
+        href="/static/assets/css/custom.css"
+        xmlns="http://www.w3.org/1999/html"/>
+<!-- Google Font: Source Sans Pro -->
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+        xmlns="http://www.w3.org/1999/html"/>
+<!-- Font Awesome -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/fontawesome-free/css/all.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/sweetalert2/sweetalert2.min.css"
+/>
+<!-- Ionicons -->
+<link
+  rel="stylesheet"
+  href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+/>
+<!-- Tempusdominus Bootstrap 4 -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
+/>
+<!-- iCheck -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
+/>
+<!-- JQVMap -->
+<link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css" />
+<!-- overlayScrollbars -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+/>
+<!-- Daterange picker -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/daterangepicker/daterangepicker.css"
+/>
+<!-- summernote -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/summernote/summernote-bs4.min.css"
+/>
+<!-- table -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+/>
+<!--  Bootstrap css-->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+  crossorigin="anonymous"
+/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .table_gen{
+  border-radius: 15px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+  height: 250px;
+    width: 500px;
+
+}
+td{
+    width:100px;
+}
+
+</style>
+
+{% endblock stylesheets %}{% block content %}
+
+<div class="container" style="text-align:center">
+    </br></br></br>
+    <div align="center" >
+    <form id="form_generate" class="p-3 shadow" style="background-color:white;border: 2px solid #3C98AC;border-radius:10px;width:500px;margin-top:100px">
+        <h4 align="center"> Generate Synthetic Data</h4>
+        <table align="center" class="table_gen" >
+		<tr class="empty_line"></tr>
+          <tr style="width: 10px;font-size: 15px;">
+            <td colspan="2"  style="text-align:left"><label class="label_datatype"  id="datatype_label">
+                Data Type :
+            </label></td>
+                <td colspan="4" style="width: 10px text-align:center">
+                    <input type="radio" name="radio_button" style="margin-left: -20px;" value="single_table" id="single"/>
+                    <label class="form-label">Single</label>
+
+                   <input type="radio" name="radio_button" style="margin-left: 15px;" value="multiple_table" id="multiple"/>
+                   <label class="form-label">Relational</label>
+
+            </td>
+          </tr>
+            <tr class="empty_line"></tr>
+        <tr>
+            <td colspan="2" style="text-align:left;font-size: 15px;">
+            <label class="label_datatype" id="model_selection">
+                Select Model :
+            </label></td>
+<!--            <td style="width:50"> </td>-->
+            <td colspan="4" style="width:10px text-align:center"><select id="select_model" class="dropdown_generate" >
+                <option selected>Choose Model...</option>
+            </select></td>
+        </tr>
+            <tr class="empty_line"></tr>
+        <tr>
+            <td colspan="2" style="text-align:left;font-size: 15px;">
+                <label>Number of Rows : </label></td>
+            <td colspan="4" style="width:10px text-align:center"><input required value="1000" type="number" id="number_of_rows" class="textfield_generate"/>
+            </td>
+        </tr>
+            <tr class="empty_line"></tr>
+            <tr>
+            <td colspan="2" style="text-align:center"><button id="generate_button" type="submit" class="btn btn-primary">Generate</button></td>
+            <td colspan="2" style="text-align:center">
+                <button disabled style="display:" type="button" class="btn btn-primary" id="download_button"><a style="color:white" href='/download_sdv_file?filetype=generated_files&filename=generated_new.csv' download>Download</a>
+                </button>
+                <button disabled style="display:none" type="button" class="btn btn-primary" id="download_button_rel"><a style="color:white" href='/download_rel_sdv_file?filetype=generated_files&filename=data.zip' download>Download</a>
+                </button>
+            </td>
+            </tr>
+             <tr class="empty_line"></tr>
+        </table>
+    </form>
+    </div>
+    <button style="display:none" id="button_success_popup" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_success">
+	    Launch Modal
+        </button>
+<button style="display:none" id="button_failure_popup" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_failure">
+	    Launch Modal
+        </button>
+<div id="modal_success" class="modal fade">
+	<div class="modal-dialog modal-success">
+			<div style="text-align:center" class="alert alert-success">
+            <strong >Data Generation Started Successfully !</strong>
+            </div>
+	</div>
+</div>
+<div id="modal_failure" class="modal fade">
+    <div class="modal-dialog modal-success">
+            <div style="text-align:center" class="alert alert-danger">
+            <strong >Oops!!</strong>
+                <p>Please Select Correct Model or Train Again with Correct Data.</p>
+            </div>
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge("uibutton", $.ui.button);
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- jQuery -->
+<!--<script src="/static/assets/js/pages/simulator.js"></script>-->
+<!--<script src="/static/assets/js/pages/sdv_model_training.js"></script>-->
+<script src="/static/assets/js/pages/generate.js"></script>
+<!--  Bootstrap JS-->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+  crossorigin="anonymous"
+></script>
+<script src="https://rawcdn.githack.com/kousik19/foto.js/045defe1a5ce06220e084e4e6f6fbaccb7621841/foto.min.js"></script>
+
+{% endblock javascripts %}

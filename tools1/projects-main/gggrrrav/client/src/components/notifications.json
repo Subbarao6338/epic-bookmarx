@@ -1,0 +1,1 @@
+[{"name":"Azure SQL saved successfully.", "type":"success"}, {"name":"Azure Storage not able to access.", "type":"error"}, {"name":"S3 bucket used by own.", "type":"info"}, {"name":"Oracle is a database.", "type":"none"},{"name":"Clean your workspace.", "type":"warning"}]

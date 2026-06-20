@@ -1,0 +1,22 @@
+{
+"Name - Substitute Value": "Faker_name",
+"Address - Substitute Value": "Faker_address",
+"IP Address - Substitute Value": "Faker_ipv4",
+"Company - Substitute Value": "Faker_bs",
+"Date - Substitute Value": "Faker_date",
+"SSN - Substitute Value": "Faker_ssn",
+"Phone - Substitute Value": "Faker_phone_number",
+"Country - Substitute Value": "Faker_country",
+"City - Substitute Value": "Faker_city",
+"Email - Substitute Value": "Faker_email",
+"Latitude - Substitute Value": "Faker_latitude",
+"Longitude - Substitute Value": "Faker_longitude",
+"Price - Substitute Value": "Faker_pricetag",
+"Credit Card Number - Substitute Value": "Faker_credit_card_number",
+"Credit Card Provider - Substitute Value": "Faker_credit_card_provider",
+"Credit Card CVV - Substitute Value": "Faker_credit_card_security_code",
+"Email Id - Partial Data Masking": "(?<=.)[^@\n](?=[^@\n]*?@)|(?:(?<=@.)|(?!^)\\\\G(?=[^@\n]*$)).(?=.*\\.)",
+"Numeric - Partial Data Masking": "\\d(?!\\d{0,3}$)",
+"Credit Card Number - Partial Data Masking": "[0-9](?=.*.{4})",
+"SSN - Partial Data Masking": "[0-9](?=.*.{2})"
+}

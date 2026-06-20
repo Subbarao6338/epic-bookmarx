@@ -1,0 +1,11 @@
+artifact_location: file:///D:/CDP/ADS0.1/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: anomaly-default-name
+
+
+#For GPU VM:
+#  artifact_location: file:///home/ubuntu/Hawkeye_web/mlruns/1
+#  experiment_id: '1'
+#  lifecycle_stage: active
+#  name: anomaly-default-name

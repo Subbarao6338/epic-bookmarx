@@ -1,0 +1,78 @@
+{
+    "tables": {
+        "users": {
+            "fields": {
+                "user_id": {
+                    "type": "id",
+                    "subtype": "integer"
+                },
+                "country": {
+                    "type": "categorical"
+                },
+                "gender": {
+                    "type": "categorical"
+                },
+                "age": {
+                    "type": "numerical",
+                    "subtype": "integer"
+                }
+            },
+            "primary_key": "user_id"
+        },
+        "sessions": {
+            "fields": {
+                "session_id": {
+                    "type": "id",
+                    "subtype": "integer"
+                },
+                "user_id": {
+                    "type": "id",
+                    "subtype": "integer",
+                    "ref": {
+                        "table": "users",
+                        "field": "user_id"
+                    }
+                },
+                "device": {
+                    "type": "categorical"
+                },
+                "os": {
+                    "type": "categorical"
+                },
+                "minutes": {
+                    "type": "numerical",
+                    "subtype": "integer"
+                }
+            },
+            "primary_key": "session_id"
+        },
+        "transactions": {
+            "fields": {
+                "timestamp": {
+                    "type": "datetime",
+                    "format": "%Y-%m-%d"
+                },
+                "transaction_id": {
+                    "type": "id",
+                    "subtype": "integer"
+                },
+                "session_id": {
+                    "type": "id",
+                    "subtype": "integer",
+                    "ref": {
+                        "table": "sessions",
+                        "field": "session_id"
+                    }
+                },
+                "amount": {
+                    "type": "numerical",
+                    "subtype": "float"
+                },
+                "cancelled": {
+                    "type": "boolean"
+                }
+            },
+            "primary_key": "transaction_id"
+        }
+    }
+}

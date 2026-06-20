@@ -1,0 +1,35 @@
+{
+    "name": "zb1swm--run",
+    "version": "0.0.0",
+    "private": true,
+    "dependencies": {
+        "@progress/kendo-drawing": "1.16.0",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "@progress/kendo-licensing": "1.2.1",
+        "@progress/kendo-react-grid": "4.11.0",
+        "@progress/kendo-react-pdf": "4.11.0",
+        "@progress/kendo-data-query": "1.5.5",
+        "@progress/kendo-react-animation": "4.11.0",
+        "@progress/kendo-react-buttons": "4.11.0",
+        "@progress/kendo-react-intl": "4.11.0",
+        "@progress/kendo-react-dateinputs": "4.11.0",
+        "@progress/kendo-react-treeview": "4.11.0",
+        "@progress/kendo-react-dropdowns": "4.11.0",
+        "@progress/kendo-react-inputs": "4.11.0",
+        "@progress/kendo-react-popup": "4.11.0",
+        "@progress/kendo-react-data-tools": "4.11.0",
+        "@progress/kendo-react-charts": "4.11.0",
+        "hammerjs": "2.0.8",
+        "prop-types": "15.7.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "devDependencies": {
+        "react-scripts": "latest"
+    }
+}

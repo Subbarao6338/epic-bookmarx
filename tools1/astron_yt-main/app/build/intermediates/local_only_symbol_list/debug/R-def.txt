@@ -1,0 +1,35 @@
+R_DEF: Internal format may change without notice
+local
+id account_title
+id accounts_recycler_view
+id btn_login
+id btn_open_player
+id btn_playlist
+id btn_settings
+id btn_subtitles
+id container
+id fragment_title
+id music_recycler_view
+id nav_view
+id navigation_account
+id navigation_home
+id navigation_library
+id navigation_music
+id navigation_notifications
+id notification_message
+id notification_time
+id notification_title
+id notifications_recycler_view
+id player_controls
+id player_view
+id switch_pro
+id user_status
+layout activity_main
+layout activity_player
+layout fragment_account
+layout fragment_music
+layout fragment_notifications
+layout fragment_placeholder
+layout item_notification
+menu bottom_nav_menu
+style Theme.Astron

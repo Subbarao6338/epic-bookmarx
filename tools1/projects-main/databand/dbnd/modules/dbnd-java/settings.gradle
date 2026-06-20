@@ -1,0 +1,11 @@
+include(
+    'dbnd-api',
+    'dbnd-api-deequ',
+    'dbnd-client',
+    'dbnd-mlflow',
+    'dbnd-agent',
+    'dbnd-azkaban',
+    'dbnd-azkaban-event-reporter',
+    'dbnd-azkaban-agent',
+    'dbnd-examples',
+)

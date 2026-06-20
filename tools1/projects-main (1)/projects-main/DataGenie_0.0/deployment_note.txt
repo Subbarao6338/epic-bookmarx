@@ -1,0 +1,19 @@
+Step: 1 ==>
+	Comment below package into requirements.txt :
+	sdv==0.8.0
+Step:2 ==>
+	Deploy to web app using VS code as per the usual way
+Step:3 ==>
+	open below URL into browser:
+	<webappname>.scm.azurewebsite.net
+Step 4: Navigate to SSH and run below command sequencially
+	pip install torch==1.10.1 -f https://download.pytorch.org/whl/cpu/torch_stable.html
+	pip install sdv==0.8.0
+	
+To Remove below Error run under command:
+	libGL.so.1: cannot open shared object file: No such file or directory	
+	apt-get update
+	apt-get install ffmpeg libsm6 libxext6  -y
+	
+	
+Note: These steps needs to be followed on each deployment and whenever web app restarted.

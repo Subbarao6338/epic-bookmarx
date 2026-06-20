@@ -1,0 +1,218 @@
+.exec_log_msg_css {
+    height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.selected_log_line {
+    background-color: slateblue;
+    cursor: none;
+}
+
+.remaining_log_line {
+    cursor: pointer;
+}
+
+.main_td {
+    vertical-align: middle !important;
+    width: 20%;
+}
+
+.middle_td {
+    width: 30%;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.cv-spinner {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px #ddd solid;
+    border-top: 4px #2e93e6 solid;
+    border-radius: 50%;
+    animation: sp-anime 0.8s infinite linear;
+}
+
+.center {
+    text-align: center;
+    width: 100%;
+}
+
+input[type='radio'] {
+    margin: 0 10px 0 50px;
+}
+
+input[type='checkbox'] {
+    margin: 0 10px 0 50px;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.input {
+    font-size: 16px;
+    font-weight: normal !important;
+}
+
+.empty_line {
+    height: 20px;
+}
+
+input[type='button'] {
+    margin: 0 10px 0 100px;
+}
+
+.button {
+    width: 70px;
+    height: 35px;
+    margin: 0 10px 0 50px;
+    border-radius: 12px;
+    background-color: #17a2b8;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.tableformat {
+    border: 2px solid black;
+    border-radius: 12px;
+    outline: #17a2b8 solid 10px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    height: 250px;
+}
+
+.textfield {
+    width: 200px;
+    height: 35px;
+    border: 3px solid #17a2b8;
+    border-radius: 6px;
+}
+
+.dropdown1 {
+    width: 200px;
+    height: 35px;
+    border: 3px solid #17a2b8;
+    border-radius: 6px;
+}
+
+.dropdown select {
+    /*Hides the default arrows for Selects*/
+}
+
+.dropdown {
+    width: 200px;
+    height: 35px;
+    padding: 2px;
+    line-height: 1;
+    border: 3px solid #17a2b8;
+    border-radius: 6px;
+    overflow: hidden;
+    background: no-repeat right;
+}
+
+.dropdown:before {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 0;
+    height: 35px;
+}
+
+.dropdown:after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 3px;
+    width: 0;
+    height: 35px;
+}
+
+select>option {
+    background: white;
+    color: black;
+    border: 1px solid #343a40;
+    border-radius: 12px;
+    background-color: white;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.float-container {
+    padding: 20px;
+    padding-top: 1px;
+}
+
+.float-child2 {
+    width: 50%;
+    float: left;
+    padding: 5px;
+}
+
+.float-child3 {
+    width: 33%;
+    float: left;
+    padding: 5px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.info {
+    padding-right: 8px;
+    padding-left: 8px;
+    padding-top: 5px;
+}
+
+.link {
+    border: 1px solid black;
+    padding: 3px 85px;
+    border-radius: 12px;
+    color: white;
+    font-size:16px;
+}
+
+.btn {
+    border-radius: 7px;
+    background-color: rgb(66, 22, 138);
+    color: white;
+    border: 0px;
+}
+
+.card {
+    border: 2px solid rgb(242, 242, 242);
+    height: 250px;
+    margin-top: 15px;
+    width: 300px;
+    background-color: #f2f2f2;
+    margin-bottom: 1rem;
+    padding-top: 20px;
+}

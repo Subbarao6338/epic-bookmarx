@@ -1,0 +1,26 @@
+Windows vm:
+
+IP: 34.93.27.150
+user: gcpuser
+pwd: C46jg:b30{i?IzI
+
+Linux vm:
+
+IP: 20.204.141.59
+user: decdpdev
+pwd: decdppass@2021
+
+
+Rahul Gajula:
+
+ip: 35.225.58.78
+user: cdpuser
+pwd: {iY])Ac>/uh+L/X
+
+
+
+
+
+
+
+

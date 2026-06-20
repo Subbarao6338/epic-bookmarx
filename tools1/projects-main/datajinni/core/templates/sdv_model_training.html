@@ -1,0 +1,621 @@
+{% extends 'layouts/base.html' %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link
+  rel="stylesheet"
+  href="/static/assets/css/custom.css"
+/>
+<!-- Google Font: Source Sans Pro -->
+<link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+        xmlns="http://www.w3.org/1999/html"/>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css" />
+<link rel="stylesheet" href="/static/assets/plugins/sweetalert2/sweetalert2.min.css" />
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" />
+<!-- iCheck -->
+<link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
+<!-- JQVMap -->
+<link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css" />
+<!-- overlayScrollbars -->
+<link rel="stylesheet" href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+<!-- Daterange picker -->
+<link rel="stylesheet" href="/static/assets/plugins/daterangepicker/daterangepicker.css" />
+<!-- summernote -->
+<link rel="stylesheet" href="/static/assets/plugins/summernote/summernote-bs4.min.css" />
+<link rel="stylesheet" href="/static/assets/plugins/datatables1/jquery.dataTables.css" />
+<!-- table -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+<!-- Table style -->
+<!--  Bootstrap css-->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+  crossorigin="anonymous"
+/>
+<style>
+      td {
+        height: 20px;
+        width: 160px;
+      }
+      .line{
+        border-top: 1px solid black;
+     }
+     .list_popup_scroll{
+        width: 790px;
+        overflow: scroll;
+        height: 348px;
+    }
+    .show_menulist{
+-webkit-appearance: listbox !important
+}
+    </style>
+{% endblock stylesheets %} {% block content %}
+
+
+<div class="container">
+  <div class="row justify-content-center p-3">
+    <div style="width: 840px;margin-top:100px; max-width: 100%;min-height: 100px;overflow: hidden;background-color:white;border: 2px solid #3C98AC;border-radius:10px;">
+        <br/>
+      <h4 class="text-center">Model Training</h4>
+        <br/>
+      <form id="sdv_model_training_form" class="border rounded p-3 shadow" style="background-color:white;width: 780px;margin-left: 17px; margin-top: -10px;margin-bottom:10px;">
+        <div class="row mt-2 mr-2 ml-2">
+          <table>
+            <tr>
+              <td style="text-align: left; vertical-align: middle;"><label class="form-label">Input Type: </label></td>
+              <td style="text-align: right; vertical-align: middle;"><label class="form-label">Single Table</label></td>
+              <td align="left"><input type="radio" name="radio" value="Single" id="single_table"/></td>
+              <td style="text-align: right; vertical-align: middle;"><label class="form-label">Multi Table</label></td>
+              <td style="align: left; vertical-align: middle;"><input type="radio" name="radio" value="Relational" id="multiple_table" /></td>
+            </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Model Name</label>
+                <input id="model_name" name="sdv_model_name" required class="form-control" type="text" placeholder="Enter Model Name" />
+            </div>
+            <div style="overflow:hidden" class="col-md-6">
+                <label class="form-label">Result Type</label>
+                <select class="form-control show_menulist" id="sel_model_type">
+                    <option value="CTGAN" selected>Maintain High Fidelity</option>
+                    <option value="CopulaGAN">High Fidelity & Distribution</option>
+                    <option value="TVAE">High Fidelity, Distribution and PII Anonymization</option>
+                    <option value="GaussianCopula">Similar Data Distribution</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label" style="margin-top: 8px;">Batch Size(Min 100)</label>
+                <input id="batch_size" required class="form-control" min ="100" value="100" type="number" placeholder="Enter batch size (Min 100)" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" style="margin-top: 8px;">Epoch(Min 300)</label>
+                <input id="epoch_size" required class="form-control"  min ="300" value="300" type="number" placeholder="Enter epoch size (Min 300)" />
+            </div>
+        </div>
+
+        <div   id='for_single' class="col-md-6" >
+            <label class="form-label" style="margin-top: 20px;">Upload Sample  File (csv, json)</label>
+            <div style="display: block;
+            width:733px;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; ">
+                <button type="button" display="flex" style="width:123px;height:33px" onclick = "callFileUpload()">Select File</button>
+                <input type='file'  style="display:none" id="file"  onchange="UploadFile_Single()" name="sdv_train_file"  accept=".csv , .json" >
+                <label id="fileLabel" onclick = "callFileUpload()">No File Selected</label></div>
+           </div>
+
+          <div class="col-md-6"  id='for_multiple'>
+            <label class="form-label" style="margin-top: 20px;">Upload Sample Data Files (csv, json)</label>
+            <div style="display: block;
+            width:733px;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; ">
+                <button type="button" display="none" style="width:123px;height:33px" onclick="callFileUpload1()">Select File</button>
+                <input type='file'   style="display:none" id="files"  onchange="UploadFile_Multiple()" name="rel_sdv_train_file"  accept=".csv , .json" multiple="multiple" value="Relational">
+                <label id="fileLabel1" onclick = "callFileUpload1()">No File Selected</label></div>
+<!--           </div><br>-->
+
+
+
+                <div id='for_meta_file' class="col-md-6"  style="margin-left: -10px;">
+            <label class="form-label" style="margin-top: 20px;width: max-content;">Upload Metadata File(json)</label>
+            <div style="display: block;
+            width:733px;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; ">
+                <button type="button" display="flex" style="width:123px;height:33px" onclick = "callMetaFileUpload()">Select File</button>
+                <input type='file'  style="display:none" id="metafile"  onchange="UploadMetaFile()" name="sdv_train_meta_file"  accept=".csv , .json" >
+                <label id="metafileLabel" onclick = "callMetaFileUpload()">No File Selected</label></div>
+           </div><br>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div style ="" class="mb-3" id="single_multiple"></div>
+          <button style="display:none" id="launch_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#Mylargemodal">
+	    Launch Modal
+        </button>
+          <button style="display:none" id="display_anonymized_data" type="button" class="btn btn-primary" data-toggle="modal" data-target="#display_data_Modal">
+	    Launch Modal
+        </button>
+		<button style="display:none" id="display_column_data" type="button" class="btn btn-primary" data-toggle="modal" data-target="#Mylargemodal_for_column">
+	    Launch Modal
+        </button>
+
+        <div style="display:none" class="progress_detail">
+          <p class="center" id="progress_status" style="color:gray">Model Training in Progress..</p>
+          <div class="progress">
+            <div
+              class="progress-bar progress-bar-striped"
+              role="progressbar"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              30%
+            </div>
+          </div>
+        </div>
+      </form>
+<!--      <p>Note - Only first 100 rows data will be used for model training.</p>-->
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div  style="background-color:white;width: 1200px; max-width: 100%; overflow: auto;min-height: 100px;
+overflow: hidden;border: 2px solid #3C98AC;border-radius:10px;margin-bottom:25px;">
+      <h5 class="text-center p-2">List of Trained Models</h5>
+      <div class=" table table-bordered black table-hover" style="display:none;text-transform: capitalize;text-align: center;width: 1070px;margin-left: 15px" id="sdv_models_table"></div>
+      <div class="table table-bordered black table-hover" style="display:none;text-transform: capitalize;text-align: center;width: 1070px;margin-left: 15px" id="rel_sdv_models_table"></div>
+    </div>
+  </div>
+    <button id="launch_file_list_button" style="display:none" data-target="#list_pop_up" data-toggle="modal">Click</button>
+    <div class="modal fade" id="list_pop_up"
+         role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Uploaded Files</h5>
+                    <button type="button" class="close close_list_popup" data-dismiss="modal">
+                        &times;
+                    </button>
+			    </div>
+                <div class="modal-body" id="m-body-view">
+                    <div class="row mt-2" id="file_list_content">
+                        <table id="file_list_table" class="table table-striped" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th width="50%">File Name</th>
+                                    <th width="50%">View</th>
+                                </tr>
+                            </thead>
+                            <tbody id="file_list_content_body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                    </button>
+                    <button type="submit" id="file_list_submit-button" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<button style="display:none" id="display_rel_anonymized_data" type="button" class="btn btn-primary" data-toggle="modal" data-target="#display_data_Modal_rel">
+	    Launch Modal
+        </button>
+<button style="display:none" id="launch_button_rel" type="button" class="btn btn-primary" data-toggle="modal" data-target="#Mylargemodal_for_rel">
+	    Launch Modal
+        </button>
+<button style="display:none" id="display_column_data_rel" type="button" class="btn btn-primary" data-toggle="modal" data-target="#Mylargemodal_for_column_rel">
+	    Launch Modal
+        </button>
+<button style="display:none" id="launch_button_sample_metadata" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	    Launch Modal
+        </button>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Sample MetaData</h5>
+				<button type="button" class="close close_schema_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+			<div class="modal-body" id="model-view-sample-meta" style="height:450px; overflow:auto;">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+				<button type="button" data-dismiss="modal" class="btn btn-primary">
+                	Ok
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="Mylargemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Input Schema</h5>
+				<button type="button" class="close close_schema_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+			<div class="modal-body" id="model-view" style="height:465px;overflow:auto;">
+                <div class="row mt-2" id="json_content">
+                <table id="json_property_table" class="table table-striped" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th width="50%">Column Name</th>
+                        <th width="50%">Masking Type</th>
+                    </tr>
+                </thead>
+                <tbody id="json_content_body">
+                </tbody>
+            </table>
+        </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+				<button type="button" id="next-button" class="btn btn-primary">
+                	Next
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="Mylargemodal_for_rel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Dataset Schema</h5>
+				<button type="button" class="close close_schema_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+			<div class="modal-body" id="model-view_rel" style="height:465px;overflow:auto;">
+                <div class="row mt-2" id="json_content_rel">
+                <table id="json_property_table_rel" class="table table-striped" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th width="50%">Column Name</th>
+                        <th width="50%">Masking Type</th>
+                    </tr>
+                </thead>
+                <tbody id="json_content_body_rel">
+                </tbody>
+            </table>
+        </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+				<button type="button" id="next-button_rel" class="btn btn-primary">
+                	Next
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="display_data_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Uploaded Sample Data</h5>
+				<button type="button" class="close close_data_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+			<div class="modal-body" id="display-model-view">
+                <button id="remove_row_button" class="btn btn-danger">Delete Selected Row</button>
+                <button id="add_row_button" class="btn btn-success">Add Record</button>
+                <div class="row mt-2 list_popup_scroll" id="display_data_content">
+
+                </div>
+                <div id="pagination_container" class="pagination" style="padding-top:10px;"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+                <button type="button" id="prev-button" class="btn btn-secondary">
+                	Previous
+                </button>
+				<button type="button" id="next-button2" class="btn btn-primary">
+                	Next
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="display_data_Modal_rel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Uploaded Sample Data</h5>
+				<button type="button" class="close close_data_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+			<div class="modal-body" id="display-rel-model-view">
+                <button id="remove_row_button_rel" class="btn btn-danger">Delete Selected Row</button>
+                <button id="add_row_button_rel" class="btn btn-success">Add Record</button>
+                <div class="row mt-2" id="display_rel_data_content">
+
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+                <button type="button" id="prev-button-rel" class="btn btn-secondary">
+                	Previous
+                </button>
+				<button type="button" id="start_rel_training_button" class="btn btn-primary">
+                	Submit
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="Mylargemodal_for_column" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Constraints Setup</h5>
+				<button type="button" class="close close_formula_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+            <div class="modal-body" id="column-view">
+<!-- <button id="remove_row_button" class="btn btn-danger">Delete Selected Row</button>-->
+<div class="border border-dark" style="padding:10px">
+<table id="column_list_json" >
+<tr>
+<td><input style="margin-left: -2px;" type="button" value="Add Row" class="btn btn-success" onclick="addRows()" /></td>
+<tr>
+<th style="font-size: 15px;">Column Name</th>
+<th style="font-size: 15px;">Formula</th>
+</tr>
+<tr>
+<td style="width: 250px;padding-right: 50px;" id="col0">
+<select style="width: 250px; height: 35px;" name="column_name[]" id="column_fields">
+<option value="0">Select your option</option>
+</select>
+</td>
+&nbsp;&nbsp;
+<td style="width: 500px;" id="col1">
+<input required style="height: 35px; width:290px" type="text" placeholder="Enter Formula" name="formula[]" value="" />&nbsp;
+<input style="margin-left: 1px; height: 35px;" type="button" value="Delete Row" class="btn btn-danger" onclick="deleteRows()" />
+</td>
+</tr>
+</table>
+</div>
+</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+                <button type="button" id="previous-button" class="btn btn-secondary">
+                	Previous
+                </button>
+				<button type="button" id="start_training_button" class="btn btn-primary">
+                	Submit
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<button style="display:none" id="button_success_popup" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_success">
+	    Launch Modal
+        </button>
+<button style="display:none" id="button_failure_popup" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_failure">
+	    Launch Modal
+        </button>
+<div id="modal_success" class="modal fade">
+	<div class="modal-dialog modal-success">
+			<div style="text-align:center" class="alert alert-success">
+            <strong >Model training started Successfully !</strong>
+            </div>
+	</div>
+</div>
+<div id="modal_failure" class="modal fade">
+    <div class="modal-dialog modal-success">
+            <div style="text-align:center" class="alert alert-danger">
+            <strong >Training Failed !</strong>
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="display_gen_data_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top:200px">
+    <div class="modal-dialog modal-dialog-sm">
+        <div class="modal-content">
+			<div class="modal-body" id="view_generate" style="text-align:center;">
+                <form id="form_generate" class="p-3 shadow" style="background-color:white;border: 2px solid #3C98AC;border-radius:10px;">
+                    <button type="button" class=" close close_form_generate" data-dismiss="modal">×</button>
+                    <h4 align="center"> Generate Synthetic Data</h4>
+                    <table align="center" class="table_gen" >
+                    <tr class="empty_line"></tr>
+                      <tr style="width: 10px;font-size: 15px;">
+                        <td colspan="2"  style="text-align:left"><label class="label_datatype"  id="datatype_label">
+                            Input Type:
+                        </label></td>
+                          <td colspan="4" style="width:10px text-align:center"><input required value="1000" type="text" id="txt_data_set_type" class="textfield_generate" readonly/>
+                        </td>
+                      </tr>
+                        <tr class="empty_line"></tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left;font-size: 15px;">
+                        <label class="label_datatype" id="model_selection">
+                           Select Model:
+                        </label></td>
+            <!--            <td style="width:50"> </td>-->
+                        <td colspan="4" style="width:10px text-align:center"><input required value="1000" type="text" id="select_model" class="textfield_generate" readonly/>
+                        </td>
+                    </tr>
+                        <tr class="empty_line"></tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left;font-size: 15px;">
+                            <label>No. of Rows: </label></td>
+                        <td colspan="4" style="width:10px text-align:center"><input required value="1000" type="number" id="number_of_rows" class="textfield_generate"/>
+                        </td>
+                    </tr>
+                        <tr class="empty_line"></tr>
+                        <tr style="text-align:right;">
+                            <td colspan="2"></td>
+                        <td style="text-align:justify;"><button id="generate_button" type="button" class="btn btn-primary" style="margin-left: 50px;">Generate</button></td>
+                        <td style="text-align:center"><button id="close_button" data-dismiss="modal" type="button" class="btn btn-danger" style="margin-left: -90px;">Close</button></td>
+
+
+                        </tr>
+                         <tr class="empty_line"></tr>
+                    </table>
+                </form>
+
+			</div>
+		</div>
+    </div>
+</div>
+
+
+<div class="modal fade"  id="progress_bar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+                <h5>Progress Details:</h5>
+				<button type="button" class="close close_schema_popup" data-dismiss="modal">
+                	&times;
+                </button>
+			</div>
+			<div class="modal-body" id="handle_show_progress" style="height:450px; overflow:auto;text-align:left;">
+                Loading ...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">
+                	Close
+                </button>
+				<button type="button" data-dismiss="modal" class="btn btn-primary">
+                	Ok
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge("uibutton", $.ui.button);
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- jQuery -->
+<!--  Bootstrap JS-->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+  crossorigin="anonymous"
+></script>
+<script src="/static/assets/plugins/datatables1/jquery-3.5.1.js"></script>
+<script src="/static/assets/plugins/datatables1/jquery.dataTables.js"></script>
+
+<!--<script src="/static/assets/js/pages/simulator.js"></script>-->
+<script src="/static/assets/js/pages/sdv_model_training.js"></script>
+<script src="/static/assets/js/pages/synthetic_data_generation.js"></script>
+{% endblock javascripts %}

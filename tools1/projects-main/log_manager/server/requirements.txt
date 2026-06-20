@@ -1,0 +1,10 @@
+djangorestframework
+psycopg2
+django-cors-headers
+influxdb-client[extra]
+azure-identity
+azure-monitor-query
+azure-mgmt-datafactory
+aiohttp
+apache-airflow-client
+pyyaml

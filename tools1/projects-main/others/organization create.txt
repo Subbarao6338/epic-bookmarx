@@ -1,0 +1,194 @@
+import React, { useState } from "react";
+import { Breadcrumb } from "@progress/kendo-react-layout";
+import { Button } from "@progress/kendo-react-buttons";
+import { Switch, Input, TextArea } from "@progress/kendo-react-inputs";
+import { Label } from "@progress/kendo-react-labels";
+import { DropDownList } from "@progress/kendo-react-dropdowns";
+import { DatePicker } from "@progress/kendo-react-dateinputs";
+
+import { useHistory } from 'react-router-dom';
+
+/*import organisationname from "./organisation.json";*/
+import { httppost } from "./../commonUtility/common_http";
+import { fetch_organization_url , create_organization_url, tenant_id } from "./../commonUtility/api_urls";
+import { loadMessages } from '@progress/kendo-react-intl';
+import { enMessages } from '../messages/en-US';
+import { httpget } from "../commonUtility/common_http";
+
+loadMessages(enMessages, 'en-US');
+const defaultValue = new Date();
+
+
+const navitems = [
+  {
+    id: "home",
+    route_url : "/home",
+    text: "Home",
+    iconClass: "k-i-home",
+  },
+  {
+    id: "organizationsummary",
+    route_url: "/organization_summary",
+    text: "Organization Summary",
+  },
+  {
+    id: "organizationcreate",
+    route_url : "/organization_create",
+    text: "Create Organization",
+  },
+];
+
+function Organization() {
+  const history = useHistory();
+  const [navdata] = React.useState(navitems);
+  const handleItemSelect = (event) => {
+    const itemIndex = navdata.findIndex((curValue) => curValue.id === event.id);
+    console.log(navdata[itemIndex]["route_url"]);
+    history.push(navdata[itemIndex]["route_url"]);
+  };
+
+  const today = new Date();
+  const [orgid, setorganizationid] = useState("");
+  const [organization_name, setorganization_name] = useState("");
+  const [details, setdetails] = useState("");
+  /*const [status, setstatus] = useState(false);
+  const [orgid, setorgid] = useState("");*/
+
+
+  const [value, setValue] = React.useState("Name");
+  const creation_date = new Date();
+  
+  
+
+    const req_value = {
+    params: { tenant_id: tenant_id },
+    };
+  console.log(fetch_organization_url);
+  httpget(fetch_organization_url, req_value).then((result) => {
+  console.log(result);
+  });
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+    
+
+  };
+
+  const handlecancel = () => {
+    history.push("/organization_summary");
+  };
+
+  const createorganization = () => {
+    //console.log("click");
+      //alert("test")
+      const req_value = {
+        params: {
+          organization_name: organization_name,
+          details: details,
+        },
+      };
+      
+
+      console.log(req_value)
+      
+      console.log(create_organization_url);
+      
+      httppost(create_organization_url, req_value).then((result) => {
+        if (result.data === "Success") {
+          //alert("created succesfully")
+          history.push("/organization_summary");
+        }
+        else{
+
+          alert("please enter all fields...");
+
+        }
+      });
+    
+  };
+  return (
+    <div>
+      <Breadcrumb
+        className="navigationbtn"
+        data={navdata}
+        onItemSelect={handleItemSelect}
+      />
+      <br />
+      <div className="card-container">
+        <div className="card-component">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              alignItems: "left",
+              height: "auto",
+              width: "auto",
+            }}
+          >
+            <h3>
+              <b>{enMessages.cdp_menus.organizationcreate}</b>
+            </h3>
+          </div>
+          <br></br>
+          <div className="text-start">
+        
+          
+              <div>
+                <Label editorId="organization_name">
+                Organization Name:&nbsp;
+                </Label>
+              </div>
+              <div>
+                <Input
+                  className="borderall" style={{width:800}}
+                  onChange={(event) => {
+                    setorganization_name(event.target.value);
+                  }}
+                />
+              </div>
+            <br></br>
+           <div>
+                <Label editorId="details">
+                  Details:&nbsp;
+                </Label>
+              </div>
+              <div>
+                <Input
+                  className="borderall" style={{width:800}}
+                  onChange={(event) => {
+                    setdetails(event.target.value);
+                  }}
+                />
+              </div>
+            <br></br>
+            
+          
+            <br></br>
+
+            <div className="textstart">
+              <div>
+                <Button
+                  className="borderall"
+                  icon="folder" themeColor={"primary"}
+                  onClick={createorganization}
+                >
+                  Create 
+                </Button>
+              
+              &nbsp;&nbsp; &nbsp;
+              
+                <Button className="borderall"  icon="refresh" onClick={handlecancel}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  );
+                }
+              
+export default Organization;
+

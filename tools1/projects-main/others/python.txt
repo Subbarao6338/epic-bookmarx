@@ -1,0 +1,36 @@
+PS D:\CDP\GE_v1.0> cd D:\venv\GE_latest\Scripts
+D:\venv\CDP_Portal\Scripts
+/home/ubuntu/data_workspace/bin/virtual_env/data_workspace/bin
+PS D:\venv\GE_latest\Scripts> ./activate
+
+(GE_latest) PS D:\venv\GE_latest\Scripts> cd D:\CDP\GE_v1.0
+ cd D:\GE_v1\GE_latest\
+ D:\CDP_Platform_UI\CDP_Portal_v1.0\server
+D:\CDP\CDP_Platform_UI\CDP_Portal_v1.3\server
+
+/home/ubuntu/GRAVITON_v0.1/server
+pip install -r requirements.txt
+
+python manage.py runserver
+
+
+npm i
+npm audit fix
+npm start
+
+; host=localhost
+; database=CDP_Database
+; user=postgres
+; password=mypostpass123
+; port=5433
+
+GPU:
+
+(base) ubuntu@ip-172-31-16-150:~$ mkdir Graviton_ui
+(base) ubuntu@ip-172-31-16-150:~$ cd virtual_env
+(base) ubuntu@ip-172-31-16-150:~/virtual_env$ python3.8 -v
+python3 -m venv my-project-env
+cd /home/ubuntu/virtual_env/graviton_venv
+source activate
+cd /home/ubuntu/Graviton_ui
+python manage.py runserver 0.0.0.0:8080

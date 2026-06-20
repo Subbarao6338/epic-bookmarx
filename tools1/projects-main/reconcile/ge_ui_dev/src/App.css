@@ -1,0 +1,348 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+html,
+body {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: white !important;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  height: 105px !important;
+  vertical-align: middle;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.emptyspace {
+  padding: 20px 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.fonts_icon {
+  font-size: 10pt;
+  height: 25px !important;
+}
+
+.menu_icon {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.left_menu_icon {
+  width: 25px !important;
+  height: 25px !important;
+  margin-left: 4px;
+  margin-right: 12px;
+}
+
+.emptyspaceicon {
+  height: 0px !important;
+  -ms-flex-align: center;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 16%;
+  padding: 15px 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+  margin: 0 -5px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.tableborder {
+  border: 1px solid #202b86 !important;
+}
+
+.emptyline {
+  height: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  flex-wrap: wrap;
+  height: 50px;
+  width: 100%;
+}
+.container div {
+  height: 50px;
+  width: 200px;
+}
+
+.buttoncontainer {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  flex-wrap: wrap;
+  height: 50px;
+  width: 100%;
+}
+
+.buttoncontainer div {
+  height: 50px;
+  width: 150px;
+}
+
+.borderall {
+  border: 1px solid #202b86 !important;
+}
+
+.note_class {
+  color: #fe6257;
+  font-size: small;
+  font-style: italic;
+}
+
+.metabuttoncontainer {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  flex-wrap: wrap;
+  height: 50px;
+  width: 100%;
+}
+
+.metabuttoncontainer div {
+  height: 50px;
+  width: 100px;
+}
+
+.settingscolumn {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.settingsrow:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.parent {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+.parent > div {
+  flex: 1;
+}
+
+.filed_size {
+  width: 200px;
+}
+
+.footer {
+  background-color: #0e68aa;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  color: white;
+  font-size: 13px;
+  height: 20px;
+}
+
+.footer p {
+  color: white;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.footer span {
+  color: white;
+  font-size: 12px;
+  margin-top: -25px;
+  right: 15px;
+}
+
+.footer a {
+  color: white;
+  font-size: 10px;
+}
+
+.navigationbtn {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
+.tabtitle {
+  color: #202b86;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: auto;
+}
+
+.note_class1 {
+  color: #fe6257;
+  font-size: small;
+  font-style: italic;
+  margin-top: 25px;
+}
+
+.disabled_link {
+  pointer-events: none;
+  color: #848181;
+}
+.k-widget.k-drawer.k-drawer-start {
+  margin-left: -15px;
+}
+
+.k-widget {
+  background-color: white;
+}
+
+.k-drawer-content {
+  margin-bottom: 35px;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 10px;
+  min-height: 450px;
+}
+
+span.item-descr {
+  text-transform: capitalize;
+  font-size: 20px;
+}
+
+row.border.rounded.shadow-sm.p-2 {
+  height: 240px;
+  width: 1000px;
+  margin-top: 185px;
+}
+
+.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+  color: #ff6358;
+}
+
+.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+  color: #ff6358;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #ff6358;
+  border-color: #ff6358;
+}
+
+.css-3g4473-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: #fafafa;
+  background-color: #ff6358;
+  border-color: #ff6358;
+}
+
+button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.btn.btn-danger.css-3g4473-MuiButtonBase-root-MuiButton-root {
+  color: #fafafa;
+  background-color: #ff6358;
+  border-color: #ff6358;
+}
+
+.chart-center {
+  border: 3px solid rgb(0, 191, 255);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 88%;
+  text-decoration-color: #fe6257;
+  /* border-top: 20px solid rgb(95, 201, 219); */
+}

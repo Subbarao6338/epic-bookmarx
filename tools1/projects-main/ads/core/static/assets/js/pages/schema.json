@@ -1,0 +1,33 @@
+{
+    "fields": [
+        {
+            "name": "customer_id",
+            "type": "string",
+            "format": "default"
+        },
+        {
+            "name": "age",
+            "type": "integer",
+            "format": "default"
+        },
+        {
+            "name": "gender",
+            "type": "string",
+            "format": "default"
+        },
+        {
+            "name": "home_latitude",
+            "type": "number",
+            "format": "default"
+        },
+        {
+            "name": "home_longitude",
+            "type": "number",
+            "format": "default"
+        }
+    ],
+    "missingValues": [
+        "",
+        "N/A"
+    ]
+}

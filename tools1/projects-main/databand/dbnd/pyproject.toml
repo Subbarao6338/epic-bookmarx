@@ -1,0 +1,251 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+
+[tool.black]
+skip-magic-trailing-comma = 1
+extend-exclude = "dbnd/_vendor|dbnd/_vendor_package|dbnd_spark/_vendor|airflow_override"
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+skip = [
+    "dbnd/tasks/__init__.py",
+    "dbnd/__init__.py"
+]
+skip_glob = [
+    "dbnd/_vendor/*",
+    "dbnd/_vendor_package/*"
+]
+
+combine_as_imports = true
+atomic = true
+lines_after_imports = 2
+lines_between_types = 1
+float_to_top = true
+remove_redundant_aliases = true
+
+known_first_party = [
+    "databand",
+    "dbnd",
+    "dbnd_airflow",
+    "dbnd_airflow_operator",
+    "dbnd_airflow_contrib",
+    "dbnd_airflow_export",
+    "dbnd_airflow_windows",
+    "airflow_monitor",
+    "dbnd_aws",
+    "dbnd_azure",
+    "dbnd_databricks",
+    "dbnd_tensorflow",
+    "dbnd_docker",
+    "dbnd_redshift",
+    "dbnd_examples",
+    "dbnd_gcp",
+    "dbnd_luigi",
+    "dbnd_postgres",
+    "dbnd_hdfs",
+    "dbnd_mlflow",
+    "dbnd_qubole",
+    "dbnd_spark",
+    "dbnd_snowflake",
+    "dbnd_test_scenarios",
+    "tests",
+    "test_dbnd",
+    "test_dbnd_airflow",
+    "test_dbnd_airflow_monitor",
+    "test_dbnd_airflow",
+    "targets",
+    "process_data_spark_with_track_functions_2"
+]
+
+[tool.pylint.messages_control]
+max-line-length = 120
+disable = [
+    # annoying: docstring
+    "missing-function-docstring",             # 3327
+    "missing-class-docstring",                # 841
+    "missing-module-docstring",               # 716
+    # annoying: complains about all one and two letter names
+    "invalid-name",                           # 1303
+    # annoying: many times self is unused to keep logic encapsulated to class
+    "no-self-use",                            # 922
+    # annoying: complains about all attrs/db models/etc
+    "too-few-public-methods",                 # 500
+    # annoying: we resolve cyclic imports this way
+    "import-outside-toplevel",                # 518
+    # annoying: we deal with utf-8 all the time
+    "unspecified-encoding",                   # 38
+    # annoying: we decided not to fix it
+    "arguments-renamed",                      # 4
+    # TODO: review following rules:
+    "import-error",                        # 3148
+    "no-name-in-module",                   # 2089
+    "consider-using-f-string",             # 812
+    "useless-object-inheritance",          # 351
+    "unused-argument",                     # 335
+    "protected-access",                    # 322
+    "broad-except",                        # 176
+    "super-with-arguments",                # 169
+    "redefined-outer-name",                # 161
+    "duplicate-code",                      # 127
+    "too-many-arguments",                  # 92
+    "line-too-long",                       # 86
+    "unused-variable",                     # 71
+    "no-else-return",                      # 62
+    "inconsistent-return-statements",      # 62
+    "no-member",                           # 59
+    "fixme",                               # 56
+    "attribute-defined-outside-init",      # 53
+    "logging-format-interpolation",        # 51
+    "too-many-instance-attributes",        # 50
+    "logging-not-lazy",                    # 44
+    "anomalous-backslash-in-string",       # 37
+    "unused-import",                       # 31
+    "too-many-locals",                     # 31
+    "use-dict-literal",                    # 26
+    "redefined-builtin",                   # 26
+    "global-statement",                    # 25
+    "raise-missing-from",                  # 20
+    "pointless-statement",                 # 19
+    "consider-using-with",                 # 17
+    "ungrouped-imports",                   # 16
+    "reimported",                          # 16
+    "too-many-branches",                   # 14
+    "too-many-public-methods",             # 13
+    "no-value-for-parameter",              # 13
+    "arguments-differ",                    # 13
+    "use-a-generator",                     # 12
+    "unnecessary-comprehension",           # 12
+    "wrong-import-position",               # 11
+    "too-many-return-statements",          # 11
+    "useless-super-delegation",            # 10
+    "unexpected-keyword-arg",              # 10
+    "logging-fstring-interpolation",       # 9
+    "bare-except",                         # 9
+    "too-many-ancestors",                  # 9
+    "function-redefined",                  # 8
+    "disallowed-name",                     # 8
+    "consider-using-sys-exit",             # 8
+    "redefined-argument-from-local",       # 7
+    "no-else-raise",                       # 7
+    "useless-return",                      # 6
+    "unused-format-string-argument",       # 6
+    "too-many-statements",                 # 6
+    "superfluous-parens",                  # 6
+    "dangerous-default-value",             # 6
+    "consider-using-in",                   # 6
+    "consider-merging-isinstance",         # 6
+    "bad-mcs-method-argument",             # 6
+    "invalid-all-object",                  # 5
+    "raising-format-tuple",                # 5
+    "pointless-string-statement",          # 5
+    "consider-using-set-comprehension",    # 5
+    "comparison-with-callable",            # 5
+    "unidiomatic-typecheck",               # 4
+    "keyword-arg-before-vararg",           # 4
+    "format-string-without-interpolation", # 4
+    "expression-not-assigned",             # 4
+    "unnecessary-lambda",                  # 3
+    "missing-format-attribute",            # 3
+    "empty-docstring",                     # 3
+    "deprecated-method",                   # 3
+    "bad-classmethod-argument",            # 3
+    "assignment-from-no-return",           # 3
+    "access-member-before-definition",     # 3
+    "unsubscriptable-object",              # 2
+    "use-maxsplit-arg",                    # 2
+    "use-list-literal",                    # 2
+    "too-many-nested-blocks",              # 2
+    "subprocess-popen-preexec-fn",         # 2
+    "notimplemented-raised",               # 2
+    "not-callable",                        # 2
+    "no-else-continue",                    # 2
+    "logging-too-many-args",               # 2
+    "invalid-sequence-index",              # 2
+    "eval-used",                           # 2
+    "consider-using-from-import",          # 2
+    "consider-iterating-dictionary",       # 2
+    "confusing-with-statement",            # 2
+    "abstract-class-instantiated",         # 2
+    "wildcard-import",                     # 1
+    "using-constant-test",                 # 1
+    "used-before-assignment",              # 1
+    "unnecessary-pass",                    # 1
+    "too-many-boolean-expressions",        # 1
+    "syntax-error",                        # 1
+    "super-init-not-called",               # 1
+    "singleton-comparison",                # 1
+    "self-assigning-variable",             # 1
+    "not-context-manager",                 # 1
+    "bad-super-call",                      # 1
+    "bad-mcs-classmethod-argument",        # 1
+    "abstract-method",                     # 1
+]
+
+[tool.pylint.MASTER]
+ignore-paths = [
+    # use ''' for a better escaping in toml files
+
+    # forbid file pathes starting with a dot
+    '''^.*\.\w+.*$''',
+    '''^.*\/node_modules\/.*$''',
+    '''^.*\/build\/.*$''',
+    '''^.*\/dist\/.*$''',
+    # eclude _vendor and _vendor_package
+    '''^.*\/_vendor.*$''',
+]
+
+# https://pylint.pycqa.org/en/latest/technical_reference/extensions.html
+load-plugins = [
+    # 'pylint.extensions.broad_try_clause',
+    # 'pylint.extensions.code_style',
+    # 'pylint.extensions.emptystring',
+    # 'pylint.extensions.comparetozero',
+    # 'pylint.extensions.comparison_placement',
+    # 'pylint.extensions.confusing_elif',
+    # 'pylint.extensions.for_any_all',
+    # 'pylint.extensions.consider_ternary_expression',
+    # 'pylint.extensions.bad_builtin',
+    # 'pylint.extensions.mccabe',
+    # 'pylint.extensions.docstyle',
+    # 'pylint.extensions.check_elif',
+    # 'pylint.extensions.eq_without_hash',
+    # 'pylint.extensions.private_import',
+    # 'pylint.extensions.redefined_variable_type',
+    # 'pylint.extensions.overlapping_exceptions',
+    # 'pylint.extensions.docparams',
+    # 'pylint.extensions.empty_comment',
+    # 'pylint.extensions.set_membership',
+    # 'pylint.extensions.typing',
+    # 'pylint.extensions.while_used',
+]
+
+# docstring-first-line-empty             # 502
+# consider-using-assignment-expr         # 269
+# too-many-try-statements                # 229
+# deprecated-typing-alias                # 195
+# empty-comment                          # 191
+# consider-alternative-union-syntax      # 111
+# compare-to-zero                        # 58
+# missing-type-doc                       # 55
+# bad-builtin                            # 52
+# misplaced-comparison-constant          # 47
+# too-complex                            # 39
+# while-used                             # 38
+# consider-ternary-expression            # 38
+# consider-using-tuple                   # 23
+# missing-param-doc                      # 16
+# redefined-variable-type                # 11
+# missing-raises-doc                     # 10
+# confusing-consecutive-elif             # 10
+# compare-to-empty-string                # 10
+# use-set-for-membership                 # 9
+# else-if-used                           # 8
+# redundant-returns-doc                  # 5
+# differing-param-doc                    # 5
+# consider-using-any-or-all              # 3
+# useless-param-doc                      # 1
+# differing-type-doc                     # 1
+# consider-using-namedtuple-or-dataclass # 1
+# bad-docstring-quotes                   # 1

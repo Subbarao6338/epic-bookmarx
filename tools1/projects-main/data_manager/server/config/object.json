@@ -1,0 +1,23 @@
+{
+    "asset_type":[
+    {
+        "assetType":"Azure Data Factory",
+        "asset_icon":"AzureDatafactory.png"
+    },
+    {
+        "assetType":"Azure Data Lake Storage Gen2",
+        "asset_icon":"AzureDataLakeStorageGen2.png"
+    },
+    {   
+        "assetType":"Azure Synapse Analytics",
+        "asset_icon":"AzureSynapseAnalytics.png"
+    },
+    {
+        "assetType":"Azure SQL Database",
+        "asset_icon":"AzureSQLDatabase.png"
+    },
+    {
+        "assetType":"Azure Blob Storage",
+        "asset_icon":"AzureBlobStorage.png"
+    }
+]}

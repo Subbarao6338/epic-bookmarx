@@ -1,0 +1,14 @@
+flask
+requests
+notion-client
+beautifulsoup4
+deep-translator
+pypdf
+python-docx
+python-pptx
+python-dotenv
+pytesseract
+Pillow
+pdf2image
+PyYAML
+openpyxl

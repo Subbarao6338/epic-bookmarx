@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/CDP/ADS0.1/mlruns/1/f96b6d27f6d84c5da051025b0bbf0f42/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: f96b6d27f6d84c5da051025b0bbf0f42
+run_uuid: f96b6d27f6d84c5da051025b0bbf0f42
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1651742699401
+status: 1
+tags: []
+user_id: cdpwinuser

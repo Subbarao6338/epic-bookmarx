@@ -1,0 +1,1071 @@
+cost charts page------------------------
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { loadMessages } from "@progress/kendo-react-intl";
+import { enMessages } from "../messages/en-US";
+import { httpget } from "../commonUtility/common_http";
+
+import { Grid, GridColumn as Column } from "@progress/kendo-react-grid";
+
+import {
+  AreaChart,
+  YAxis,
+  XAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
+
+import { listusagemonitoring_url_chart } from "../commonUtility/api_urls";
+import { Area } from "recharts";
+
+import {
+  Chart,
+  ChartLegend,
+  ChartSeries,
+  ChartSeriesItem,
+  ChartSeriesLabels,
+} from "@progress/kendo-react-charts";
+import "react-datepicker/dist/react-datepicker.css";
+import { DropDownList } from "@progress/kendo-react-dropdowns";
+
+import { ComboBox } from "@progress/kendo-react-dropdowns";
+import { Breadcrumb } from "@progress/kendo-react-layout";
+import { SplitButton } from "@progress/kendo-react-buttons";
+import { orderBy } from "@progress/kendo-react-data-tools";
+
+loadMessages(enMessages, "en-US");
+
+const navitems = [
+  {
+    id: "home",
+    route_url: "/costusage",
+    text: "Cost and Usage Management",
+  },
+  {
+    id: "costUsage",
+    route_url: "/costCharts",
+    text: "Cost Charts",
+  },
+];
+
+const items = [];
+
+const CostCharts = () => {
+  function appendLeadingZeroes(n) {
+    if (n <= 9) {
+      return "0" + n;
+    }
+    return n;
+  }
+  function date_format(input_date) {
+    //20220501
+    let year = parseInt(input_date.toString().substr(0, 4)).toString();
+    let month = parseInt(input_date.toString().substr(4, 2));
+    let date = parseInt(input_date.toString().substr(6, 2));
+    return year + "-" + month + "-" + date;
+  }
+  function Accumulated_date_format(input_date) {
+    //20220501
+    let year = parseInt(input_date.toString().substr(0, 4)).toString();
+    let month = parseInt(input_date.toString().substr(4, 2));
+    let date = parseInt(input_date.toString().substr(6, 2));
+    return year + "-" + month + "-" + date;
+  }
+
+  let history = useHistory();
+  const [navdata] = React.useState(navitems);
+  const handleItemSelect = (event) => {
+    const itemIndex = navdata.findIndex((curValue) => curValue.id === event.id);
+
+    history.push(navdata[itemIndex]["route_url"]);
+  };
+
+  const initialSort = [
+    {
+      field: "date",
+      dir: "asc",
+    },
+  ];
+
+  const [value, setvalue] = React.useState("Service Name");
+
+  const [sort, setSort] = React.useState(initialSort);
+  const [area, setarea] = React.useState([]);
+  const [servicedata, setservicedata] = React.useState([]);
+  const [location, setlocation] = React.useState([]);
+  const [rsgdata, setrsgdata] = React.useState([]);
+  const [selected_service, setselectedservice] = React.useState("");
+  const [selected_location, setselected_location] = React.useState("");
+  const [selected_resource_group, setselected_resource_group] =
+    React.useState("");
+  const [final_area_chart_data, setfinallistdata] = React.useState([]);
+
+  React.useEffect(() => {
+    httpget(listusagemonitoring_url_chart, "").then(
+      (listusagemonitoring_result) => {
+        let json_result = JSON.parse(listusagemonitoring_result);
+
+        let result4 = json_result.list_area_chart.map((obj) => ({
+          cost: "₹" + Math.round(obj.cost * 10) / 10,
+
+          date:
+            new Date(obj.date).getFullYear() +
+            "-" +
+            appendLeadingZeroes(new Date(obj.date).getMonth() + 1) +
+            "-" +
+            appendLeadingZeroes(new Date(obj.date).getDate()),
+        }));
+        console.log(result4);
+        setarea(result4);
+
+        var length = json_result.resource_group_result;
+        console.log(json_result.Consumed_services_result);
+        console.log(json_result.resource_location_result);
+        console.log(json_result.resource_group_result);
+
+        for (let i = 0; i < length; i++) {
+          var new_obj = {
+            forecast_cost: json_result.forecast_cost.properties.rows[i][0],
+            new_date: date_format(
+              json_result.forecast_cost.properties.rows[i][1]
+            ),
+          };
+
+          forcast_cost_list.push(new_obj);
+        }
+        var length1 =
+          json_result.Accumulated_cost_result.properties.rows.length;
+        for (let j = 0; j < length1; j++) {
+          let accumulated_obj = {
+            acuumulated_cost:
+              json_result.Accumulated_cost_result.properties.rows[j][0],
+            new_date1: Accumulated_date_format(
+              json_result.Accumulated_cost_result.properties.rows[j][2]
+            ),
+          };
+          accumulated_cost_list.push(accumulated_obj);
+        }
+        var length2 =
+          json_result.Consumed_services_result.properties.rows.length;
+        for (let m = 0; m < length2; m++) {
+          var consumed_obj = {
+            cost:
+              Math.round(
+                json_result.Consumed_services_result.properties.rows[m][0] * 10
+              ) / 10,
+            consumedService:
+              json_result.Consumed_services_result.properties.rows[m][2],
+          };
+          consumed_services_list.push(consumed_obj);
+        }
+        var length3 =
+          json_result.resource_location_result.properties.rows.length;
+        for (let n = 0; n < length3; n++) {
+          var location_obj = {
+            cost:
+              Math.round(
+                json_result.resource_location_result.properties.rows[n][0] * 10
+              ) / 10,
+            resourceLocation:
+              json_result.resource_location_result.properties.rows[n][2],
+          };
+          resource_location_list.push(location_obj);
+        }
+        var length4 = json_result.resource_group_result.properties.rows.length;
+
+        for (let x = 0; x < length4; x++) {
+          var resourse_obj = {
+            cost:
+              Math.round(
+                json_result.resource_group_result.properties.rows[x][0] * 10
+              ) / 10,
+            resourceGroup:
+              json_result.resource_group_result.properties.rows[x][2],
+          };
+          resource_group_list.push(resourse_obj);
+        }
+        let obj = {
+          Accumulated_cost: accumulated_cost_list[0].acuumulated_cost,
+          date: accumulated_cost_list[0].new_date1,
+        };
+        Accumulated_arr.push(obj);
+
+        for (let k = 1; k < accumulated_cost_list.length; k++) {
+          let obj = {
+            Accumulated_cost:
+              Accumulated_arr[k - 1].Accumulated_cost +
+              accumulated_cost_list[k].acuumulated_cost,
+            date: accumulated_cost_list[k].new_date1,
+          };
+          Accumulated_arr.push(obj);
+        }
+
+        getDaysInMonth(5, 2022);
+      }
+    );
+    let forcast_cost_list = [];
+    let accumulated_cost_list = [];
+    let Accumulated_arr = [];
+    let consumed_services_list = [];
+    let resource_location_list = [];
+    let resource_group_list = [];
+
+    setservicedata(consumed_services_list);
+    setlocation(resource_location_list);
+    setrsgdata(resource_group_list);
+    function format_date(date_input) {
+      return (
+        new Date(date_input).getFullYear() +
+        "-" +
+        new Date(date_input).getMonth() +
+        "-" +
+        new Date(date_input).getDate()
+      );
+    }
+    function get_accumulated_cost_by_date(input_date) {
+      let cost_on_date = 0;
+      for (var i = 0; i < Accumulated_arr.length; i++) {
+        if (Accumulated_arr[i]["date"] == input_date) {
+          cost_on_date = Accumulated_arr[i]["Accumulated_cost"];
+          break;
+        }
+      }
+
+      return cost_on_date;
+    }
+    function get_forecast_cost_by_date(input_date) {
+      let cost_on_date = 0;
+      for (var i = 0; i < forcast_cost_list.length; i++) {
+        if (forcast_cost_list[i]["new_date"] == input_date) {
+          cost_on_date = forcast_cost_list[i]["forecast_cost"];
+          break;
+        }
+      }
+
+      return cost_on_date;
+    }
+    function getDaysInMonth(month, year) {
+      var date = new Date(year, month, 1);
+      var final_area_chart_data = [];
+      while (date.getMonth() === month) {
+        var obj = {
+          date: format_date(date),
+          Accumulated_cost: get_accumulated_cost_by_date(format_date(date)),
+          forecast_cost: get_forecast_cost_by_date(format_date(date)),
+          Monthly_budget: 0,
+        };
+        final_area_chart_data.push(obj);
+        date.setDate(date.getDate() + 1);
+      }
+      setfinallistdata(final_area_chart_data);
+    }
+  }, []);
+  const handleserviceselection = (e) => {
+    setselectedservice(e.target.value.consumedService);
+  };
+  const handlelocationselection = (event) => {
+    setselected_location(event.target.value.resourceLocation);
+  };
+  const handleresourcegpselection = (event) => {
+    setselected_resource_group(event.target.value.resourceGroup);
+  };
+
+  const dateFormatter = (date) => {
+    return new Date(date).toLocaleDateString("en-us", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  return (
+    <React.Fragment>
+      <Breadcrumb
+        classdate="navigationbtn"
+        data={navdata}
+        onItemSelect={handleItemSelect}
+      />
+      <div>
+        <div>
+          <h3 align="left" id="heading">
+            Cost Summary
+          </h3>
+        </div>
+        <hr />
+        {/* <div style={{ display: "flex", maxWidth: 600, paddingRight: "100" }}>
+          <SplitButton text="Actual cost(INR)" items={items} />{" "}
+          <SplitButton text="FORCAST:CHART VIEW OF" items={items} />
+          <SplitButton text="Accumaleted cost(INR)" items={items} />
+        </div> */}
+        <br />
+
+        <div>
+          <AreaChart
+            width={1100}
+            height={450}
+            data={final_area_chart_data}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          >
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#6181f2" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="date" tickFormatter={dateFormatter} />
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Legend />
+            <Area
+              type="area"
+              // dot={true}
+              dataKey="Accumulated_cost"
+              stroke="#8884d8"
+              fillOpacity={1}
+              fill="#8884d8"
+            />
+            <Area
+              type="monotone"
+              dataKey="Monthly_budget"
+              stroke="#82ca9d"
+              fillOpacity={1}
+              fill="#82ca9d"
+            />
+            {/* <Area
+              type="monotone"
+              dataKey="overage"
+              stroke="#fdc2a4"
+              fillOpacity={1}
+              fill="#fdc2a4"
+            /> */}
+            <Area
+              type="natural"
+              dataKey="forecast_cost"
+              stroke="#f28661"
+              fillOpacity={1}
+              fill="#f28661"
+            />
+            {/* <Area
+              type="monotone"
+              dataKey="Overage_forcast"
+              stroke="#f2eb61"
+              fillOpacity={1}
+              fill="#f2eb61"
+            /> */}
+          </AreaChart>
+          <br />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            margin: "auto",
+            color: "black",
+            columnGap: "5px",
+            // justifyContent: "space-between",
+            // justify-content: space-between;
+          }}
+        >
+          <div
+            className="k-card"
+            style={{
+              height: "350px",
+              width: "350px",
+            }}
+          >
+            <DropDownList
+              style={{
+                width: "170px",
+                height: "30px",
+                marginTop: "50px",
+                border: "1px solid red",
+              }}
+              data={servicedata}
+              textField="consumedService"
+              value={value}
+              onChange={handleserviceselection}
+              clearButton={selected_service}
+              // onClose={handleclose}
+            />
+            <div
+              style={{
+                display: "flex",
+              }}
+            >
+              <Chart
+                style={{ height: "400px", width: "250px", marginLeft: "-20px" }}
+              >
+                <ChartSeries>
+                  <ChartSeriesItem
+                    type="donut"
+                    highField="cost"
+                    data={
+                      selected_service === ""
+                        ? servicedata
+                        : servicedata.filter(
+                            (y) => y.consumedService === selected_service
+                          )
+                    }
+                    tooltip={{
+                      visible: true,
+                    }}
+                    //categoryField="consumedService"
+                    field="cost"
+                    size={50}
+                    highlight={{
+                      inactiveOpacity: 0.2,
+                    }}
+                  >
+                    <ChartSeriesLabels
+                      color="#fff"
+                      background="none"
+                      hoverOffset="300px"
+                      visible={false}
+                    />
+                  </ChartSeriesItem>
+                </ChartSeries>
+
+                <ChartLegend />
+              </Chart>
+              <div
+                style={{
+                  height: "270px",
+                  width: "180px",
+                  border: "1px",
+                  font: "26px",
+                  overflow: "auto",
+                  marginTop: "40px",
+                }}
+              >
+                {servicedata.map((servicedata) => {
+                  const list = (
+                    <>
+                      <dl>
+                        <dt> {"--" + servicedata.consumedService}</dt>
+                        <dt> {"-" + "₹" + servicedata.cost}</dt>
+                      </dl>
+                    </>
+                  );
+                  return list;
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div
+              className="k-card"
+              style={{
+                height: "350px",
+                width: "350px",
+              }}
+            >
+              {/* <p align="left">Location</p> */}
+              <DropDownList
+                style={{
+                  width: "170px",
+                  height: "30px",
+                }}
+                data={location}
+                textField="resourceLocation"
+                value={value}
+                onChange={handlelocationselection}
+                clearButton={selected_location}
+              />
+              <div>
+                <Chart
+                  style={{
+                    height: "400px",
+                    width: "250px",
+                    // marginLeft: "100px",
+                  }}
+                >
+                  <ChartSeries>
+                    <ChartSeriesItem
+                      type="donut"
+                      highField="cost"
+                      data={
+                        selected_location === ""
+                          ? location
+                          : location.filter(
+                              (x) => x.resourceLocation === selected_location
+                            )
+                      }
+                      tooltip={{
+                        visible: true,
+                      }}
+                      // categoryField="resourceLocation"
+                      field="cost"
+                      size={45}
+                    >
+                      <ChartSeriesLabels
+                        color="#fff"
+                        background="none"
+                        hoverOffset="300px"
+                        visible={false}
+                      />
+                    </ChartSeriesItem>
+                  </ChartSeries>
+                  <ChartLegend position="right" orientation="vertical" />
+                </Chart>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              className="k-card"
+              style={{
+                height: "350px",
+                width: "350px",
+              }}
+            >
+              <p align="left">Resource Group</p>
+              <DropDownList
+                style={{
+                  width: "170px",
+                  height: "30px",
+                }}
+                data={rsgdata}
+                textField="resourceGroup"
+                value={value}
+                onChange={handleresourcegpselection}
+                clearButton={selected_resource_group}
+              />
+              <div>
+                <Chart
+                  style={{
+                    height: "400px",
+                    width: "250px",
+                    marginLeft: "-20px",
+                  }}
+                >
+                  <ChartSeries>
+                    <ChartSeriesItem
+                      type="donut"
+                      highField="cost"
+                      data={
+                        selected_resource_group === ""
+                          ? rsgdata
+                          : rsgdata.filter(
+                              (x) => x.resourceGroup === selected_resource_group
+                            )
+                      }
+                      tooltip={{
+                        visible: true,
+                      }}
+                      //categoryField="resourceGroup"
+                      field="cost"
+                      size={45}
+                      highlight={{
+                        inactiveOpacity: 0.2,
+                      }}
+                    >
+                      <ChartSeriesLabels
+                        color="#fff"
+                        background="none"
+                        hoverOffset="300px"
+                        visible={false}
+                      />
+                    </ChartSeriesItem>
+                  </ChartSeries>
+                  <ChartLegend position="right" orientation="vertical" />
+                </Chart>
+                <div
+                  style={{
+                    height: "270px",
+                    width: "140px",
+                    border: "1px",
+                    font: "26px",
+                    overflow: "auto",
+                    marginTop: "40px",
+                  }}
+                >
+                  {rsgdata.map((rsgdata) => {
+                    const list3 = (
+                      <>
+                        <ul>
+                          <li> {rsgdata.resourceGroup}</li>
+                        </ul>
+                      </>
+                    );
+                    return list3;
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div
+        // classdate="grid1"
+        // style={{
+        //   justifyContent: "space-between",
+        // }}
+        >
+          <div
+            style={{
+              border: "1px solid black",
+              backgroundColor: "#fafafa",
+            }}
+          >
+            <h3>Date Wise Cost</h3>
+          </div>
+          <Grid
+            style={{
+              height: "300px",
+              borderSpacing: "100px",
+            }}
+            data={orderBy(area, sort)}
+            sortable={true}
+            sort={sort}
+            onSortChange={(e) => {
+              setSort(e.sort);
+            }}
+          >
+            <Column
+              field="date"
+              title="Date"
+              id="col"
+              cell={(props) => (
+                <td>
+                  <a href="/cost_manage">{props.dataItem.date}</a>
+                </td>
+              )}
+            />
+
+            <Column field="cost" title="Cost" />
+          </Grid>
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
+export default CostCharts;
+-----------------------------------------------------------------------------------end cost charts page
+
+
+
+API urls page--------------------------------------start
+
+// usage monitoring URL Start
+export const gettokens_url = "usagemonitoring/gettokens";
+export const listusagemonitoring_url = "usagemonitoring/listusagemonitoring";
+export const listusagemonitoring_url_chart =
+  "usagemonitoring/listusagemonitoring_chart";
+export const gettokens_exturl =
+  "https://login.microsoftonline.com/" + Tenant_ID + "/oauth2/token";
+export const listusagemonitoring_exturl =
+  "https://management.azure.com/subscriptions/" +
+  Subscription_ID +
+  "/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01&metric=actualcost";
+export const query_debugusagemonitoring_url =
+  "usagemonitoring/query_debugusagemonitoring";
+export const query_debugusagemonitoring_exturl =
+  "https://management.azure.com/subscriptions/" +
+  Subscription_ID +
+  "/providers/Microsoft.Consumption/querydebugusagemonitoringRuns?api-version=2021-10-01&metric=actualcost";
+export const query_usagemonitoring_url =
+  "usagemonitoring/query_usagemonitoring";
+export const query_usagemonitoring_exturl =
+  "https://management.azure.com/subscriptions/" +
+  Subscription_ID +
+  "/providers/Microsoft.Consumption/queryusagemonitoringRun?api-version=2021-10-01&metric=actualcost";
+export const listusagemonitoring_url_chart2 =
+  "usagemonitoring/listusagemonitoring_chart2";
+export const forcast_exturl =
+  "https://management.azure.com/subscriptions/cdd13030-77e0-41a5-b0d9-558c7e10551c/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01&$top=5000";
+export const forcast_url = "usagemonitoring/listusagemonitoring_forcast";
+export const Accumulated_exturl =
+  "https://management.azure.com/subscriptions/cdd13030-77e0-41a5-b0d9-558c7e10551c/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000";
+export const Accumulated_url =
+  "usagemonitoring/listusagemonitoring_Accumulated_cost";
+
+export const Consumed_services_exturl =
+  "https://management.azure.com/subscriptions/cdd13030-77e0-41a5-b0d9-558c7e10551c/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000";
+export const Consumed_services_url =
+  "usagemonitoring/listusagemonitoring_Consumed_services";
+
+export const resource_location_exturl =
+  "https://management.azure.com/subscriptions/cdd13030-77e0-41a5-b0d9-558c7e10551c/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000";
+export const resource_location_url =
+  "usagemonitoring/listusagemonitoring_resource_location";
+export const resource_group_exturl =
+  "https://management.azure.com/subscriptions/cdd13030-77e0-41a5-b0d9-558c7e10551c/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000";
+export const resource_group_url =
+  "usagemonitoring/listusagemonitoring_resource_group";
+//usage monitoring URL END
+-------------------------------------------------------------------------end 
+
+usage monitoring.py ---------------------------------start views page
+import json
+import math
+from unittest import result
+
+import pandas as pd
+import numpy as np
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import requests
+from datetime import date, datetime
+import configparser
+import os
+
+cwdPath = os.path.abspath(os.getcwd())
+config_path = os.path.join(cwdPath, "config")
+
+config_parser = configparser.ConfigParser()
+print(os.path.join(config_path, "azure_cred.ini"))
+config_parser.read(os.path.join(config_path, "azure_cred.ini"))
+my_date = datetime.now()
+lastUpdatedBeforeDate = my_date.isoformat()
+
+Tenant_ID = "189de737-c93a-4f5a-8b68-6f4ca9941912"
+Client_ID = "7c38f76b-c45e-4a9a-81b8-d8c57cccb5ad"
+Secret_ID = "eEe7Q~Mtew.CQ0njKkYTJNjO3URb5DJiWegUq"
+Subscription_ID = "cdd13030-77e0-41a5-b0d9-558c7e10551c"
+Grant_Type = "client_credentials"
+Resource = "https://management.azure.com/"
+
+@csrf_exempt
+def generate_token(request):
+    tenant_id = request.GET["tenant_id"];
+    grant_type = request.GET["grant_type"];
+    client_id = request.GET["client_id"];
+    client_secret = request.GET["client_secret"];
+    resource = request.GET["resource"];
+    gettokens_exturl = request.GET["gettokens_exturl"];
+
+
+
+    payload = {
+    'grant_type': grant_type,
+    'client_id': client_id,
+    'client_secret': client_secret,
+    'resource': resource
+    }
+  
+    response = requests.request("GET", gettokens_exturl, data=payload)
+    bearer = response.json()['access_token']
+    return JsonResponse({'token': bearer})
+
+def get_access_token():
+    gettokens_exturl = "https://login.microsoftonline.com/" + Tenant_ID + "/oauth2/token"
+
+    payload = {
+                'grant_type': Grant_Type,
+                'client_id': Client_ID,
+                'client_secret': Secret_ID,
+                'resource': Resource
+            }
+    response = requests.request("GET", gettokens_exturl, data=payload)
+    bearer = response.json()['access_token']
+    return bearer
+
+
+@csrf_exempt
+def listusagemonitoring(request):
+    tenant_id = request.GET["tenant_id"];
+    listusagemonitoring_exturl = request.GET["listusagemonitoring_exturl"];
+    token = 'Bearer ' + request.GET["token"];
+
+    payload = {}
+    headers = {
+        'Authorization': token
+    }
+    response = requests.request("GET", listusagemonitoring_exturl, headers=headers, data=payload)
+    print("KSjfhawilfhkfhawhhawkfkuawhfukwhufawfkawukfkjwbgjawgfjawugfakwue"+response)
+    return JsonResponse(response.json())
+
+def listusagemonitoring_forcast():
+    tenant_id = Tenant_ID
+    forcast_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01&$top=5000"
+    token = 'Bearer ' + get_access_token()
+    payload = json.dumps({
+    "type": "ActualCost",
+    "dataSet": {
+        "granularity": "Daily",
+        "aggregation": {
+            "totalCost": {
+                "name": "Cost",
+                "function": "Sum"
+            }
+        },
+        "sorting": [
+            {
+                "direction": "ascending",
+                "name": "UsageDate"
+            }
+        ]
+    },
+    "timeframe": "Custom",
+    "timePeriod": {
+        "from": "2022-05-01T00:00:00+00:00",
+        "to": "2022-05-31T23:59:59+00:00"
+    },
+    "includeActualCost": False,
+    "includeFreshPartialCost": False
+})
+    headers = {
+        'Authorization': token,
+        'Content-Type' : "application/json"
+    }
+    response = requests.request("POST", forcast_exturl, headers=headers, data=payload)
+    print(response)
+    result=response.json() 
+    return result
+
+def listusagemonitoring_Accumulated_cost():
+    tenant_id = Tenant_ID
+    Accumulated_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    token = 'Bearer ' + get_access_token()
+    payload = json.dumps({
+        "type":"ActualCost",
+        "dataSet":{
+            "granularity":"Daily",
+            "aggregation":{
+                "totalCost":{
+                    "name":"Cost",
+                    "function":"Sum"},
+                    "totalCostUSD":{
+                        "name":"CostUSD",
+                        "function":"Sum"
+                        }},"sorting":[{
+                            "direction":"ascending",
+                            "name":"UsageDate"
+                            }]},
+                            "timeframe":"Custom",
+                            "timePeriod":{
+                                "from":"2022-05-01T00:00:00+00:00",
+                                "to":"2022-05-31T23:59:59+00:00"
+                                }})
+    headers = {
+        'Authorization': token,
+        'Content-Type' : "application/json"
+    }
+    response = requests.request("POST", Accumulated_exturl, headers=headers, data=payload)
+    result=response.json() 
+    # print('kaefghqwaekvfhawkfebsjkilakwjesrbhivlaksdn')
+    # print(result) 
+    return result
+
+def listusagemonitoring_Consumed_services():
+    tenant_id = Tenant_ID
+    Consumed_services_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    token = 'Bearer ' + get_access_token()
+    payload = json.dumps({
+        "type":"ActualCost",
+        "dataSet":{
+            "granularity":"None",
+            "aggregation":{
+                "totalCost":{
+                    "name":"Cost",
+                    "function":"Sum"},
+                    "totalCostUSD":{
+                        "name":"CostUSD",
+                        "function":"Sum"
+                        }},
+                        "grouping":[{
+                            "type":"Dimension",
+                            "name":"ServiceName"
+                            }]},
+                            "timeframe":"Custom",
+                            "timePeriod":{
+                                "from":"2022-05-01T00:00:00+00:00",
+                                "to":"2022-05-31T23:59:59+00:00"
+                                }})
+    headers = {
+        'Authorization': token,
+        'Content-Type' : "application/json"
+    }
+    response = requests.request("POST", Consumed_services_exturl, headers=headers, data=payload)
+    result=response.json()
+    return result
+
+def listusagemonitoring_resource_location():
+    tenant_id = Tenant_ID
+    resource_location_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    token = 'Bearer ' + get_access_token()
+    payload = json.dumps({
+        "type":"ActualCost",
+        "dataSet":{
+            "granularity":"None",
+            "aggregation":{
+                "totalCost":{
+                    "name":"Cost",
+                    "function":"Sum"
+                    },
+                    "totalCostUSD":{
+                        "name":"CostUSD",
+                        "function":"Sum"
+                        }},
+                        "grouping":[{
+                            "type":"Dimension",
+                            "name":"ResourceLocation"
+                            }]},
+                            "timeframe":"Custom",
+                            "timePeriod":{
+                                "from":"2022-05-01T00:00:00+00:00",
+                                "to":"2022-05-31T23:59:59+00:00"
+                                }})
+    headers = {
+        'Authorization': token,
+        'Content-Type' : "application/json"
+    }
+    response = requests.request("POST", resource_location_exturl, headers=headers, data=payload)
+    result=response.json()
+    # print(result)
+    return result
+
+def listusagemonitoring_resource_group():
+    tenant_id = Tenant_ID
+    resource_group_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    token = 'Bearer ' + get_access_token()
+    payload = json.dumps({
+        "type":"ActualCost",
+        "dataSet":{
+            "granularity":"None",
+            "aggregation":{
+                "totalCost":{
+                    "name":"Cost",
+                    "function":"Sum"},
+                    "totalCostUSD":{
+                        "name":"CostUSD",
+                        "function":"Sum"}},
+                        "grouping":[{
+                            "type":"Dimension",
+                            "name":"ResourceGroupName"
+                            },
+                            {
+                                "type":"Dimension",
+                                "name":"ChargeType"
+                                },{"type":"Dimension",
+                                "name":"PublisherType"
+                                }]},
+                                "timeframe":"Custom",
+                                "timePeriod":{
+                                    "from":"2022-05-01T00:00:00+00:00",
+                                    "to":"2022-05-31T23:59:59+00:00"
+                                    }})
+    headers = {
+        'Authorization': token,
+        'Content-Type' : "application/json"
+    }
+    response = requests.request("POST", resource_group_exturl, headers=headers, data=payload)
+    result=response.json()
+    print(result)
+    return result
+    
+
+def listusagemonitoring_chart(request):
+    tenant_id = Tenant_ID
+    listusagemonitoring_exturl = "https://management.azure.com/subscriptions/" +  Subscription_ID + "/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01&metric=actualcost";
+    forecast_cost_exturl = "https://management.azure.com/subscriptions/"+  Subscription_ID +"/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01&$top=5000";
+    Accumulated_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    Consumed_services_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    resource_location_exturl = "https://management.azure.com/subscriptions/"+ Subscription_ID +"/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=5000"
+    token = 'Bearer ' + get_access_token()
+
+    payload = {}
+    headers = {
+        'Authorization': token
+    }
+
+    response = requests.request("GET", listusagemonitoring_exturl, headers=headers, data=payload)
+    result = response.json()["value"]
+    result_array = []
+    for items in result:
+        result_array.append(items["properties"])
+    df_main = pd.json_normalize(json.loads(json.dumps(result_array)))
+    final_result = {}
+    df_area_chart = pd.DataFrame(df_main.groupby(["date"],as_index=False)['cost'].sum())
+    df_consumed_service = pd.DataFrame(df_main.groupby(["consumedService"], as_index=False)['cost'].sum())
+    df_consumed_service['consumedService']=df_consumed_service['consumedService'].str[10:30]
+    df_resourceLocation = pd.DataFrame(df_main.groupby(["resourceLocation"], as_index=False)['cost'].sum())
+    df_resourceGroup = pd.DataFrame(df_main.groupby(["resourceGroup"], as_index=False)['cost'].sum())
+    df_resourceGroup['resourceGroup']=df_resourceGroup['resourceGroup'].str[0:16]
+
+    final_result = {
+    "list_consumed_service":df_consumed_service.to_dict("records"),
+    "list_resource_location":df_resourceLocation.to_dict("records"),"list_resource_group":df_resourceGroup.to_dict("records"),
+    "list_area_chart":df_area_chart.to_dict("records"),
+    "forecast_cost":listusagemonitoring_forcast(),"Accumulated_cost_result":listusagemonitoring_Accumulated_cost(),
+    "Consumed_services_result":listusagemonitoring_Consumed_services(),
+     "resource_location_result":listusagemonitoring_resource_location(),"resource_group_result":listusagemonitoring_resource_group()}
+    return JsonResponse(json.dumps(final_result), safe=False , content_type="application/json")
+
+@csrf_exempt
+def query_debugusagemonitoring(request):
+    tenant_id = request.GET["tenant_id"];
+    query_debugusagemonitoring_exturl = request.GET["query_debugusagemonitoring_exturl"];
+    token = 'Bearer ' + request.GET["token"];
+
+    payload = json.dumps({
+      "lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
+      "lastUpdatedBefore": lastUpdatedBeforeDate
+    })
+    headers = {
+        'Authorization': token
+    }
+    response = requests.request("post",query_debugusagemonitoring_exturl, headers=headers, data=payload)
+    if response.status_code == 200:
+        result = json.loads(response.content)
+    return JsonResponse(response.json())
+
+
+@csrf_exempt
+def query_usagemonitoring(request):
+    tenant_id = request.GET["tenant_id"];
+    query_usagemonitoring_exturl = request.GET["query_usagemonitoring_exturl"];
+    token = 'Bearer ' + request.GET["token"];
+
+    payload = json.dumps({
+        "lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
+        "lastUpdatedBefore": lastUpdatedBeforeDate
+    })
+
+    headers = {
+        'Authorization': token
+    }
+    response = requests.request("POST", query_usagemonitoring_exturl, headers=headers, data=payload)
+    result = json.loads(response.content)
+    return JsonResponse(response.json())
+
+
+
+def listusagemonitoring_chart2(request):
+    tenant_id = request.GET["tenant_id"];
+    listusagemonitoring_exturl = request.GET["listusagemonitoring_exturl"];
+    token = 'Bearer ' + request.GET["token"];
+
+    payload = {}
+    headers = {
+        'Authorization': token
+    }
+    response = requests.request("GET", listusagemonitoring_exturl, headers=headers, data=payload)
+    result = response.json()["value"]
+    result_array = []
+    for items in result:
+        result_array.append(items["properties"])
+    df_main = pd.json_normalize(json.loads(json.dumps(result_array)))
+ 
+   
+    final_result = {}
+    df_area_chart = pd.DataFrame(df_main.groupby(["date"],as_index=False)['quantity'].sum())
+    # print(len(df_area_chart))
+    # print(df_area_chart)
+    df_consumed_service = pd.DataFrame(df_main.groupby(["consumedService"], as_index=False)['quantity'].sum())
+    df_consumed_service['consumedService']=df_consumed_service['consumedService'].str[10:30]
+    df_resourceLocation = pd.DataFrame(df_main.groupby(["resourceLocation"], as_index=False)['quantity'].sum())
+    df_resourceGroup = pd.DataFrame(df_main.groupby(["resourceGroup"], as_index=False)['quantity'].sum())
+    df_resourceGroup['resourceGroup']=df_resourceGroup['resourceGroup'].str[0:16]
+    final_result = {"list_consumed_service":df_consumed_service.to_dict("records"),
+    "list_resource_location":df_resourceLocation.to_dict("records"),"list_resource_group":df_resourceGroup.to_dict("records"),
+    "list_area_chart":df_area_chart.to_dict("records")}
+    return JsonResponse(json.dumps(final_result), safe=False , content_type="application/json") 
+
+  
+-------------------------------------------------end

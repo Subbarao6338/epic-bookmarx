@@ -1,0 +1,49 @@
+$(document).ready(function () {
+    latest_file_table();
+    });
+
+function modal_body(id){
+    var data={
+        "ID": id
+    };
+    console.log("id",id)
+    $.ajax({
+        type: "GET",
+        url: "/view_anomaly",
+        data: data
+    }).then(function (response) {
+        json_content = response["json"]
+        console.log(json_content)
+       $("#view_body").html("<pre>"+JSON.stringify(json_content,undefined,2)+"</pre>")
+    })
+  }
+
+function latest_file_table(data)
+{
+  fetch("/latest_file")
+    .then((response) => response.json())
+    .then((data) => {
+      var response = data.file_latest;
+      var html = '';
+      $.each(response, function (value) {
+        var display_json = response[value].Result_JSON;
+        var actual_json = JSON.stringify(response[value].Result_JSON);
+        if(actual_json.length > 13 && actual_json!="No anomalies were detected in the time series."){
+        display_json = display_json.substr(1, 13) +'';
+        }
+      html+="<tr>";
+      html+="<td>"+response[value].Title_Name+"</td>";
+      html+="<td>"+response[value].File_Name+"</td>";
+      html+="<td>"+display_json+"</td>";
+    /*  html+=`<td>
+        <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#view"
+        onclick="modal_body('${response[value].ID}')">view</a>
+        </td>`;*/
+      html+="</tr>";
+    });
+    $("#files_latest").html(html);
+      })
+      .catch((err) => {
+      alert("No data available");
+    });
+}

@@ -1,0 +1,74 @@
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <div style="margin-top:-10px;background-color:white;height:46px;border-bottom-color: coral;border-bottom:5px;">
+      <a href="/" class="brand-link" style="margin-left:50px;margin-top:10px;padding:0 0 0 0 !important; border-bottom: 0px;">
+        <img src="/static/assets/img/elixir_1-02.png" alt="Elixir Logo" style="height:80px;width:150px;padding:0 0 35px 0">
+<!--        <span class="brand-text" style="font-size: large;font-weight: bold;font-style: italic;font-variant: contextual;font-family: 'Source Sans Pro';visibility:hidden;">REXify</span>-->
+      </a>
+    </div>
+
+    <div></div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'tasks' %}" class="nav-link">
+              <img src="/static/assets/img/Regex_gen.png" class="nav-icon" style="width: 25px;height: 25px;margin-left: -2px;"></img>
+              <p>
+                Training Task
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'logvalidation' %}" class="nav-link">
+              <img src="/static/assets/img/log_validation.png" class="nav-icon" style="width: 25px;height: 25px;margin-left: -2px;"></img>
+              <p>
+                Data Task
+              </p>
+            </a>
+          </li>
+<!--          <li class="nav-item">-->
+<!--            <a href="{% url 'configuration' %}" class="nav-link">-->
+<!--              <img src="/static/assets/img/configure.png" class="nav-icon" style="width: 25px;height: 25px;margin-left: -2px;"></img>-->
+<!--              <p>-->
+<!--                Configuration-->
+<!--              </p>-->
+<!--            </a>-->
+<!--          </li>-->
+          <li class="nav-item">
+            <a href="/static/Elixir_User_Guide.pdf" target="_blank" class="nav-link">
+              <i class="nav-icon far fa-question-circle"></i>
+              <p>
+                Help
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

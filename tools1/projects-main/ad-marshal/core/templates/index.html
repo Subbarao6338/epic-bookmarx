@@ -1,0 +1,196 @@
+{% extends 'layouts/base.html' %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link
+  rel="stylesheet"
+  href="/static/assets/css/custom.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+/>
+<!-- Font Awesome -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/fontawesome-free/css/all.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/sweetalert2/sweetalert2.min.css"
+/>
+<!-- Ionicons -->
+<link
+  rel="stylesheet"
+  href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+/>
+<!-- Tempusdominus Bootstrap 4 -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
+/>
+<!-- iCheck -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
+/>
+<!-- JQVMap -->
+<link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css" />
+<!-- overlayScrollbars -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+/>
+<!-- Daterange picker -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/daterangepicker/daterangepicker.css"
+/>
+<!-- summernote -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/summernote/summernote-bs4.min.css"
+/>
+<!-- table -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+/>
+
+<style>
+.input_div{
+position:relative;
+}
+  .icon_button:hover + .help_text{
+    display:block;
+  }
+  .help_text {
+    display: none;
+    position:absolute;
+    right:60px;
+    top:10px;
+    color:white;
+    background-color:black;
+    padding:2px 4px;
+    border-radius:4px;
+    z-index:10;
+  }
+</style>
+<!-- Table style -->
+
+{% endblock stylesheets %} {% block content %}
+
+    <div class="container">
+  <div class="row justify-content-center p-3">
+    <div class="border rounded shadow-sm p-2" style="width: 450px; max-width: 100%">
+      <h4 class="text-center">Upload Files</h4>
+          <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input id="title_name"
+            name="title_name"
+            required
+            class="form-control"
+            type="text"
+            placeholder="Enter Title"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Upload file</label>
+          <input id="upload_file"
+            required
+            name="upload_file"
+            class="form-control"
+            type="file"
+            accept=".csv, .json"
+          />
+        </div>
+        <div class="mb-3">
+          <button type="button" class="btn btn-outline-primary"  onclick="save_details()"><b>Submit</b></button>
+          <button type="button" class="btn btn-outline-secondary" onclick="clear_form_content()"><b>Reset</b></button>
+        </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div
+      class="border rounded shadow-sm p-2"
+      style="width: 1000px; max-width: 100%; overflow: auto"
+    >
+      <h5 class="text-center">Uploaded files Status</h5>
+      <div class="row mt-2" id="json_content">
+            <table  class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Title</th>
+                        <th>File Name</th>
+                        <th>Upload Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="files_list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div><br/>
+<!--<div align="center">
+    <a href="{% url 'anomaly_detection_form' %}"><h5>Anomly Detection</h5></a>
+  </div>
+<div class="center">
+-->
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge("uibutton", $.ui.button);
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- jQuery -->
+<script>
+  function settingPage() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+<script src="/static/assets/js/pages/anomaly.js"></script>
+
+{% endblock javascripts %}

@@ -1,0 +1,96 @@
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+    }
+    
+    #main {
+        transition: margin-left 0.5s;
+        padding-left: 10px;
+    }
+    
+    .sn:active {
+        background-color: blue;
+    }
+    
+    .sn:visited {
+        background-color: blue;
+    }
+    
+    .sn:focus {
+        background-color: blue;
+    }
+</style>
+
+<div class="navbar" style="
+z-index:999;
+    background-color: #F2F2F2;
+    border-bottom: 1px solid gray;
+    height: 60px;
+    position: fixed;
+    width: 100%;
+  ">
+    <div id="main" style="z-index:999">
+        <!--<span style="font-size:30px;cursor:pointer;color:#ffffff;" onclick="openNav()">&#9776; Anomaly Detection Service</span>
+  <div class="nav-link" style=" font-size: xx-large	;"> </div>-->
+        <span style="font-size: 30px; cursor: pointer; color: #006ab6; display: flex;z-index:999">
+       <a href="javascript:void(0)" class="closebtn" onclick="openNav()"><b style="cursor: pointer;
+    color: rgb(4, 95, 180);
+    font-size: 24px;margin-left: -19px;">&ensp;&#9776;</b></a>
+     <a href="https://graviton.azurewebsites.net/" target="_blank">
+        <img src="/static/assets/images/Graviton.png" width="auto"
+          style="width: 150px;height:auto;margin-top: -7px;margin-left: 6px;" /></a>
+      <a href="/">
+        <b style="vertical-align: text-bottom;font-size: 28px;color: rgb(4, 95, 180);margin-left:12px">MARSHAL</b></a>
+    </span>
+
+    </div>
+      <div style="vertical-align: text-bottom;margin-right: 12px;" title="Help">
+        <a class="btn-link" style=" color: #006ab6; " href="/info">
+                <img src="/static/assets/images/information.png" height="20" width="20" />&ensp;Help
+                </a></div>
+    <nav class="nav__cont" id="mySidenav">
+    <table class="table table-borderless table-hover w3-sidebar w3-bar-block w3-blue" style="margin-top: -5px;">
+        <a href="javascript:void(0)" class="closebtn text-end" onclick="closeNav()" align="right" style="font-size: 20px; margin-left: 200px; color:#006ab6">
+      &#60;
+    </a>
+        <tr class="row" style="height: 50px; width: 275px; align-content: center;" title="Dashboard">
+            <td scope="col" style="font-size: 20px;">
+                <a style="color: black;" class="btn-link" href="/">
+                <img src="/static/assets/images/dashboard.png" height="30" width="30" /> &ensp;Dashboard&emsp;&emsp;
+                </a>
+            </td>
+        </tr>
+        <tr class="row" style="height: 50px; align-content: center;" title="Anomaly Detection">
+            <td scope="col" style="font-size: 20px;">
+                <a class="btn-link" style="color: black;" href="/uploaded_files_table">
+                    <img src="/static/assets/images/anomaly_detector.png" height="30" width="30" /> &ensp;Anomaly Detection
+                </a>
+            </td>
+        </tr>
+        <tr class="row" style="height: 50px; align-content: center;" title="Results Summary">
+            <td scope="col" style="font-size: 20px;">
+                <a class="btn-link" style=" color: black;" href="/anomaly_table">
+                <img src="/static/assets/images/research.png" height="30" width="30" /> &ensp;Results Summary
+                </a>
+            </td>
+        </tr>
+        <tr class="row" style="height: 50px; align-content: center;" title="Settings">
+            <td scope="col" style="font-size: 20px;">
+                <a class="btn-link" style="color: black;" href="/settings">
+                <img src="/static/assets/images/settings.png" height="30" width="30" /> &ensp;Settings&emsp;&emsp;
+                </a>
+            </td>
+        </tr>
+    </table>
+</nav>
+
+</div>
+<script>
+    function openNav() {
+        document.getElementById('mySidenav').style.width = '250px'
+    }
+
+    function closeNav() {
+        document.getElementById('mySidenav').style.width = '40px'
+    }
+</script>

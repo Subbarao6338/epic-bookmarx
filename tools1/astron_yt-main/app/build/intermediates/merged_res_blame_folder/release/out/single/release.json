@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_fragment_account.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/fragment_account.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_activity_main.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/activity_main.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_fragment_notifications.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/fragment_notifications.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/menu_bottom_nav_menu.xml.flat",
+        "source": "cc.astron.app-main-5:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_activity_player.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/activity_player.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_fragment_music.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/fragment_music.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_item_notification.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/item_notification.xml"
+    },
+    {
+        "merged": "cc.astron.app-merged_res-4:/layout_fragment_placeholder.xml.flat",
+        "source": "cc.astron.app-main-5:/layout/fragment_placeholder.xml"
+    }
+]

@@ -1,0 +1,12 @@
+artifact_location: file:///D:/CDP/ADS0.1/mlruns/0
+experiment_id: '0'
+lifecycle_stage: active
+name: Default
+
+
+#For GPU VM:
+#
+#  artifact_location: file:///home/ubuntu/Hawkeye_web/mlruns/0
+#  experiment_id: '0'
+#  lifecycle_stage: active
+#  name: Default

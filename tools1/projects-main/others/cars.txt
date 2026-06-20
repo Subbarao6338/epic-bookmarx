@@ -1,0 +1,20 @@
+const knex=require("./knex");
+
+function create1(MetaDataConfig) {
+return knex("cdp").insert(MetaDataConfig);
+};
+function get1(MetaDataConfig) {
+return knex("cdp").select("*");
+};
+function delete1(MetaDataConfig) {
+return knex("cdp").where("id",id).del();
+};
+function update1(MetaDataConfig) {
+return knex("createdatasource").where("id",id).update(MetaDataConfig);
+};
+module.exports={
+create1,
+get1,
+delete1,
+update1
+}

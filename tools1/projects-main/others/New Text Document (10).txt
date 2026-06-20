@@ -1,0 +1,18 @@
+
+function options_list{
+    fetch("/")
+        .then((response) => response.json())
+        .then((data) => {
+        var response = data.files;
+          $("#param_list").html(html);
+      })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+function anomalyForm(TitleName){
+    fetch("/anomaly_detection_form")
+}
+
+create table Anomaly_Form (ID int IDENTITY(1,1),Title_Name nvarchar(50),Anomaly_Type nvarchar(50),Anomaly_Interval nvarchar(50), Anomaly_Parameters nvarchar(50),Timeseries_Parameter nvarchar(50),Output_File nvarchar(50))

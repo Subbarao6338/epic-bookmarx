@@ -1,0 +1,44 @@
+{
+  "DatabaseName": "northwnd",
+  "Tables": ["[categories]", "[products]"],
+  "Fields": [{
+    "TableName": "[Categories]",
+    "FieldName": "[Categoryid ]",
+    "Alias": "category_id",
+    "Mask": ""
+  },{
+    "TableName": "[Categories]",
+    "FieldName": "[categoryname ]",
+    "Alias": "category_name",
+    "Mask": ""
+  },{
+    "TableName": "[products]",
+    "FieldName": "[productid ]",
+    "Alias": "product_id",
+    "Mask": ""
+  },{
+    "TableName": "[products]",
+    "FieldName": "[productname ]",
+    "Alias": "product_name",
+    "Mask": ""
+  },{
+    "TableName": "[products]",
+    "FieldName": "[categoryid ]",
+    "Alias": "prod_category_id",
+    "Mask": ""
+  }],
+  "Joins": [{
+    "LeftTable": "categories",
+    "JoinType": "INNER JOIN",
+    "RightTable": "products",
+    "Condition": "=",
+    "LeftColumn": "categoryid",
+    "RightColumn": "categoryid"
+  }],
+  "Where": [{
+    "TableName": "categories",
+    "columnName": "categoryid",
+    "Condition": "=",
+    "Value": "2"
+  }]
+}

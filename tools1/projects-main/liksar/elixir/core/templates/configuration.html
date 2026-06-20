@@ -1,0 +1,144 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Configuration {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+  <link rel="stylesheet" href="/static/assets/css/custom.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Configuration</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Configuration</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Configuration</h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <tr>
+              <td rowspan="2" class="main_td">Training Steps</td>
+              <td class="middle_td">Regular Expression</td>
+              <td><input type="text" class="form-control" id="txt_re_count" value="500"></td>
+            </tr>
+            <tr>
+              <td class="middle_td">DL  Model</td>
+              <td><input type="text" class="form-control" id="txt_ml_count" value="10000"></td>
+            </tr>
+            <tr>
+              <td rowspan="4" class="main_td">AWS Credentials</td>
+              <td class="middle_td">Access Key</td>
+              <td><input type="password" class="form-control" id="txt_access_key" value="***************"></td>
+            </tr>
+            <tr>
+              <td class="middle_td">Secret Key</td>
+              <td><input type="password" class="form-control" id="txt_secret_key" value="***************"></td>
+            </tr>
+            <tr>
+              <td class="middle_td">AMI Image Id</td>
+              <td><input type="password" class="form-control" id="txt_instance_id" value="**************"></td>
+            </tr>
+            <tr>
+              <td class="middle_td">PEM File</td>
+              <td>
+                <button class="btn btn-primary" role="button" id="btn_upload_key">Upload</button>
+                <input type='file' name="pem_file" id="fileUpload" style="display:none" accept=".pem" onchange="upload_pemfile()" />
+                 <label id="lbl_filename">No file selected</label>
+              </td>
+            </tr>
+<!--             <tr>-->
+<!--              <td class="main_td">Upload PEM File</td>-->
+<!--               <td colspan="2">-->
+<!--                 <button class="btn btn-primary" role="button" id="btn_upload_key">Upload</button>-->
+<!--                <input type='file' name="pem_file" id="fileUpload" style="display:none" accept=".pem" onchange="upload_pemfile()" />-->
+<!--                 <label id="lbl_filename">No file selected</label>-->
+<!--               </td>-->
+<!--             </tr>-->
+
+<!--            <tr>-->
+<!--              <td rowspan="3" class="main_td">Notebook Info</td>-->
+<!--              <td class="middle_td">Notebook Name</td>-->
+<!--              <td><input type="text" class="form-control" id="txt_notebook_name" value="InvoiceNet_final.ipynb"></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td class="middle_td">Port</td>-->
+<!--              <td><input type="text" class="form-control" id="txt_port" value="8888"></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td class="middle_td">Access Token</td>-->
+<!--              <td><input type="text" class="form-control" id="txt_access_token" value="************************"></td>-->
+<!--            </tr>-->
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer text-right">
+          <button class="btn btn-success" role="button" id="btn_save_config">Submit</button>
+        </div>
+        <!-- /.card-footer-->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script src="/static/assets/js/pages/configuration.js"></script>
+
+{% endblock javascripts %}

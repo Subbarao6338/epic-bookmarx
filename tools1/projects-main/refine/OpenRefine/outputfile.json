@@ -1,0 +1,614 @@
+{
+  "projects": {
+    "1952324049490": {
+      "created": "2021-10-22T11:19:49Z",
+      "modified": "2021-10-22T12:33:09Z",
+      "name": "520464530853400 csv",
+      "tags": [ ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 12,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": ",",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": false,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "520464530853400 csv",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "527234746017899.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ",",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": false,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "520464530853400 csv",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "527234746017899.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ",",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": false,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "520464530853400 csv",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "527234746017899.csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "2378069978556": {
+      "created": "2021-10-22T11:39:40Z",
+      "modified": "2021-10-22T11:39:43Z",
+      "name": "customer csv",
+      "tags": [ ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 1000,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": ",",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": false,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": false,
+          "trimStrings": true,
+          "projectName": "customer csv",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "1714438453443": {
+      "created": "2021-10-28T08:44:37Z",
+      "modified": "2021-11-01T06:17:23Z",
+      "name": "duplicates",
+      "tags": [ ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 10,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "storeEmptyStrings": true,
+          "separator": ",",
+          "trimStrings": false,
+          "storeBlankRows": true,
+          "processQuotes": true,
+          "storeBlankCellsAsNulls": true,
+          "encoding": "",
+          "guessCellValueTypes": false,
+          "includeFileSources": false,
+          "limit": -1,
+          "projectName": "duplicates",
+          "fileSource": "duplicates.csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "1639549089828": {
+      "created": "2021-10-22T10:53:07Z",
+      "modified": "2021-10-25T08:37:24Z",
+      "name": "users csv",
+      "tags": [ ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 10,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": false,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": false,
+          "trimStrings": true,
+          "projectName": "users csv",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "21473-users.csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "1956106707449": {
+      "created": "2021-10-26T05:22:02Z",
+      "modified": "2021-10-26T06:29:56Z",
+      "name": "cdpdeviceeventhub json",
+      "tags": [
+        "Telemetric"
+      ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 22,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "recordPath": [
+            "_"
+          ],
+          "limit": -1,
+          "trimStrings": true,
+          "guessCellValueTypes": true,
+          "storeEmptyStrings": true,
+          "includeFileSources": false,
+          "projectName": "cdpdeviceeventhub json",
+          "projectTags": [
+            "Telemetric"
+          ],
+          "fileSource": "cdpdeviceeventhub.json"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "1827949281338": {
+      "created": "2021-10-26T08:13:00Z",
+      "modified": "2021-10-29T09:35:20Z",
+      "name": "file",
+      "tags": [ ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 452,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": ",",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": false,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": false,
+          "trimStrings": true,
+          "projectName": "file",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "file (1).csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "2174100887778": {
+      "created": "2021-10-26T05:24:13Z",
+      "modified": "2021-11-01T12:40:49Z",
+      "name": "cdpdeviceeventhub csv",
+      "tags": [
+        "Telemetric"
+      ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 22,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": ",",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": false,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": false,
+          "trimStrings": true,
+          "projectName": "cdpdeviceeventhub csv",
+          "projectTags": [
+            "Telemetric"
+          ],
+          "fileSource": "cdpdeviceeventhub.csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "1858937637244": {
+      "created": "2021-10-22T12:42:21Z",
+      "modified": "2021-11-01T12:05:42Z",
+      "name": "Users",
+      "tags": [ ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 1046,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        },
+        {
+          "encoding": "US-ASCII",
+          "separator": ";",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": true,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": true,
+          "trimStrings": true,
+          "projectName": "csv files",
+          "projectTags": [
+            ""
+          ],
+          "fileSource": "customer.csv"
+        }
+      ],
+      "customMetadata": { }
+    },
+    "2562480035519": {
+      "created": "2021-11-01T11:42:51Z",
+      "modified": "2021-11-01T12:23:00Z",
+      "name": "urls",
+      "tags": [
+        "url"
+      ],
+      "creator": "",
+      "contributors": "",
+      "subject": "",
+      "description": "",
+      "rowCount": 26,
+      "title": "",
+      "version": "",
+      "license": "",
+      "homepage": "",
+      "image": "",
+      "importOptionMetadata": [
+        {
+          "encoding": "US-ASCII",
+          "separator": "\\t",
+          "ignoreLines": -1,
+          "headerLines": 1,
+          "skipDataLines": 0,
+          "limit": -1,
+          "storeBlankRows": false,
+          "guessCellValueTypes": true,
+          "processQuotes": true,
+          "quoteCharacter": "\"",
+          "storeBlankCellsAsNulls": true,
+          "includeFileSources": false,
+          "trimStrings": true,
+          "columnNames": [
+            "URL",
+            "Name"
+          ],
+          "projectName": "urls",
+          "projectTags": [
+            "url"
+          ],
+          "fileSource": "new.csv"
+        }
+      ],
+      "customMetadata": { }
+    }
+  }
+}

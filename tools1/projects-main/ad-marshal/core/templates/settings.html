@@ -1,0 +1,96 @@
+{% extends 'layouts/base.html' %}
+{% block stylesheets %}
+{% endblock stylesheets %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center p-4">
+        <!--breadcrumb      start  -->
+        <div class="p-1" style="
+        margin-top: 36px;
+        position: fixed;
+        height: 30px;
+        width: 1150px;
+        background-color: white;
+        z-index:100;
+      ">
+            <a class="btn-link" href="/" style="font-size: 14px;">
+                <b>Home&emsp;</b>
+            </a>
+            <b>></b> &emsp;
+            <b style="font-size: 14px;">Settings</b>
+        </div>
+        <!--breadcrumb    end    -->
+        <div class="border" style="
+        margin-top: 70px;
+      ">
+            <h5 class="border-bottom" style="text-align: center;padding-top: 5px;padding-bottom: 5px;"><b>Settings</b></h5>
+            <form align="center" class="p-2 was-validated" style="">
+                <div class="row mb-3">
+                    <div class="col-5 text-left" style="width:300px">
+                        <label style="padding:3px;font-size: 16px;">Anomaly Service Type:</label></div>
+                    <div class="col-7" style="">
+                        <select class="form-select" id="Anomaly_services" required style="
+                  border-radius: 5px;
+                  background-color: white;
+                  width: 300px;
+                  height: 30px;
+                ">
+                            <!--                <option class="dropdown">Select Anomaly Detection Type</option>-->
+                            <option
+                                    class="dropdown"
+                                    id="azure_anomaly"
+                                    value="azure_anomaly_detection"
+                            >
+                                Azure
+                            </option>
+                            <option
+                                    class="dropdown"
+                                    id="graviton_anomaly"
+                                    value="graviton_anomaly_detection"
+                            >
+                                Graviton
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3" id="skey">
+                    <div class="col-5 text-left">
+                        <label style="padding:3px;font-size: 16px;">Subscription Key:</label>
+                    </div>
+                    <div class="col-7">
+                        <input id="subscription_key" style="border-radius: 5px; width: 300px; height: 30px;"
+                               type="text"/>
+                    </div>
+                </div>
+                <div class="row mb-3" id="endp">
+                    <div class="col-5 text-left" style="width:300px">
+                        <label style="padding:3px;font-size: 16px;">Azure Anomaly Service URL:</label>
+                    </div>
+                    <div class="col-7">
+                        <input id="anomaly_detector_endpoint" style="border-radius: 5px; width: 300px; height: 30px;"
+                               type="text"/>
+                    </div>
+                </div>
+                <div align="center" style="">
+                    <button class="btn btn-outline-primary" onclick="update_anomaly_form()" type="button">
+                        Update
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="HandleBack()" type="button">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+</div>
+
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
+<script src="/static/assets/js/pages/anomaly_detection/settings.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock javascripts %}

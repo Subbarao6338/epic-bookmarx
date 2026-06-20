@@ -1,0 +1,9 @@
+pip install confluent-kafka
+
+python send_using_kafka_package.py demo_event_hub
+python consume_using_kafka_package.py '$default' demo_event_hub
+
+host-prathamcdpehns.servicebus.windows.net:9093
+topic-demo_event_hub
+group-$default
+Connection String-Endpoint=sb://prathamcdpehns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=s+qCcNwlLHZS1bg9r0AXeCMCvaT8/ruy+E2/LRkk6rs=

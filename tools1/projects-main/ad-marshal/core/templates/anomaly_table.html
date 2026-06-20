@@ -1,0 +1,94 @@
+{% extends 'layouts/base.html' %}
+
+{% block stylesheets %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+    @media (min-width: 700px)
+.modal-content {
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 50%);
+}
+
+</style>
+{% endblock stylesheets %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center p-4">
+        <!--breadcrumb      start  -->
+        <div class="p-1" style="
+        margin-top: 36px;
+        position: fixed;
+        height: 30px;
+        width: 1150px;
+        background-color: white;
+        z-index:100;
+      ">
+            <a class="btn-link" href="/" style="font-size: 14px;">
+                <b>Home&emsp;</b>
+            </a>
+
+            <b>></b> &emsp;
+            <b style="font-size: 14px;">Results Summary</b>
+        </div>
+        <!--breadcrumb    end    -->
+        <div class="row justify-content-center" style="margin-top: 70px;">
+            <div class="border pt-2 text-center" style="width: auto">
+                <h5 class="text-center"><b>Results Summary</b></h5>
+                <div class="row p-2" id="json_content" style="">
+                    <table class="table table-bordered table-hover table-sm text-left at" id="azure_table" style="">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>TimeSeries Field</th>
+                            <th>Data Field</th>
+                            <th>Base Data</th>
+                            <th>Interval</th>
+                            <th style="width:50px">Result</th>
+                        </tr>
+                        </thead>
+                        <tbody id="anomaly_list"></tbody>
+                    </table>
+
+                    <table class="table table-bordered table-hover table-sm text-left at" id="graviton_table" style="">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>TimeSeries Field</th>
+                            <th>Data Field</th>
+                            <th>Model Name</th>
+                            <th style="width:50px">Result</th>
+                        </tr>
+                        </thead>
+                        <tbody id="graviton_list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg=="
+        referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-uLlukEfSLB7gWRBvzpDnLGvzNUluF19IDEdUoyGAtaO0MVSBsQ+g3qhLRL3GTVoEzKpc24rVT6X1Pr5fmsShBg=="
+        referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg=="
+        referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.2.1/json2html.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.js" type="text/javascript"></script>
+<!--<script src="/static/assets/js/pages/results_summary/result_chart.js"></script>-->
+<script src="/static/assets/js/pages/anomaly_detection/anomalytable.js"></script>
+<script src="/static/assets/js/pages/results_summary/sort.js"></script>
+
+{% endblock javascripts %}

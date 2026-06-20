@@ -1,0 +1,40 @@
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:25.847193", "Temperature": 88, "UVValue": 0.4851190947462847, "Humidity
+": 78, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221514
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:26.864633", "Temperature": 84, "UVValue": 0.417344385346499, "Humidity"
+: 80, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221515
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:27.866608", "Temperature": 84, "UVValue": 0.32348468646315454, "Humidit
+y": 89, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221516
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:28.881752", "Temperature": 85, "UVValue": 0.44763584821825975, "Humidit
+y": 80, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221517
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:29.888628", "Temperature": 72, "UVValue": 0.7848752741552266, "Humidity
+": 92, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221520
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:30.897341", "Temperature": 70, "UVValue": 0.5734090512659444, "Humidity
+": 88, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221521
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:31.911517", "Temperature": 79, "UVValue": 0.9503076148304538, "Humidity
+": 70, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221522
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:32.915907", "Temperature": 72, "UVValue": 0.29333056802422774, "Humidit
+y": 74, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221523
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:33.917860", "Temperature": 81, "UVValue": 0.9521903992657537, "Humidity
+": 92, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221524
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:34.924197", "Temperature": 100, "UVValue": 0.05446878415153367, "Humidi
+ty": 98, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221525
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:35.925712", "Temperature": 80, "UVValue": 0.4099306051034448, "Humidity
+": 100, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221526
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:36.940344", "Temperature": 100, "UVValue": 0.7067709571295181, "Humidit
+y": 96, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221527
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:37.953983", "Temperature": 82, "UVValue": 0.762618576975917, "Humidity"
+: 97, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221530
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:38.969603", "Temperature": 94, "UVValue": 0.9944461383511924, "Humidity
+": 78, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221531
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:39.973027", "Temperature": 96, "UVValue": 0.5242378898439657, "Humidity
+": 70, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221532
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:40.988664", "Temperature": 90, "UVValue": 0.036887023218250325, "Humidi
+ty": 85, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221533
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:41.990155", "Temperature": 100, "UVValue": 0.5196431654355288, "Humidit
+y": 97, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221534
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:43.005777", "Temperature": 87, "UVValue": 0.0904400669239438, "Humidity
+": 71, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221535
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:44.021891", "Temperature": 84, "UVValue": 0.12831701260088657, "Humidit
+y": 88, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221536
+Message= b'{"DeviceName": "temp_sensor_kafka_1", "timestamp": "2022-05-26 12:13:45.028222", "Temperature": 92, "UVValue": 0.36748180628902327, "Humidit
+y": 97, "source": "kafka"}' | topic= demo_event_hub | partition= [0] | offset= 221537

@@ -1,0 +1,17 @@
+config:
+  core:
+    colored_console_log: 'False'
+    dags_folder: '{{ include "airflow_dags" . }}'
+    load_examples: 'True'
+env:
+- name: AIRFLOW__CORE__LOAD_EXAMPLES
+  value: 'True'
+webserver:
+  defaultUser:
+    email: admin@test.com
+    enabled: true
+    firstName: Admin
+    lastName: User
+    password: admin
+    role: Admin
+    username: admin

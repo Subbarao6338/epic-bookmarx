@@ -1,0 +1,3 @@
+In case of error comment line number 18737 of below file and then run command to build
+
+ge_ui_dev\node_modules\@progress\kendo-theme-default\dist\all.css

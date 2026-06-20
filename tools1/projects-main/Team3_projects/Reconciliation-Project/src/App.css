@@ -1,0 +1,264 @@
+.App {
+  text-align: center;
+  /* background-color: #282c34; */
+  width:auto;
+  height:700px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.h1{
+  background-color:blue;
+}
+.app{
+  margin:20px;
+  padding:20px;
+  justify-content:center;
+  box-shadow:0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.icons{
+  display:flex;
+  flex-direction:column;
+}
+.text{
+  font-weight:bold;
+  color:#027068;
+font-size:40px;
+}
+.icon_class>.MuiSvgIcon-root{
+  color:#027068;
+}
+.AppBar{
+  height:100px;
+  padding:0px 20px;
+}
+
+
+.top{
+  margin-top:55px;
+}
+
+.topbar{
+  width: 80%;
+  height:50px;
+  background-color:black;
+  justify-content:space-between;
+}
+.topbarWrapper{
+  height:50px;
+  padding:0px 10px;
+  display:flex;
+  align-items:vertical;
+  background-color:black;
+  justify-content:space-between;
+  margin-right:0px 5px;
+}
+.topLeft{
+ 
+  display:flex;
+  align-items:center;
+  color:white;
+  margin-left:20px;
+  justify-content:space-between;
+  /* width:14em; */
+  word-spacing: 10px;
+}
+.topRight{
+  display:flex;
+  align-items:vertical;
+  color:white;
+  width:10em;
+  justify-content:space-between;
+  margin-right:20px;
+}
+.logo{
+  font-weight: bold;
+  font-size:10px;
+  color:inherit;
+  cursor:pointer;
+  align-items:vertical;
+}
+.icon{
+  display:flex;
+  color:blue;
+  margin-right:2px;
+  padding:0px 5px;
+}
+.icon1{
+  display:flex;
+  align-items:vertical;
+  color:black;
+  margin-right:2px;
+  padding:0px 5px;
+}
+
+.head{
+  background-color:blue;
+
+}
+.main{
+  display:flex;
+  color:white;
+  padding-left:0px 50px;
+  width:30em;
+}
+.sidebar{
+  height: 550px;
+  width:150px;
+  flex-shrink:0;
+  padding:50px;
+  padding-top:50px;
+  padding-left: 5px;
+  background-color:#282c34;
+}
+.container{
+  /*flex-grow:1;
+  top: 53px;
+  position:relative;
+  padding: 0px 20px;
+  background-size:cover; */
+  flex-grow:1;
+  padding: 0px 20px;
+  background-size:cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  background-color:white;
+  color:black;
+
+
+}
+.container1{
+  flex-grow:1;
+  padding:0px 20px;
+  background-size:cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:center;
+  background-color:white;
+  color:black;
+  width:50px;
+ 
+}
+.container2{
+  background-size:cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  background-color:white;
+  color:black;
+}
+.container3{
+  height:200px;
+  background-size:cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  background-color:white;
+  color:black;
+}
+.fields{
+  justify-content:space-around;
+}
+
+.title{
+  font-size:20px;
+  line-height:10px;
+  margin:2em;
+}
+.info{
+  font-size:large;
+  letter-spacing:20px;
+  line-height:3;
+  margin:20px;
+  color:black;
+}
+.folder{
+  letter-spacing:2px;
+}
+.reports{
+  color:white;
+  letter-spacing:2px;
+}
+.sidebar-item{
+  display:flex;
+  align-items:vertical;
+  height: calc(100vh - 50px);
+  background-color: rgb(251, 251, 255);
+  }
+  
+  .bi-gear-fill {
+  padding: 20px;
+  color: black;
+  }
+  
+  .sidebarMenu {
+  margin-bottom: 10px;
+  }
+  
+  .sidebarTitle {
+  font-size: 13px;
+  color: rgb(187, 186, 186);
+  }
+  
+  .sidebarList {
+  list-style: none;
+  padding: 5px;
+  }
+  
+  .sidebarListItem {
+  padding:  0px 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  }
+  
+  .sidebarListItem.active,
+  .sidebarListItem:hover {
+  background-color: rgb(240, 240, 255);
+  }
+  
+  .sidebarIcon{
+    display:flex;
+  align-items:vertical;
+  color:black;
+  margin-right:10px;
+  font-size: 20px;
+  }
+  

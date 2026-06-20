@@ -1,0 +1,115 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Create User {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+  <link rel="stylesheet" href="/static/assets/css/wizard_css/list_box/listbox.css">
+  <link rel="stylesheet" href="/static/assets/css/wizard_css/custom_wizard.css">
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Create User</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Create User</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+     <section class="content">
+      <div class="container-fluid">
+		  <div class="row">
+              <div class="card card-primary">
+			    <div class="card-body">
+                    <form id="myUserForm" method="post">
+                        <div class="row form-group">
+                            <div class="form-group col-4">
+                                 <label for="txtUserName">User Name :</label>
+                                <input type="text" class="form-control validate" id="txtUserName">
+                            </div>
+                             <div class="form-group col-4">
+                                <label for="txtEmailId">Email Id :</label>
+                                <input type="text" class="form-control validate" id="txtEmailId">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="form-group col-4">
+                                <label for="txtUserPassword">Password :</label>
+                                <input type="password" class="form-control validate" id="txtUserPassword">
+                            </div>
+                             <div class="form-group col-4">
+                                <label for="txtUserKey">Key :</label>
+                                <input type="text" class="form-control validate" id="txtUserKey" disabled value="{{user_key}}">
+                            </div>
+                             <!--  <div class="form-group col-4">
+                                <label for="ddlUserAccessType">User Access Type :</label>
+                               <select class="form-control select2" id="ddlUserAccessType" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                    <option value = "Public">Public</option>
+                                    <option value = "Private">Private</option>
+                                    <option value = "Protected">Protected</option>
+                                </select>
+                            </div> -->
+                        </div>
+
+                         <div class="form-group">
+                             <a href="javascript:void(0)" class="btn btn-primary" id="btn_SubmitUserDetails" onclick="users">Submit
+                             </a>
+<!--                             <a class="btn btn-primary" role="button" id="btn_SubmitUserDetails">Submit</a>-->
+                         </div>
+                    </form>
+                </div>
+              </div>
+		  </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+
+
+
+{% endblock content %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script src="/static/assets/js/wizard_js/user_management.js"></script>
+
+{% endblock javascripts %}

@@ -1,0 +1,27 @@
+Name,URL
+Open Refine Home,http://127.0.0.1:3333/
+Models,http://127.0.0.1:3333/command/core/get-models?project=2174100887778
+All projects Metadata,http://127.0.0.1:3333/command/core/get-all-project-metadata
+CSRF Token,http://127.0.0.1:3333/command/core/get-csrf-token
+History,http://127.0.0.1:3333/command/core/get-history?project=2174100887778
+Get Rows,http://127.0.0.1:3333/command/core/get-rows?project=2174100887778
+Get a project Metadata,http://127.0.0.1:3333/command/core/get-project-metadata?project=2174100887778
+Tags,http://127.0.0.1:3333/command/core/get-all-project-tags
+Languages,http://127.0.0.1:3333/command/core/get-languages
+Version,http://127.0.0.1:3333/command/core/get-version
+Saved Connections,http://127.0.0.1:3333/command/database/saved-connection
+Importing controller,http://127.0.0.1:3333/command/core/importing-controller
+Delete Project,http://127.0.0.1:3333/command/core/delete-project?project=2084226911178
+Importing Configuration,http://127.0.0.1:3333/command/core/get-importing-configuration
+Create Project,http://127.0.0.1:3333/command/core/create-project-from-upload&urls.html
+Create Project,"http://127.0.0.1:3333/command/core/create-project-from-upload?{""project-file""=""duplicates""&""project-name""=""project1""&""format""=""text/line-based/*sv""}"
+Create Project,http://127.0.0.1:3333/command/core/create-project-from-upload?project-file=duplicates.csv&project-name=project1&format=text/line-based/*sv
+Export Rows,"http://127.0.0.1:3333/command/core/export-rows/urls.csv"
+Create importing job,http://127.0.0.1:3333/command/core/create-importing-job
+Importing Job Status,http://127.0.0.1:3333/command/core/get-importing-job-status
+refine client py,https://github.com/paulmakepeace/refine-client-py
+openrefine client,https://github.com/opencultureconsulting/openrefine-client
+reconciliation api,https://github.com/BrickSchema/reconciliation-api
+refine python,https://github.com/maxogden/refine-python
+Open Refine API,https://docs.openrefine.org/technical-reference/openrefine-api
+Recipes,https://github.com/OpenRefine/OpenRefine/wiki/Recipes

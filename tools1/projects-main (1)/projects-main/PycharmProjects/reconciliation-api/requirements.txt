@@ -1,0 +1,4 @@
+brickschema
+Flask-Jsonpify
+Flask
+flask_cors

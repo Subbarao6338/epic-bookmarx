@@ -1,0 +1,164 @@
+{% extends 'layouts/base.html' %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link
+  rel="stylesheet"
+  href="/static/assets/css/custom.css"
+/>
+<!-- Google Font: Source Sans Pro -->
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+/>
+<!-- Font Awesome -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/fontawesome-free/css/all.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/sweetalert2/sweetalert2.min.css"
+/>
+<!-- Ionicons -->
+<link
+  rel="stylesheet"
+  href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+/>
+<!-- Tempusdominus Bootstrap 4 -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
+/>
+<!-- iCheck -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
+/>
+<!-- JQVMap -->
+<link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css" />
+<!-- overlayScrollbars -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+/>
+<!-- Daterange picker -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/daterangepicker/daterangepicker.css"
+/>
+<!-- summernote -->
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/summernote/summernote-bs4.min.css"
+/>
+<!-- table -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+/>
+<!-- Table style -->
+<!--  Bootstrap css-->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+  crossorigin="anonymous"
+/>
+
+{% endblock stylesheets %} {% block content %}
+
+<div class="container p-3 shadow" style="background-color:white;border-radius: 10px;border: 2px solid #3C98AC;width:150%;margin-top:100px;min-height: 100px;
+overflow: hidden;">
+    <h3 class="text-center">Schema List</h3>
+
+<!--        <form action="http://127.0.0.1:8000/custom_message_template">-->
+<!--        <input class="btn btn-primary btn-md-5" type="submit" value="ADD" />-->
+<!--        </form>-->
+    <div>
+        &nbsp;&nbsp;
+        <a href="{% url 'custom_message_template' %}" style="position: relative; top:-40px;">
+            <button class="btn btn-primary me-2" >Add Schema</button>
+        </a>
+    </div>
+  <div class="row mr-2 ml-2" style="position: relative; top:-25px">
+            <table class="table table-bordered black table-hover" style="width:100%; border:1px solid black;padding:1rem;" >
+                <thead class="Black">
+                    <tr>
+                        <th width="10%" height="5px" style="width:3%; border:1px solid black">S.No</th>
+                        <th width="15%" height="5px" style="width:7%; border:1px solid black">Name</th>
+                        <th width="30%" height="5px" style="width:30%; border:1px solid black">Uploaded Schema</th>
+                        <th width="30%" height="5px" style="width:7%; border:1px solid black">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="data_simulator_table">
+
+                </tbody >
+            </table>
+        </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Scrollable modal -->
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Template Json</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modal_view">
+        Loading...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge("uibutton", $.ui.button);
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- jQuery -->
+<script src="/static/assets/js/pages/Data_Simulator.js"></script>
+<!--  Bootstrap JS-->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+  crossorigin="anonymous"
+></script>
+{% endblock javascripts %}
+

@@ -1,0 +1,10 @@
+00:00:00.40 Old version Trek data lose. Only receive 3 parameters
+00:00:01.13 SRG: check gasline 4 On
+00:00:03.37 Old version Trek data lose. Only receive 2 parameters
+00:00:04.10 Old version Trek data lose. Only receive 8 parameters
+00:00:06.33 Old version Trek data lose. Only receive 2 parameters
+00:00:07.07 Old version Trek data lose. Only receive 7 parameters
+00:00:08.55 Old version Trek data lose. Only receive 9 parameters
+00:00:09.30 Old version Trek data lose. Only receive 2 parameters
+00:00:10.03 Old version Trek data lose. Only receive 5 parameters
+00:00:12.27 Old version Trek data lose. Only receive 1 parameters

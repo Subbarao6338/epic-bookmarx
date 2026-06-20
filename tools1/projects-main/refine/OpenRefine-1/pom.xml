@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.openrefine</groupId>
+  <artifactId>openrefine</artifactId>
+  <packaging>pom</packaging>
+  <version>3.6-SNAPSHOT</version>
+
+  <name>OpenRefine</name>
+  <description>OpenRefine is a free, open source power tool for working with messy data and improving it</description>
+  <url>http://openrefine.org/</url>
+  <organization>
+    <name>Code for Science &amp; Society Inc.</name>
+    <url>https://codeforscience.org/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>BSD 3-Clause "New" or "Revised" License</name>
+      <url>https://github.com/OpenRefine/OpenRefine/blob/master/LICENSE.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <mailingLists>
+    <mailingList>
+      <name>Dev</name>
+        <post>openrefine-dev@googlegroups.com</post>
+        <archive>https://groups.google.com/group/openrefine-dev/</archive>
+     </mailingList>
+     <mailingList>
+       <name>Users</name>
+       <post>openrefine@googlegroups.com</post>
+       <archive>https://groups.google.com/group/openrefine/</archive>
+     </mailingList>
+  </mailingLists>
+  <scm>
+      <connection>scm:git:git://github.com//OpenRefine/OpenRefine.git</connection>
+      <developerConnection>scm:git:https://github.com/OpenRefine/OpenRefine</developerConnection>
+      <url>https://github.com/OpenRefine/OpenRefine.git</url>
+      <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/openrefine/openrefine/issues</url>
+  </issueManagement>
+
+  <modules>
+        <module>main</module>
+        <module>server</module>
+        <module>extensions</module>
+        <module>packaging</module>
+        <module>benchmark</module>
+  </modules>
+
+
+  <properties>
+    <jee.path>/</jee.path>
+    <jee.port>3333</jee.port>
+    <refine.data>/tmp/refine</refine.data>
+    <surefire.version>2.22.2</surefire.version>
+    <surefireArgs/>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jackson.version>2.13.0</jackson.version>
+    <servlet-api.version>4.0.1</servlet-api.version>
+    <butterfly.version>1.2.0</butterfly.version>
+    <slf4j.version>1.7.32</slf4j.version>
+    <jetty.version>9.4.41.v20210516</jetty.version>
+  </properties>
+
+
+  <build>
+    <!-- It is nice for "mvn" with no arguments to do a reasonable default. -->
+    <defaultGoal>install</defaultGoal>
+    
+    <finalName>openrefine</finalName>
+    <resources>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>server/src</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+          <showDeprecation>false</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <skip>true</skip>
+          <mainClass>none</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.2.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <argLine>@{surefireArgs} -Dfile.encoding=cp1252</argLine>
+          <suiteXmlFiles>
+            <suiteXmlFile>main/tests/server/conf/tests.xml</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.7</version>
+        <executions>
+            <execution>
+                <id>prepare-agent</id>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+                <phase>process-test-resources</phase>
+                <configuration>
+                    <destFile>${project.build.directory}/report/${project.name}.exec</destFile>
+                    <propertyName>surefireArgs</propertyName>
+                </configuration>
+            </execution>
+            <execution>
+                <phase>test</phase>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+                <configuration>
+                    <dataFile>${project.build.directory}/report/${project.name}.exec</dataFile>
+                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                </configuration>
+            </execution>
+            <execution>
+                <id>merge</id>
+                <goals>
+                     <goal>merge</goal>
+                </goals>
+                <phase>prepare-package</phase>
+               <configuration>
+                     <destFile>${project.build.directory}/report/jacoco-merged.exec</destFile>
+                     <fileSets>
+                        <fileSet>
+                            <directory>main/target/report</directory>
+                            <includes>
+                                <include>*.exec</include>
+                            </includes>
+                        </fileSet>
+                        <fileSet>
+                            <directory>extensions/target/report</directory>
+                            <includes>
+                                <include>*.exec</include>
+                            </includes>
+                        </fileSet>
+                     </fileSets> 
+                </configuration>
+             </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>4.3.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <sourceDirectories>
+             <sourceDirectory>main/src</sourceDirectory>
+             <sourceDirectory>extensions/jython/src</sourceDirectory>
+             <sourceDirectory>extensions/wikidata/src</sourceDirectory>
+             <sourceDirectory>extensions/database/src</sourceDirectory>
+             <sourceDirectory>extensions/phonetic/src</sourceDirectory>
+             <sourceDirectory>extensions/gdata/src</sourceDirectory>
+          </sourceDirectories>
+        </configuration>
+       </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- dependencies are stored in the relevant submodules:
+          see main/pom.xml, server/pom.xml and each extension.
+    -->
+  </dependencies>
+
+  <!-- enabled to access our snapshots of Wikidata-Toolkit -->
+  <repositories>
+    <repository>
+      <id>snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+</project>

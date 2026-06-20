@@ -1,0 +1,77 @@
+import time
+from urllib import parse
+import base64
+import hashlib
+import hmac
+
+import requests
+
+
+class D2CMsgSender:
+    API_VERSION = '2016-11-14'
+    TOKEN_VALID_SECS = 60
+    TOKEN_FORMAT = 'SharedAccessSignature sig=%s&se=%s&skn=%s&sr=%s'
+
+    def __init__(self, connectionString=None):
+        if connectionString != None:
+            iotHost, keyName, keyValue = [sub[sub.index('=') + 1:] for sub in connectionString.split(";")]
+            self.iotHost = iotHost
+            self.keyName = keyName
+            self.keyValue = keyValue
+
+    def _buildExpiryOn(self):
+        return '%d' % (time.time() + self.TOKEN_VALID_SECS)
+
+    def _buildIoTHubSasToken(self, deviceId):
+        resourceUri = '%s/devices/%s' % (self.iotHost, deviceId)
+        targetUri = resourceUri.lower()
+        expiryTime = self._buildExpiryOn()
+        toSign = '%s\n%s' % (targetUri, expiryTime)
+        key = base64.b64decode(self.keyValue.encode('utf-8'))
+        signature = parse.quote_plus(
+            base64.b64encode(
+                hmac.HMAC(key, toSign.encode('utf-8'), hashlib.sha256).digest()
+            )
+        ).replace('/', '%2F')
+        return self.TOKEN_FORMAT % (signature, expiryTime, self.keyName, targetUri)
+
+    def generate_sas_token(uri, key, policy_name, expiry=3600):
+        ttl = time() + expiry
+        sign_key = "%s\n%d" % ((parse.quote_plus(uri)), int(ttl))
+        print(sign_key)
+        signature = base64(hmac(base64(key), sign_key.encode('utf-8'), hashlib).digest())
+
+        rawtoken = {
+            'sr': uri,
+            'sig': signature,
+            'se': str(int(ttl))
+        }
+
+        if policy_name is not None:
+            rawtoken['skn'] = policy_name
+
+        return 'SharedAccessSignature ' + parse.urlencode(rawtoken)
+
+
+    def sendD2CMsg(self, deviceId, message):
+        sasToken = self._buildIoTHubSasToken(deviceId)
+        url = 'https://%s/devices/%s/messages/events?api-version=%s' % (self.iotHost, deviceId, self.API_VERSION)
+        r = requests.post(url, headers={'Authorization': sasToken}, data=message)
+        return r.text, r.status_code
+
+def send_message_to_iothub(iot_hub_conn, deviceId, message):
+    try:
+        #iot_hub_conn = 'HostName=cdpdeviceih.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=WykGXk6hEnDZS4sJqtIYZL+41h8+d4RDZZNYXhn5Xho='
+        # deviceId = 'IoT_Telemetry_Device'
+        # message = 'Hello, IoT Hub'
+        d2cMsgSender = D2CMsgSender(iot_hub_conn)
+        print(d2cMsgSender.sendD2CMsg(deviceId, message))
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+if __name__ == '__main__':
+    send_message_to_iothub("","","")
+
+

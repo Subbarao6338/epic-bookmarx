@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "cc.astron.app-mergeReleaseResources-2:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/home/jules/.gradle/caches/8.8/transforms/31e6ad0538fa0147fd8771acd39e0eac/transformed/appcompat-1.6.1/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

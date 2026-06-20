@@ -1,0 +1,300 @@
+.un-highlight
+        {
+            background-color: #ffffdd;
+            color:black;
+        }
+
+        /****** Every selector should start with view div id i.e Regex ******/
+#viewBuilder #viewResult{padding:0;padding-top:20px}
+#Regex .card-body{
+    min-height: 600px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+#Regex .header-wrap {
+    margin-bottom: 20px;
+    background: #6bc9d8;
+    display: flex;
+    padding: 20px;justify-content: flex-end;
+}
+button#importLogFile {
+    width: 96%;
+    background: #Fff;
+    border: none;
+    border-bottom: 2px solid #6bc9d8;
+    margin-bottom: 10px;
+    color: #6bc9d8;
+    border-radius: 0;
+    padding: 5px 0;
+}
+#delete_tabs, #delete_tags_cont {
+    position: absolute;
+    bottom: 0;
+    background: #51B6DE;
+    width: 100%;
+    padding: 10px;
+}
+#delete_tabs .btn, #delete_tags_cont .btn {
+    border: 1px solid #fff;
+    color: #ffffff;
+    margin-right: 7px;
+}
+#addTagsForm .input-group-btn i {
+    color: #4C98CF;
+    font-size: 20px
+}
+input.selectCurrTag {
+    display: inline-flex;
+    vertical-align: middle;
+}
+#logs_selected_details h6 {
+    color: #167080; display: inline;
+}
+input.selectCurrentTab {
+    display: inline; vertical-align: middle;    position: absolute;left: 10px; top: 10px;
+}
+
+#v-pills-tagContent .tab-pane{ padding:10px }
+#logsSelectedModal .logs_column {
+    padding: 10px;
+    background: #E4EDF1;
+}
+.tag_listing { margin-top:10px; overflow-y: auto; max-height: 350px;}
+div#v-pills-tagContent {
+    max-height: 350px;
+    overflow-y: auto;
+    width: 100%;
+}
+#v-pills-tab{ overflow-y: auto; max-height: 350px; }
+.tag_listing li { padding-left:10px;}
+.btn_tags{
+    background: #f9f9f9;
+    width: 75%;
+    text-align: left;
+}
+button.tag_btn {
+    padding: 0 0 0 3px;
+    pointer-events: none;
+}
+button.tag_btn i {
+    font-size: 16px;
+    color: #D3E6F4;
+}
+button.tag_btn.active i {
+    color: #4AB4DE;
+    pointer-events: visible;
+}
+
+#logs_selected_details .col {
+    border-right: 2px solid #C0CACE;
+    min-height: 450px;
+}
+#logs_selected_details .col:last-child {
+    border-right: 0px solid #C0CACE;
+}
+#v-pills-tab {
+    background: #FBFBFB;
+}
+#v-pills-tab .nav-link {
+    color: #156D9F;
+    border-left: 3px solid #FBFBFB;
+    border-radius: 0;
+}
+#v-pills-tab .nav-link.active {
+    background: #FEFEFE;
+    font-weight: 500;
+    border-left: 3px solid #156D9F;
+}
+#v-pills-tab li{position : relative;}
+#logsSelectedModal .modal-header{ background: #4AB4DE;     padding: 10px 15px; }
+#logsSelectedModal .modal-footer{ background: #4AB4DE;}
+#logsSelectedModal .modal-title{ color: #ffffff; }
+#logsSelectedModal .modal-header i{ color: #ffffff; }
+#logsSelectedModal .modal-header button{
+    font-weight: 500;
+    color: #fff;
+    text-shadow: none;
+    opacity: 1;
+    font-size: 20px;
+    padding: 0 10px;
+    margin: 0;
+}
+#logsSelectedModal .modal-body {
+    padding: 0;
+}
+#Regex .search_sec {  width: 25%;}
+#Regex div.dataTables_wrapper div.dataTables_filter label{position:relative}
+#Regex div.dataTables_wrapper div.dataTables_filter label .fa-search{position:absolute;right:14px;top:14px;color:#389AD2A3}
+#Regex div.dataTables_wrapper div.dataTables_filter label input{padding:10px 20px 10px 10px;border:1px solid #389AD2A3}
+#Regex div.dataTables_wrapper div.dataTables_filter label input::placeholder{color: #389AD2A3}
+#Regex div.dataTables_wrapper div.dataTables_filter{text-align: unset;}
+#Regex .dataTableFooter{display:flex}
+#Regex .dataTableFooter > div{flex:1}
+
+/*icons */
+.iconCreateTask{background:url(assets/dependencies/anjali/Regex/icon_createTask.svg) 0 0 no-repeat;width:23px;height:21px;display:block;margin:7px 10px}
+/* task card design */
+#Regex  .tasksWrapper{display:flex;border:1px solid #4C99CF4D;margin-bottom:15px;padding:15px;border-radius:4px;background:#FEFEFE;min-height: 90px;}
+#Regex  .tasksWrapper .taskDetails{flex:1; position: relative;}
+#Regex  .tasksWrapper .taskDetails h3{color:#707070;font-size:1.1em;margin-bottom:2px;font-weight:700;text-transform:capitalize}
+#Regex  .tasksWrapper .taskDetails h3+p{color:#707070;font-size:1em;font-weight:normal}
+#Regex .task-head-wrap{display:flex}
+#Regex .task-head-wrap .task-head{flex:1}
+#Regex .action-items-wrap{float:right;display: flex;flex-direction: column;position:relative}
+#Regex .action-items-wrap .viewConfig{position:absolute;right:0;top:0;cursor: pointer; top:22px;font-size:18px;}
+#Regex .action-items-wrap button{margin-top:15px}
+#Regex .action-items-wrap .fa-ellipsis-v:before{float:right;margin-right:5px;color:#389AD2}
+#Regex #regextable thead { display:none;  }
+#Regex div.dataTables_wrapper #regextable_filter input {width: 100%;border-color: #389AD2A3;padding-right: 22px;}
+#Regex div.dataTables_wrapper #regextable_filter input::placeholder{color:#BCE0FD}
+#Regex #regextable_filter label {position: relative;width: 95%;}
+#Regex #regextable_filter i.fa-search {position: absolute;right:0px;top:10px;color: #389AD2}
+/* BUTTON DESIGN */
+#Regex .buttonSubmit{background:#389AD2;color:#fff}
+#Regex .buttonCancel{background:#fff;color:#389AD2;border:1px solid #389AD2}
+#Regex .btn{text-transform:uppercase}
+#Regex .action-items-wrap .action-items-btn-wrap{margin-right:20px;display:flex;flex-direction:column}
+#Regex .action-items-wrap .btn{color:#4C98CF;border:1px solid #4C98CF;background:#fff;padding:0 10px 0 0}
+#Regex .action-items-wrap .btn span{padding:5px;color:#4C98CF;display:inline-block;text-align:center}
+#Regex .action-items-wrap .btn span.btn-icon-wrap{padding:5px 8px;background:#4C98CF;color:#fff;margin-right:5px;float:left}
+
+
+#Regex .btnLightDarkIcon{color:#4C98CF;border:1px solid #4C98CF;background:#fff;padding:0 10px 0 0}
+#Regex .btnLightDarkIcon span{padding:5px;color:#4C98CF;display:inline-block;text-align:center}
+#Regex .btnLightDarkIcon span.btn-icon-wrap{padding:5px 8px;background:#4C98CF;color:#fff;margin-right:5px;float:left}
+#Regex .btnNormalLight{background: #fff; color: #4ab4de;padding:0;border-radius:5px;border:1px solid #4ab4de}
+#Regex .btnNormalLight span{display:inline-block;}
+#Regex .btnNormalLight span.btn-icon-wrap{border-right:1px solid #4C98CF;float:left;height:35px}
+#Regex .btnNormalLight span.btn-label{padding:7px 10px 7px 7px;color:#4C98CF;text-align:center}
+#Regex .btnNormalLight.noButtonBorder{border:1px solid transparent}
+
+@media (max-width:575px) {
+.dataTables_info{margin-bottom:10px}
+#Regex #recordtable .tasksWrapper{flex-direction:column;position:relative}
+#Regex #recordtable .tasksWrapper .taskDetails .scriptCoverStatus div{flex:1;text-align:center}
+#Regex #recordtable .tasksWrapper .taskDetails .scriptCoverStatus div+span{width:5px;padding-top:12px}
+#Regex #recordtable .tasksWrapper .taskDetails .scriptCoverStatus{font-size:0.81em}
+#Regex .action-items-wrap{position:static}
+#Regex .action-items-wrap .viewConfig{position:absolute;top:15px;right:15px}
+#Regex .action-items-wrap .action-items-btn-wrap{margin-right:0px;display:flex;flex-direction:row;justify-content:space-between}
+#Regex .action-items-wrap .action-items-btn-wrap .btn{flex:0;flex-basis:48%}
+#Regex .task-head-wrap{flex-direction:column}
+#Regex div.dataTables_wrapper div.dataTables_filter label{display:block}
+#Regex #recordtable_filter i.fa-search {right: 15px}
+#Regex div.dataTables_wrapper div.dataTables_filter input{width:100%;margin:0}
+#Regex .dataTableFooter{flex-direction:column}
+#Recorder div.dataTables_wrapper div.dataTables_paginate ul.pagination{justify-content:center}
+}
+.noselectTags {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.tag_listing li {
+    padding-bottom: 10px;
+}
+#searchById{
+    height:325px;
+    width:100%;
+    background: #F5F5F5;
+    overflow-y:auto;
+}
+#logresultTable{
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+#LogParser a{color:white}
+#v-pills-tagContent .cancel{border:1px solid black}
+#v-pills-tagContent .btn{margin:5px;margin-left:0px}
+#LogparserModal .modal-body .btn{margin-right:10px}
+#LogparserModal .modal-body{text-align:center;height:100px}
+#Userformats .modal-body{height:350px}
+#Userformats .modal-header h5{color:#5C6ED5}
+#Dateformats .modal-body{height:300px}
+#Dateformats .modal-header h5{color:#5C6ED5}
+a#myBtn{color: #167080;display: initial;margin-left: 45px;text-decoration: underline;}
+#Stringformats_select{margin-top: 20px;border: 1px solid #ced4da;padding: 10px;border-radius: .25rem;}
+#Stringformats_select input.form-control{border: 1px solid #ced4da;border-radius: .25rem;}
+#Dateformats_select{margin-top:20px}
+#Userformats_select{margin-top:10px}
+#Userformats h6{color:#5C6ED5}
+button.btn.userdefined_tag {
+    color:#4AB4DE;
+}
+
+.popup-modal .modal-header{ background: #4AB4DE;     padding: 10px 15px; }
+.popup-modal .modal-title{ color: #ffffff; }
+.popup-modal .modal-header i{ color: #ffffff; }
+.popup-modal .modal-header button{
+    font-weight: 500;
+    color: #fff;
+    text-shadow: none;
+    opacity: 1;
+    font-size: 20px;
+    padding: 0 10px;
+    margin: 0;
+}
+.popup-modal .modal-body {
+    padding: 0;
+}
+
+.highlight
+{
+    background-color: #FF0000 !important;
+    color:white !important;
+}
+.highlight1
+{
+    background-color: #800080 !important;
+    color:white !important;
+}
+.highlight2
+{
+    background-color: #0000A0 !important;
+    color:white !important;
+}
+.highlight3
+{
+    background-color: #0000FF !important;
+    color:white !important;
+}
+.highlight4
+{
+    background-color: #800000 !important;
+    color:white !important;
+}
+.highlight5
+{
+    background-color: #A52A2A !important;
+    color:white !important;
+}
+.highlight6
+{
+    background-color: #FFA500 !important;
+    color:black !important;
+}
+.highlight7
+{
+    background-color: #008000 !important;
+    color:white !important;
+}
+.highlight8
+{
+    background-color: #FFFF00 !important;
+    color:black !important;
+}
+.highlight9
+{
+    background-color: #00FFFF !important;
+    color:black !important;
+}
+.highlight10
+{
+    background-color: #FF0000 !important;
+    color:white !important;
+}

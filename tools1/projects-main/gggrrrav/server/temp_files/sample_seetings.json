@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "azure_subscription_id": "cdd13030-77e0-41a5-b0d9-558c7e10551c",
+    "iot_hub_name": "IoT_Telemetry_Device",
+    "iot_connection_string": "HostName=prathamcdpih.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=xNzd9zd1WP5fWn19k3GZxr+xPTzuO7M1weniUa0qJsU=",
+    "event_hub_name": "cdpdeviceevent_hub",
+    "event_hub_connection_string": "Endpoint=sb://prathamcdpehns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=s+qCcNwlLHZS1bg9r0AXeCMCvaT8/ruy+E2/LRkk6rs=",
+    "azure_storage_connection_string": "DefaultEndpointsProtocol=https;AccountName=cdpdevicestoragegen2;AccountKey=e+IqTNPWQxnYQBUIN7dHOm5BbJq+6zxgoEBOr3rve/6SAvPmL/JMYP7R2jkQ6YZ1I8s2vlTCnue4wdZ4mXA62Q==;EndpointSuffix=core.windows.net",
+    "sdv_model_name": "deepu.pkl",
+    "msg_template": "Telemetry"
+  }
+]

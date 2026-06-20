@@ -1,0 +1,56 @@
+|  ...o .         |
+| ooo= =. .       |
+|  +B=E..o .      |
+|  o=B*o  o       |
+| o.BBo. S        |
+|o.O+=o           |
+|oo.*oo           |
+|o .oo            |
+| ...
+SHA256:cYiyxq6BdGH5SlapiuYdzZJMeEH42WZrSCFX4+WywM0
+10.1.0.8
+
+SHUTDOWN_MSG: Shutting down NameNode at Pratham-CDP-Ubuntu-Dev2/10.1.0.8
+************************************************************/
+hadoop@Pratham-CDP-Ubuntu-Dev2:~$ start-dfs.sh
+Starting namenodes on [hadoop.tecadmin.com]
+pdsh@Pratham-CDP-Ubuntu-Dev2: hadoop: rcmd: socket: Permission denied
+Starting datanodes
+pdsh@Pratham-CDP-Ubuntu-Dev2: localhost: rcmd: socket: Permission denied
+Starting secondary namenodes [Pratham-CDP-Ubuntu-Dev2]
+pdsh@Pratham-CDP-Ubuntu-Dev2: Pratham-CDP-Ubuntu-Dev2: rcmd: socket: Permission denied
+hadoop@Pratham-CDP-Ubuntu-Dev2:~$ start-yarn.sh
+Starting resourcemanager
+Starting nodemanagers
+pdsh@Pratham-CDP-Ubuntu-Dev2: localhost: rcmd: socket: Permission denied
+hadoop@Pratham-CDP-Ubuntu-Dev2:~$
+
+Hadoop
+Java
+Spark
+Hive
+Scala
+
+
+[INFO] Reactor Summary for Apache Griffin 0.6.0 0.6.0:
+[INFO]
+[INFO] Apache Griffin 0.6.0 ............................... SUCCESS [  2.117 s]
+[INFO] Apache Griffin :: UI :: Default UI ................. SUCCESS [ 45.711 s]
+[INFO] Apache Griffin :: Web Service ...................... SUCCESS [ 37.502 s]
+[INFO] Apache Griffin :: Measures ......................... FAILURE [ 51.785 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:17 min
+[INFO] Finished at: 2021-11-08T04:47:12Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.scalatest:scalatest-maven-plugin:1.0:test (test) on project measure: There are test failures -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR]
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :measure

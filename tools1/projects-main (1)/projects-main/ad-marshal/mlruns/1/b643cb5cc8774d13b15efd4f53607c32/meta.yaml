@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/CDP/ADS0.1/mlruns/1/b643cb5cc8774d13b15efd4f53607c32/artifacts
+end_time: 1658404575458
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: b643cb5cc8774d13b15efd4f53607c32
+run_uuid: b643cb5cc8774d13b15efd4f53607c32
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1658404065788
+status: 3
+tags: []
+user_id: gcpuser

@@ -1,0 +1,202 @@
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+
+    <a href="/" class="brand-link" style="padding:0;height:50px;">
+        <img src="/static/assets/img/new logo1-10.png" alt="Semantico Logo" style="height:85%;width:85%;margin:2px auto auto 15px;">
+        <!--<img src="/static/assets/img/new logo1-05.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">SEMANTICO</span> -->
+
+    </a>
+<!--<a style="margin-left:240px;" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i>ds</a>-->
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+              <a href="{% url 'home' %}"  class="nav-link">
+                  <img src='/static/assets/img/Dashboard.png'/>
+                  <p>Home</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'get_businessobj_list' %}" class="nav-link">
+              <!--<i class="nav-icon fas fa-th"></i>
+              <p>
+                Domain Object
+              </p> -->
+
+                 <img src='/static/assets/img/domain.png'/>
+                  <p>Domain Objects</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'users' %}" class="nav-link">
+            <!--  <i class="nav-icon fas fa-users"></i>
+              <p>
+                User Management
+              </p> -->
+
+                <img src='/static/assets/img/user.png'/>
+                  <p>Users</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'access_permissions' %}" class="nav-link">
+            <!--  <i class="nav-icon fas fa-users"></i>
+              <p>
+                User Management
+              </p> -->
+
+                <img src='/static/assets/img/permisson.png'/>
+                  <p>Permissions</p>
+            </a>
+          </li>
+<!--          <li class="nav-item has-treeview permi">-->
+<!--            <a href="" class="nav-link">-->
+<!--             &lt;!&ndash; <i class="nav-icon fas fa-book"></i>-->
+<!--              <p>-->
+<!--                Permission-->
+<!--                <i class="right fas fa-angle-left"></i>-->
+<!--              </p> &ndash;&gt;-->
+<!--                <img src='/static/assets/img/permisson.png'/>-->
+<!--                  <p>Permission-->
+<!--                  <i class="right fas fa-angle-left"></i>-->
+<!--                  </p>-->
+<!--            </a>-->
+<!--            <ul class="nav nav-treeview" style="margin-left: 12px;font-size: 14px;">-->
+<!--              &lt;!&ndash;<li class="nav-item">-->
+<!--                <a href="{% url 'object_permissions' %}" class="nav-link">-->
+<!--                  <i class="far fa-circle nav-icon"></i>-->
+<!--                  <p>Object level</p>-->
+<!--                </a>-->
+<!--              </li>&ndash;&gt;-->
+<!--              <li class="nav-item">-->
+<!--                <a href="{% url 'access_permissions' %}" class="nav-link">-->
+<!--                  <i class="far fa-circle nav-icon"></i>-->
+<!--                  <p style="word-break: break-all;">Object/Feature/Attribute Level</p>-->
+<!--                </a>-->
+<!--              </li>-->
+<!--              &lt;!&ndash;              <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a href="{% url 'userwise_maskencryption' %}" class="nav-link">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <i class="far fa-circle nav-icon"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <p>Encryption/Masking</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--            </ul>-->
+<!--          </li>-->
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+                <i class="fas fa-cog nav-icon"></i>
+                  <p style="
+    margin-left: 0px;
+">Setting
+                  <i class="right fas fa-angle-left"></i>
+                  </p>
+            </a>
+            <ul class="nav nav-treeview" style="margin-left: 12px;font-size: 14px;">
+              <li class="nav-item">
+              <a href="javascript:void()"  class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                  <i class="fa fa-key nav-icon"></i>
+                  <p>Change Password</p>
+            </a>
+          </li>
+          <li class="nav-item">
+              <a href="{% url 'login' %}"  class="nav-link">
+                  <i class="fas fa-sign-out-alt nav-icon"></i>
+                  <p>Logout</p>
+            </a>
+          </li>
+            </ul>
+          </li><li class="nav-item">
+            <a href="{% url 'execute_custom_query' %}" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p style="
+    margin-left: 0px;
+">
+                Query Domain Object
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+              <a href="/static/Semantico_User_Guide.pdf" target="_blank" class="nav-link">
+                  <i class="far fa-question-circle nav-icon"></i>
+                  <p style="
+    margin-left: 0px;
+">Help</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+
+    </div>
+    <!-- /.sidebar -->
+       <!-- Modal -->
+
+  </aside>
+
+            <div class="modal" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                      <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+                  </div>
+                  <div class="modal-body">
+                    <form class="form" role="form" autocomplete="off">
+                                <div class="form-group">
+                                    <label for="inputPasswordOld">Current Password</label>
+                                    <input type="password" class="form-control" id="inputPasswordOld" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPasswordNew">New Password</label>
+                                    <input type="password" class="form-control" id="inputPasswordNew" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPasswordNewVerify">Confirm Password</label>
+                                    <input type="password" class="form-control" id="inputPasswordNewVerify" required="">
+                                    <div class="confirmalert" style="color:green;" id="CheckPasswordMatch"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="button" style="margin-left:10px;" class="btn btn-success btn-lg float-right" id="btnChangePassword">Submit</button>
+                                    <button type="button" data-dismiss="modal" id="btncancel" class="btn btn-danger btn-lg float-right">Cancel</button>
+                                </div>
+                            </form>
+
+
+                  </div>
+                  <div class="modal-footer">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+ <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+    <script src="/static/assets/js/wizard_js/settings.js"></script>

@@ -1,0 +1,14 @@
+<<<<<<< HEAD
+Step:1 
+Open kudu console by <websitename>.scm.azurewebsite.net
+Step:2
+Execute below command
+apt-get update
+=======
+Step:1 
+Open kudu console by <websitename>.scm.azurewebsite.net
+Step:2
+Execute below command
+apt-get update
+>>>>>>> f7e05850af8d0856e7769724edad4fc36dee3e1b
+apt-get install libgomp1

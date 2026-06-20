@@ -1,0 +1,63 @@
+{% extends 'layouts/base.html' %}
+{% block stylesheets %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock stylesheets %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center p-4">
+        <!--breadcrumb      start  -->
+        <div class="p-1" style="
+       margin-top: 36px;
+        position: fixed;
+        height: 30px;
+        width: 1150px;
+        background-color: white;
+        z-index:100;
+      ">
+            <a class="btn-link" href="/" style="font-size: 14px;">
+                <b>Home&emsp;</b>
+            </a>
+            <b>></b> &emsp;
+            <b style="font-size: 14px;">
+                List Of Sources&emsp;</b>
+        </div>
+        <!--breadcrumb    end    -->
+        <div class="row" style=" margin-top: 70px;margin-left: 30px;">
+            <div class="border p-2" style="">
+                <h5 class="text-center border-bottom pb-2"><b>List Of Sources</b></h5>
+                <div class="row p-2" id="json_content">
+                    <div style="margin-left: 0px; margin-bottom: 5px;">
+                        <a class="btn btn-outline-primary border-1 me-2 btn-sm" href="/upload_files"
+                           title="Add Data Source">
+                            <i class="material-icons" style="vertical-align: -30%;margin: -5px;">library_add</i>&ensp;Add
+                            Data Source
+                        </a>
+                    </div>
+                    <table class="table table-bordered table-hover table-sm text-left at" width="1170px">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Details</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="files_list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+</div>
+
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<link href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.js" type="text/javascript"></script>
+<script src="/static/assets/js/pages/anomaly_detection/anomaly.js"></script>
+<script src="/static/assets/js/pages/results_summary/sort.js"></script>
+
+{% endblock javascripts %}

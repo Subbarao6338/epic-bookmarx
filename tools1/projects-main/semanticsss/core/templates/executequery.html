@@ -1,0 +1,133 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Execute Custom Query {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+  <link rel="stylesheet" href="/static/assets/css/wizard_css/list_box/listbox.css">
+  <link rel="stylesheet" href="/static/assets/plugins/sweetalert2/sweetalert2.css">
+  <link rel="stylesheet" href="/static/assets/css/wizard_css/custom_wizard.css">
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Fetch Data from Domain Object</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Fetch Data</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                          <label for="ddlDomainObj">User :</label>
+                          <select class="form-control" name="ddlUser" id="ddlUser">
+                            <option selected="selected" value="">--select--</option>
+                            {% for i in user_list %}
+                            <option value="{{i.UserKey}}">{{ i.UserName }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="ddlDomainObj">Domain Object :</label>
+                          <select class="form-control" name="ddlDomainObj" id="ddlDomainObj">
+                          </select>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: lightgrey;margin:10px">
+                        <div id="func_display" style="font-size: 20px;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                          <label for="ddlcolumnname">Filter Column:</label>
+                          <select class="form-control" name="ddlcolumnname" id="ddlcolumnname">
+
+                          </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="ddlcondition">Filter Condition:</label>
+                          <select class="form-control" name="ddlcondition" id="ddlcondition">
+                            <option selected="selected" value="">--select--</option>
+                            <option value="==">equals</option>
+                            <option value="!=">not equal</option>
+                            <option value=">">greater than</option>
+                            <option value=">=">greater or equal</option>
+                            <option value="<">less than</option>
+                            <option value="<=">less or equal</option>
+                            <option value="in">in</option>
+                            <option value="!in">not in</option>
+                          </select>
+                        </div>
+                        <input type="text" id="txtfuncname" style="display:none">
+                        <div class="form-group col-md-4">
+                          <label for="txtfiltervalue">Filter Value:</label>
+                          <input type="text" id="txtfiltervalue" class="form-control">
+                        </div>
+                        <div class="form-group col-md-1" style="margin-top:30px;">
+                          <a class="btn btn-primary" role="button" id="btn_executequery">Execute</a>
+                        </div>
+                    </div>
+                    <div id="result_count" style="font-size: 20px;font-weight: bold;"></div>
+                    <div id="resposedata" style="max-height:233px;overflow:auto;width:100%"></div>
+                </div>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+  <!-- /.content-wrapper -->
+
+
+
+
+
+
+{% endblock content %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+    <script src="/static/assets/plugins/sweetalert2/sweetalert2.all.js"></script>
+ <script src="/static/assets/js/wizard_js/executequery.js"></script>
+<!--  <script src="/static/assets/js/wizard_js/jquery.steps.js"></script>-->
+<!--  <script src="/static/assets/js/wizard_js/main.js"></script>-->
+
+{% endblock javascripts %}

@@ -1,0 +1,244 @@
+{% extends 'layouts/base.html' %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link href="/static/assets/css/custom.css" rel="stylesheet"/>
+<link href="/static/assets/css/style.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+      rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="/static/assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="/static/assets/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet"/>
+<!-- Ionicons -->
+<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet"/>
+<!-- Tempusdominus Bootstrap 4 -->
+<link href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
+<!-- iCheck -->
+<link href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet"/>
+<!-- JQVMap -->
+<link href="/static/assets/plugins/jqvmap/jqvmap.min.css" rel="stylesheet"/>
+<!-- Theme style -->
+<link href="/static/assets/css/adminlte.min.css" rel="stylesheet"/>
+<!-- overlayScrollbars -->
+<link href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet"/>
+<!-- Daterange picker -->
+<link href="/static/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet"/>
+<!-- summernote -->
+<link href="/static/assets/plugins/summernote/summernote-bs4.min.css" rel="stylesheet"/>
+<!-- table -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" rel="stylesheet"/>
+
+<style>
+    .button:hover {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+</style>
+
+{% endblock stylesheets %} {% block content %}
+
+<div class="container">
+    <div class="row justify-content-center p-3">
+        <div class="p-2" style="
+        width: 1200px;
+        height: 650px;
+        background-color: white;
+        margin-top: 70px;
+        margin-left: -105px;
+        margin-right: -157px
+      ">
+            <!--            <h5 class="text-center border p-1" style=""><b>Dashboard</b></h5>-->
+            <div align="center" class="float-container">
+                <div class="float-child3">
+                    <div class="card" style="background-color: rgba(240, 240, 240, 0.37);border-radius: 32px;">
+                        <div style="padding: 15">
+                            <svg class="bi bi-cloud-arrow-up-fill icon" fill="#0077d3" height="50" viewBox="0 0 16 16"
+                                 width="50" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <b style="font-size:18px">Connect Data Source</b>
+                        </div>
+                        <p class="info">
+                            Add connection details of new Data Sources on which you would like to perform Anomaly
+                            Detection.
+                        </p>
+                        <span>
+               <a class="btn-outline-primary link" href="/upload_files" style="padding: 2px 55px"
+                  title="Add Data Source">
+                  <b>Start</b>
+                </a>
+              </span>
+                    </div>
+                </div>
+                <div class="float-child3">
+                    <div class="card" style="background-color: rgba(240, 240, 240, 0.37);border-radius: 32px;">
+                        <div style="padding: 15">
+                            <svg class="bi bi-file-earmark-spreadsheet-fill icon" fill="#0077d3" height="50" viewBox="0 0 16 16"
+                                 width="50" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 12v-2h3v2H6z"/>
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3V9z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <b style="font-size:18px">List of Sources</b>
+                        </div>
+                        <p class="info">
+                            Explore details of new and existing Data Sources, delete old Data Sources or carry out
+                            Anomaly Detection operations.
+                        </p>
+                        <span>
+               <a class="btn-outline-primary link" href="/uploaded_files_table" style="padding: 2px 45px">
+                  <b>Explore</b>
+                </a>
+              </span>
+                    </div>
+                </div>
+                <div class="float-child3">
+                    <div class="card" style="background-color: rgba(240, 240, 240, 0.37);border-radius: 32px;">
+                        <div style="padding: 15">
+                            <img class="icon" src="/static/assets/images/research.png"/>
+                        </div>
+                        <div>
+                            <b style="font-size:18px">Results Summary</b>
+                        </div>
+                        <p class="info">
+                            View results of all Anomaly Detection operations carried out till date.
+                        </p>
+                        <br/>
+                        <span>
+               <a class="btn-outline-primary link" href="/anomaly_table" style="padding: 2px 45px">
+                 <b>Explore</b>
+                </a>
+              </span>
+                    </div>
+
+                </div>
+            </div>
+            <hr style="margin-top: 284px;">
+            <div class="row mb-3">
+                <div class="col-md-3" style="height: 250px; width: 250px; margin: 0px auto">
+                    <h5 style="margin-left: 18px;"><b>Overall Status</b></h5>
+                    <canvas id="myChart"
+                            style="width:200px;height:200px !important;max-width:250px;max-height:200px;margin-left:-40px;margin-top: 20px"></canvas>
+                    <!--                    <canvas id="donut_chart" width=250px height=250px></canvas>-->
+                    <!--                    <canvas id="donut_chart" height="200px" width="200px" style="display: block; box-sizing: border-box; height: 226px; width: 226px;"></canvas>-->
+                </div>
+                <div class="border col-md-9"
+                     style="background-color: rgb(212, 239, 223);height:250px;margin-left: -120px;margin-right: 30px;border-radius:20px">
+                    <br>
+                    <div class="text-center" style="display: inline-block; width: 33%;">
+                        <div style="font-size: 20px; color: black;">Database</div>
+                        <div id="database_total_count"
+                             style="font-size: 35px; font-family: Consolas; color: rgb(1, 116, 223);">0
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button class="btn btn-primary"
+                                    style="width: 80%; height: 75px;border-radius:16px;font-weight:bold">Database
+                                Anomalies<br>
+                                <div id="database_Anomaly_Row_count">0</div>
+                            </button>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="text-center" style="display: inline-block; width: 33%;">
+                        <div style="font-size: 20px; color: black;">Local</div>
+                        <div id="local_total_count"
+                             style="font-size: 35px; font-family: Consolas; color: rgb(4, 180, 49);">0
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button class="btn btn-warning"
+                                    style="width: 80%; height: 75px;border-radius:16px;font-weight:bold">Local Anomalies<br>
+                                <div id="local_Anomaly_Row_count">0</div>
+                            </button>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="text-center " style="display: inline-block; width: 33%;">
+                        <div style="font-size: 20px; color: black;">Apache Kafka</div>
+                        <div id="kafka_total_count"
+                             style="font-size: 35px; font-family: Consolas; color: rgb(250, 88, 88);">0
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button class="btn btn-info"
+                                    style="width: 80%; height: 75px;border-radius:16px;font-weight:bold">Kafka Anomalies<br>
+                                <div id="kafka_Anomaly_Row_count">0</div>
+                            </button>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!--ChartJS-->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.js" integrity="sha512-uLlukEfSLB7gWRBvzpDnLGvzNUluF19IDEdUoyGAtaO0MVSBsQ+g3qhLRL3GTVoEzKpc24rVT6X1Pr5fmsShBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js" integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
+<!-- AdminLTE App -->
+<!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<script src="/static/assets/js/pages/dashboard/home_dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- jQuery -->
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!--<script src="/static/assets/js/pages/charts.js"></script>-->
+
+
+{% endblock javascripts %}

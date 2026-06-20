@@ -1,0 +1,157 @@
+npm i knex sqlite3
+
+const sqlite3 = require("sqlite3").verbose();
+const express = require("express");
+const app = express();
+const cors = require("cors");
+app.use(cors());
+app.use(express.json());
+
+const db=require("./cars");
+const bodyParser=require('body-parser');
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+app.post("/cars",async (req,res) => {
+const results=await db.create1(req.body);
+res.status(201).json({id:results[0]});
+});
+app.get("/cars",async (req,res) => {
+const cars=await db.get1();
+res.status(200).json({cars});
+});
+app.("/cars/:id",async (req,res) => {
+await db.delete1(req.params.id);
+res.status(201).json({success:true});
+});
+app.patch("/cars/:id",async (req,res) => {
+const id=await db.update1(req.params.id, req.body);
+res.status(201).json({id});
+});
+
+const db = new sqlite3.Database("./db/cdp.sqlite3", (err) => {
+  if (err) {
+    console.log("Error when creating the database", err);
+  } else {
+    console.log("Database created!");
+    /* Put code to create table(s) here */
+    //createTable()
+  }
+});
+
+app.post("/createdatasource", (req, res) => {
+  const datasource_name = req.body.datasource_name;
+  const datasource_type = req.body.datasource_type;
+  const active_status = req.body.active_status;
+  const expiry_date = req.body.expiry_date;
+
+  db.run(
+    "CREATE TABLE IF NOT EXISTS DataSource(id INTEGER PRIMARY KEY AUTOINCREMENT, datasource_name TEXT, datasource_type TEXT, active_status TEXT, expiry_date TEXT )",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Failure");
+      } else {
+        db.run(
+          "INSERT INTO DataSource (datasource_name, datasource_type, active_status, expiry_date) VALUES (?,?,?,?)",
+          [datasource_name, datasource_type, active_status, expiry_date],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+              res.send("Failure");
+            } else {
+              res.send("Success");
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+app.get("/datasource_summary", (req, res) => {
+  db.all(
+    "SELECT id,datasource_name, datasource_type, CASE WHEN active_status IS '1' THEN 'Active' ELSE 'Idle' END AS active_status, expiry_date FROM DataSource;  ",
+    (err, rows) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(rows);
+        console.log(rows);
+        // if (result > 0) {
+        //   res.send(result);
+        // }
+        // else{
+        //   res.send("Failure");
+        //   console.log("Failure")
+        // }
+
+        //console.log(result.get(user_name))
+      }
+    }
+  );
+});
+
+app.post("/create_metaconfig", (req, res) => {
+  //console.log(req.body.storage_account);
+  const storage_account = req.body.storage_account;
+  const azure_sql_instance = req.body.azure_sql_instance;
+  const service_principal = req.body.service_principal;
+  const airflow_url = req.body.airflow_url;
+  const prefect_url = req.body.prefect_url;
+  const notebook = req.body.notebook;
+  const aion_url = req.body.aion_url;
+  const databricks = req.body.databricks;
+  const powerbi = req.body.powerbi;
+  const druid = req.body.druid;
+  const kibana = req.body.kibana;
+
+  db.run(
+    "CREATE TABLE IF NOT EXISTS MetaDataConfig(id INTEGER PRIMARY KEY AUTOINCREMENT, storage_account TEXT, azure_sql_instance TEXT, service_principal TEXT, airflow_url TEXT, prefect_url TEXT, notebook TEXT, aion_url TEXT, databricks TEXT, powerbi TEXT, druid TEXT, kibana TEXT )",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("Failure");
+      } else {
+        db.run(
+          "INSERT INTO MetaDataConfig (storage_account, azure_sql_instance, service_principal, airflow_url, prefect_url, notebook, aion_url, databricks, powerbi, druid, kibana ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+          [storage_account, azure_sql_instance, service_principal, airflow_url, prefect_url, notebook, aion_url, databricks, powerbi, druid, kibana],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+              res.send("Failure");
+            } else {
+              res.send("Success");
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+app.get("/metaconfig_response", (req, res) => {
+  db.all(
+    "SELECT id, storage_account, azure_sql_instance, service_principal, airflow_url, prefect_url, notebook, aion_url, databricks, powerbi, druid, kibana FROM MetaDataConfig;  ",
+    (err, rows) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(rows);
+        console.log(rows);
+        // if (result > 0) {
+        //   res.send(result);
+        // }
+        // else{
+        //   res.send("Failure");
+        //   console.log("Failure")
+        // }
+
+        //console.log(result.get(user_name))
+      }
+    }
+  );
+});
+
+app.listen(3001, () => {
+  console.log("Hello, Your server is running on port 3001");
+});

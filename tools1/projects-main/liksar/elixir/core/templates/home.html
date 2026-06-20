@@ -1,0 +1,590 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Create Training Task {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+<script type="text/javascript">
+        function highlightSelection(x) {
+            var selection;
+
+            //Get the selected stuff
+            if (window.getSelection){
+                selection = window.getSelection();
+				console.log("---------");
+				console.log(selection);
+			}
+            else if (typeof document.selection != "undefined"){
+                selection = document.selection;
+				console.log("++++++++");
+				console.log(selection);
+			}
+            //Get a the selected content, in a range object
+            var range = selection.getRangeAt(0);
+			console.log("===========range-------------");
+			console.log(range);
+            //If the range spans some text, and inside a tag, set its css class.
+            if (range && !selection.isCollapsed) {
+                if (selection.anchorNode.parentNode == selection.focusNode.parentNode) {
+                    var span = document.createElement('span');
+
+                      if (x === 'blue') {
+                    span.className = 'highlightblue';
+                    } else if ( x === 'red') {
+                    span.className = 'highlightred';
+                     } else if ( x === 'yellow') {
+                    span.className = 'highlightyellow';
+                    } else {
+                      span.className = 'highlight';
+                    }
+
+                    range.surroundContents(span);
+                }
+            }
+        }
+
+
+
+        function RemovehighlightSelection() {
+            var selection;
+
+            //Get the selected stuff
+            if (window.getSelection)
+                selection = window.getSelection();
+            else if (typeof document.selection != "undefined")
+                selection = document.selection;
+
+            //Get a the selected content, in a range object
+            var range = selection.getRangeAt(0);
+
+            //If the range spans some text, and inside a tag, set its css class.
+            if (range && !selection.isCollapsed) {
+                if (selection.anchorNode.parentNode == selection.focusNode.parentNode) {
+                    var span = document.createElement('span');
+                    span.className = 'un-highlight';
+                    range.surroundContents(span);
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+
+
+    </style>
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+<!--            <h1>Blank Page</h1>-->
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Create Training Task</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Create Training Task</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+              <div class="col-4 form-group">
+                  <label for="taskname">Task Name</label>
+                  <input type="text" class="form-control" id="taskname" placeholder="Enter Training Task Name">
+              </div>
+              <div class="col-4 form-group">
+                  <label for="taskdesc">Description</label>
+                  <input type="text" class="form-control" id="taskdesc" placeholder="Enter Training Task Description">
+              </div>
+              <div class="col-4 form-group">
+                  <label for="separator">Log Separator</label>
+                  <input type="text" class="form-control" id="separator" value="\n" placeholder="\n">
+				  <!--Default Separator Display-->
+              </div>
+          </div>
+<!--          <br/>-->
+<!--          <br/>-->
+            <div class="row">
+                <div class="col-4 form-group">
+                  <label for="trainingType">Type</label>
+                  <select class="form-control" id="trainingType">
+                      <option value="0" selected>--Select--</option>
+                      <option value="Regular Expression">Regular Expression</option>
+<!--                      <option value="ML Model">DL Model</option>-->
+                  </select>
+				  <!--Default Separator Display-->
+               </div>
+                <div class="col-4 form-group">
+                  <label for="uploadType">Import Type</label>
+                  <select class="form-control" id="uploadType" onchange="update_upload_type()">
+                      <option value="Folder">Folder</option>
+                      <option value="Files">Files</option>
+                  </select>
+				  <!--Default Separator Display-->
+               </div>
+              <div class="col-2 form-group">
+                  <label for="logFileUpload">Import Logs</label>
+                  <button class="btn btn-dark btn-sm form-control" role="button" id="btn_import"><i class="fa fa-file-import"></i> Import</button>
+                  <input type='file' webkitdirectory mozdirectory  name="log_files" id="logFileUpload" style="display:none" accept=".log, .csv, .txt" onchange="upload_log_files()"/>
+<!--                  <input type='file' webkitdirectory mozdirectory  name="log_files" id="logFileUpload" style="display:none" accept=".log .csv .txt" onchange="upload_log_files()"/>-->
+              </div>
+            </div>
+          <div class="row" style="display:none;" id="log_display_table">
+              <table id="tblloading" style="display: none; text-align:centre;"  width="100%">
+                   <tr>
+                       <td style="text-align:center"><img src='/static/assets/img/loading.gif' alt="this slowpoke moves"  width="250" height="100" /> </td>
+                  </tr><tr>
+                  <td style="text-align:center"><p style="font-size:20px">Task has been created Successfully. Log file loading is in progress...</p> </td>
+                  </tr>
+              </table>
+            <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%" >
+                <thead>
+                  <tr>
+                    <th scope="col" style="width:7%;">Log#</th>
+                    <th scope="col" style="width:89%;">Log Text</th>
+                    <th scope="col" style="width:5%;"></th>
+                  </tr>
+                </thead>
+                <tbody id="tbl_logbody">
+
+                </tbody>
+              </table>
+          </div>
+        </div>
+
+        <!-- /.card-body -->
+        <div class="card-footer row" style="display:none;" id="page_footer_section">
+            <div class="col-6">
+                <a href="javascript:prevPage()" id="btn_prev">Prev</a>
+                <a href="javascript:nextPage()" id="btn_next">Next</a>
+                page: <span id="page"></span>
+            </div>
+            <div class="col-6 text-right">
+                <btn class="btn btn-dark" role="button" id="btn_regex">Done</btn>
+            </div>
+        </div>
+        <!-- /.card-footer-->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+<!--Start highlight Logs -->
+<div id="logsSelectedModal" class="modal fade" role="dialog" >
+       <div class="modal-dialog modal-xl">
+          <!-- Modal content-->
+          <div class="modal-content">
+             <div class="modal-header">
+                <h4 class="modal-title" id="">Mark Tags</h4>
+                <div class='float-right'>
+    <!--                <button type="button" class="btn" id="save_file_data" ><i class='fa fa-save'></i></button>-->
+    <!--                <select id="file_complettion">-->
+    <!--                    <option>In Progress</option>-->
+    <!--                    <option>Completed</option>-->
+    <!--                </select>-->
+    <!--    		    <button type="button" class="close" data-dismiss="modal">x</button>-->
+                </div>
+
+             </div>
+             <div class="modal-body">
+                <div id="logs_selected_details">
+                    <div class="row no-gutters">
+                       <div class="col col-2">
+                           <div class="logs_column">
+                               <h6>Log#</h6>
+                            </div>
+                           <div class="nav flex-column nav-pills lognumber" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="text-align:center;">
+                               <table class="table table-striped table-bordered table-sm" id="tbl_log_number_list">
+                                   <tbody id="tbl_log_lines">
+
+                                   </tbody>
+                               </table>
+                            </div>
+                        </div>
+                        <div class="col col-7">
+                            <div class="logs_column">
+                               <h6>Log Text</h6>
+                               <button class="btn float-right" onclick="Regex.editTabContent();"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                           </div>
+                            <div class="tab-content logline" onmouseup="mouseUp()" id="v-pills-tagContent">
+                            </div>
+                        </div>
+                        <div class="col col-3">
+                            <div class="logs_column">
+                              <h6 class="">
+                                  <i class="fa fa-tag" aria-hidden="true"></i> TAGS
+                              </h6>
+<!--                               <a href="#" id="myBtn">User Defined Formats</a>-->
+                                <h6 style="float:right;">
+                                  <i id="addTagField" class="fa fa-plus" aria-hidden="true"></i>
+                                </h6>
+                            </div>
+                           <ul class="tag_listing" style="overflow-x:hidden;">
+                           </ul>
+                           <button id="update_tags" style="display:none" class="btn btn-primary">Update</button>
+                            <button id="btnApplyAll" style="display:none" class="btn btn-primary">Apply All</button>
+                        </div>
+                    </div>
+<!--                    <div class="row">-->
+<!--                        <div class="col-6">-->
+<!--                            <a href="javascript:prevPagePopup()" id="btn_prev_popup" title="popup_prev">Prev</a>-->
+<!--                            <a href="javascript:nextPagePopup()" id="btn_next_popup" title="popup_next">Next</a>-->
+<!--                            page: <span id="page_popup"></span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+             </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger btn-lg" id="cancel_highlight" data-dismiss="modal"><i class='fa fa-window-close'></i> Cancel</button>
+                  <button type="button" class="btn btn-success btn-lg" id="save_file_data"><i class='fa fa-save'></i> Save</button>
+              </div>
+          </div>
+       </div>
+    </div>
+<div id="MarkModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-l">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Mark one, Apply all</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Marking Type</label>
+                    <div class="mt-radio-list">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="radio" onclick="javascript:markingTypeCheck();" value="Positionbased"
+                                       id="PBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Index based
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" onclick="javascript:markingTypeCheck();" value="WordPositionbased"
+                                       id="WPBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Word Position based
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" onclick="javascript:markingTypeCheck();" value="TagBased"
+                                       id="TBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Prefix/Suffix based
+                                </label>
+                            </div>
+                        </div>
+                        <div style="display:none">
+                                <input type="radio" onclick= "javascript:markingTypeCheck();" value="Predefineformatbased" id="PFBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Predefined format based
+                                </label>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-12" >
+                            <div id="divPB" style="display:none">
+                               <table id="dtPB" class="table table-striped table-bordered table-sm" cellspacing="0"
+                           width="90%">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width:10%;">
+                                Select</th>
+                            <th scope="col" style="width:25%;">
+                                Start Index</th>
+                            <th scope="col" style="width:25%;">End Index</th>
+                            <th scope="col" style="width:30%;">Label</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="divPFB" style="display:none">
+                    This is for Predefine format based div
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+				<div id="divTB" style="display:none">
+					<table id="dtTB" class="table table-striped table-bordered table-sm" cellspacing="0"
+						   style="table-layout: fixed;width: 100%;">
+						<thead>
+						<tr>
+							<th scope="col" style="width:10%;">
+								Select
+							</th>
+							<th scope="col" style="width:25%;">
+								Start Tag
+							</th>
+							<th scope="col" style="width:25%;">End Tag</th>
+							<th scope="col" style="width:30%;">Label</th>
+						</tr>
+						</thead>
+						<tbody id="tBodyTB">
+						</tbody>
+					</table>
+				</div>
+			</div>
+        </div>
+
+    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger btn-lg" id="cancel_highligh1t" data-dismiss="modal">
+            <i class='fa fa-window-close'></i> Cancel
+        </button>
+        <button type="button" class="btn btn-success btn-lg" id="apply"><i class='fa fa-save'></i>
+            Apply
+        </button>
+
+    </div>
+        </div>
+    </div>
+</div>
+
+<div id="WordBasedMarkModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-l">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Word Position Based Approach</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Marking Type</label>
+                    <div class="mt-radio-list">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <input type="radio" onclick="javascript:markingTypeCheckWordBased();" value="SingleWordPositionbased"
+                                       id="SWPBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Single Word
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="radio" onclick="javascript:markingTypeCheckWordBased();" value="MultiWordPositionbased"
+                                       id="MWPBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Multiple Words
+                                </label>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="radio" onclick="javascript:markingTypeCheckWordBased();" value="ReverseSingleWordPositionbased"
+                                       id="RSWPBCheck" name="markingtype"/>
+                                <label class="mt-radio mt-radio-outline">Reverse Single Word
+                                </label>
+                            </div>
+                        </div>
+
+        <div class="row">
+			<div class="col-md-12">
+				<div id="divSWPB" style="display:none">
+					<table id="dtSWPB" class="table table-striped table-bordered table-sm" cellspacing="0"
+						   width="90%">
+						<thead>
+						<tr>
+							<th scope="col" style="width:10%;">
+								Select
+							</th>
+							<th scope="col" style="width:50%;">
+								Start Word
+							</th>
+
+							<th scope="col" style="width:30%;">Label</th>
+						</tr>
+						</thead>
+						<tbody id="tBodySWPB">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="divMWPB" style="display:none">
+					<table id="dtMWPB" class="table table-striped table-bordered table-sm" cellspacing="0"
+						   width="90%">
+						<thead>
+						<tr>
+							<th scope="col" style="width:10%;">
+								Select
+							</th>
+							<th scope="col" style="width:25%;">
+								Start Word
+							</th>
+							<th scope="col" style="width:25%;">End Word</th>
+							<th scope="col" style="width:30%;">Label</th>
+						</tr>
+						</thead>
+						<tbody id="tBodyMWPB">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div id="divRSWPB" style="display:none">
+					<table id="dtRSWPB" class="table table-striped table-bordered table-sm" cellspacing="0"
+						   width="90%">
+						<thead>
+						<tr>
+							<th scope="col" style="width:10%;">
+								Select
+							</th>
+							<th scope="col" style="width:50%;">
+								Reverse Word Index
+							</th>
+
+							<th scope="col" style="width:30%;">Label</th>
+						</tr>
+						</thead>
+						<tbody id="tBodyRSWPB">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger btn-lg" id="cancel_highlight_for_word_based" data-dismiss="modal">
+            <i class='fa fa-window-close'></i> Cancel
+        </button>
+        <button type="button" class="btn btn-success btn-lg" id="apply_for_word_based"><i class='fa fa-save'></i>
+            Apply
+        </button>
+
+    </div>
+        </div>
+    </div>
+</div>
+<div id="PredefinedFormatBasedMarkModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Pre-defined Format Based Approach</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Pre-Defined Tag Type</label>
+                    <select class="form-control" id="Userformats_select" style="display:block">
+                        <option value="">Select</option>
+                        <option value="String">String</option>
+                        <option value="Date" id="Date">Date</option>
+                        <option value="LogType" id="LogType">LogType</option>
+                    </select>
+                    <select id="Dateformats_select" class="form-control" style="display:none">
+                        <option value="">Select</option>
+                        <option value="yyyy-MM-dd HH:mm:ss,SSS">yyyy-MM-dd HH:mm:ss,SSS</option>
+                        <option value="MM-DD-YYYY">MM-DD-YYYY</option>
+                        <option value="yyyy-MM-DD">yyyy-MM-DD</option>
+                        <option value="MM-DD-YYYY HH:MM:SS">MM-DD-YYYY HH:MM:SS</option>
+                        <option value="yyyy-MM-dd HH:mm:ss">yyyy-MM-dd HH:mm:ss</option>
+                        <option value="YYYY-MM-DD HH:MM">YYYY-MM-DD HH:MM</option>
+                        <option value="MM-DD-YYYY  HH:MM">MM-DD-YYYY HH:MM</option>
+                        <option value="dd/MMM/YYYY">dd/MMM/YYYY</option>
+                        <option value="dd/MMM/yyyy:HH:mm:ss">dd/MMM/yyyy:HH:mm:ss</option>
+
+                    </select>
+                    <div id="Stringformats_select" style="display:none">
+                        <div class="form-group">
+                            <label class="col-form-label">Starting Text:</label>
+                            <div>
+                                <input type="text" id="StringStart" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Ending Text:</label>
+                            <div>
+                                <input type="text" id="StringEnd" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger btn-lg" id="cancel_predefined_format_based"
+                        data-dismiss="modal">
+                    <i class='fa fa-window-close'></i> Cancel
+                </button>
+                <button type="button" class="btn btn-success btn-lg" id="apply_predefined_format_based"><i
+                        class='fa fa-save'></i>
+                    Apply
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End highlight logs-->
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+    <script src="/static/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+   <script src="/static/assets/js/pages/readlog.js"></script>
+{% endblock javascripts %}

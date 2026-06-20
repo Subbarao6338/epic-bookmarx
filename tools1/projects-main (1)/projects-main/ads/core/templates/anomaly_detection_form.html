@@ -1,0 +1,282 @@
+{% extends 'layouts/base.html' %}
+{% block stylesheets %}
+
+<link href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" rel="stylesheet"/>
+<link crossorigin="anonymous"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css"
+      rel="stylesheet"/>
+<style>
+input[type='radio'] {
+        margin: 4px 1px 0 30px;
+    }
+input[type='checkbox'] {
+        margin: 2px 1px 0 -20px;
+    }
+button.multiselect.dropdown-toggle.custom-select.text-center {
+    width: 250px;
+    height: 30px;
+    padding: 0px;
+}
+button.multiselect-option.dropdown-item {
+    top: auto;
+    color:black;
+}
+.multiselect-container.dropdown-menu.show {
+    max-height: 100px;
+    overflow: auto;
+    width:250px;
+    margin-top:30px;
+    color:black;
+}
+
+</style>
+{% endblock stylesheets %} {% block content %}
+
+<div class="container">
+    <div class="row justify-content-center p-4">
+        <!--breadcrumb      start  -->
+        <div class="p-1" style="
+        margin-top: 36px;
+        position: fixed;
+        height: 30px;
+        width: 1150px;
+        background-color: white;
+        z-index:100;
+      ">
+            <a class="btn-link" href="/" style="font-size: 14px;">
+                <b>Home&emsp;</b>
+            </a>
+            <b>></b> &emsp;
+            <a class="btn-link" href="/uploaded_files_table" style="font-size: 14px;">
+                <b>List Of Sources&emsp;</b>
+            </a>
+            <b>></b> &emsp;
+            <b style="font-size: 14px;">Anomaly Detection Form</b>
+        </div>
+        <!--breadcrumb    end    -->
+        <div class="border" style="
+        margin-top: 85px;
+      ">
+            <h5 class="text-center border-bottom" style="padding:4px">
+                <b> Anomaly Detection Parameter</b>
+            </h5>
+            <div id="input_type" style="margin-left: 20px"><b style="font-size:16px;text-align:justify">Input Type:</b>
+                <input checked id="single_variate" name="single_multi" onchange="show2()" style="margin-left:177px"
+                       type="radio" value="single">
+                <label for="single_variate">Single variate</label>
+                <input id="multi_variate" name="single_multi" onchange="show(this.value)" type="radio" value="multi">
+                <label for="multi_variate">Multi variate</label>
+            </div>
+            <form class="p-2 was-validated text-center" id="single_anomaly" style=" overflow: auto;margin-left:10px">
+                <div class="row mb-3">
+                    <div class="col-5 text-left">
+                        <label class="label">Timeseries Field:</label>
+                    </div>
+                    <div class="col-7">
+                        <select class="form-select" id="dates" onchange="get_interval()" required style="
+                  border-radius: 1px;
+                  background-color: white;
+                  width: 250px;
+                  height: 30px;
+                ">
+                            <option class="dropdown" id="date_list" value="">
+                                Select Date Column
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-5 text-left" style="width:300px">
+                        <label class="label">Data Field:</label>
+                    </div>
+                    <div class="col-7">
+                        <select class="form-select" id="params" required style="
+                  border-radius: 1px;
+                  background-color: white;
+                  width: 250px;
+                  height: 30px;
+                ">
+                            <option id="param_list" style="
+                    background: white;
+                    color: black;
+                    border: 1px solid #343a40;
+                    border-radius: 1px;
+                    background-color: white;
+                  " value="">
+                                Select Parameters
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3" id="mdl">
+                    <div class="col-5 text-left">
+                        <label class="label">Select Algorithm:</label>
+                    </div>
+                    <div class="col-7">
+                        <select class="form-select" id="models" style="
+                  border-radius: 1px;
+                  background-color: white;
+                  width: 250px;
+                  height: 30px;
+                ">
+                            <!--<option value="" disabled selected hidden>Choose params</option>-->
+                            <option
+                                    id="model_list"
+                                    style="
+                    background: white;
+                    color: black;
+                    border: 1px solid #343a40;
+                    border-radius: 1px;
+                    background-color: white;
+                  "
+                                    value=""
+                            >
+                                Select Model Name
+                            </option>
+                            <option>Angle-base Outlier Detection</option>
+                            <option>Clustering-Based Local Outlier</option>
+                            <option>Connectivity-Based Local Outlier</option>
+                            <option>Isolation Forest</option>
+                            <option>Histogram-based Outlier Detection</option>
+                            <option>K-Nearest Neighbors Detector</option>
+                            <option>Local Outlier Factor</option>
+                            <option>One-class SVM detector</option>
+                            <option>Principal Component Analysis</option>
+                            <option>Minimum Covariance Determinant</option>
+                            <option>Subspace Outlier Detection</option>
+                            <option>Stochastic Outlier Selection</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3" id="atype">
+                    <div class="col-4 text-left">
+                        <label class="label">Base Data:</label>
+                    </div>
+                    <div class="col-7 form-check" style="margin-left:20px">
+                        <input class="form-check-input" id="entire" name="anomaly_type" style="margin-left: -55px;"
+                               type="radio"
+                               value="entire"/> &emsp;&emsp;&emsp;
+                        <label class="form-check-label" for="entire"
+                               style="margin-left: -85px;" title="Detecting anomalies in the entire time series.">
+                            Entire
+                        </label>
+                        <input class="form-check-input" id="change" name="anomaly_type" type="radio" value="change"/>
+                        &emsp;&emsp;&emsp;
+                        <label class="form-check-label" for="change"
+                               title="Detecting change points in the entire time series.">
+                            Change
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-3" id="aint">
+                    <div class="col-4 text-left">
+                        <label class="label">Interval:</label>
+                    </div>
+                    <div class="col-7 form-check" style="margin-left:20px">
+                        <input class="form-check-input" id="hourly" name="interval" type="radio"
+                               value="hourly"/> &emsp;&emsp;&emsp;
+                        <label class="form-check-label" for="hourly">Hourly</label>
+
+                        <input class="form-check-input" id="daily" name="interval"
+                               style="margin-left: 27px;" type="radio"
+                               value="daily"/> &emsp;&emsp;&emsp;
+                        <label class="form-check-label" for="daily">Daily</label>
+
+                        <input class="form-check-input" id="monthly" name="interval"
+                               style="margin-left: 25px;" type="radio" value="monthly"/> &emsp;&emsp;&emsp;
+                        <label class="form-check-label" for="monthly">Monthly</label>
+                    </div>
+                </div>
+                <div align="center">
+                    <button class="btn btn-outline-primary" id="submit" onclick="save_anomaly_form()" type="button">
+                        <b>Submit</b>
+                    </button> &nbsp;
+                    <button class="btn btn-outline-secondary" onclick="HandleBack()" type="button">
+                        <b>Cancel</b>
+                    </button>
+                </div>
+                <div id="rules">
+                    <br/>
+<!--                    <div style="text-align: left;font-size: 10px;font-style: italic;">-->
+<!--                        <span>-->
+<!--                            <b style="color:red">**</b>-->
+<!--                            <b>Rules for Dataset:</b>-->
+<!--                        </span>-->
+<!--                        <ul style="list-style-type: circle">-->
+<!--                            <li>The Dataset cannot have none values.</li>-->
+<!--                            <li>The Dataset must be sorted by timestamp in ascending order.</li>-->
+<!--                            <li>The Dataset cannot have duplicated timestamp.</li>-->
+<!--                            <li>Time points should be uniformly spaced in time granularity.</li>-->
+<!--                            <li>The Dataset must have at least 12 points and cannot have more than 8640 points.</li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+                </div>
+            </form>
+
+            <form class="p-2 was-validated text-center" id="multi_anomaly"
+                  style=" margin-left:10px;display:none;overflow:auto">
+                <div class="row mb-3">
+                    <div class="col-5 text-left" style="width:300px">
+                        <label class="label">Data Field:</label>
+                    </div>
+                    <div class="col-7">
+                        <select class="form-select" id="multi_params" multiple="multiple" required style="
+                  border-radius: 1px;
+                  background-color: white;
+                  width: 250px;
+                  height: 30px;
+                ">
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3" id="multi_mdl">
+                    <div class="col-5 text-left">
+                        <label class="label">Select Algorithm:</label>
+                    </div>
+                    <div class="col-7">
+                        <select class="form-select" id="multi_models" style="
+                  border-radius: 1px;
+                  background-color: white;
+                  width: 250px;
+                  height: 30px;
+                ">
+                            <option>Isolation Forest</option>
+                        </select>
+                    </div>
+                </div>
+                <div align="center">
+                    <button class="btn btn-outline-primary" id="multi_submit" onclick="save_multi_anomaly_form()"
+                            type="button">
+                        <b>Submit</b>
+                    </button> &nbsp;
+                    <button class="btn btn-outline-secondary" onclick="HandleBack()" type="button">
+                        <b>Cancel</b>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+</div>
+
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<link crossorigin="anonymous"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.1/css/bootstrap-multiselect.css"
+      integrity="sha512-Lif7u83tKvHWTPxL0amT2QbJoyvma0s9ubOlHpcodxRxpZo4iIGFw/lDWbPwSjNlnas2PsTrVTTcOoaVfb4kwA=="
+      referrerpolicy="no-referrer" rel="stylesheet"/>
+<script crossorigin="anonymous"
+        integrity="sha512-e6Nk3mhokFywlEPtnkGmop6rHh6maUqL0T65yOkbSsJ3/y9yiwb+LzFoSTJM/a4j/gKwh/y/pHiSLxE82ARhJA=="
+        referrerpolicy="no-referrer"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.1/js/bootstrap-multiselect.js"></script>
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="/static/assets/js/pages/anomaly_detection/form.js"></script>
+{% endblock javascripts %}

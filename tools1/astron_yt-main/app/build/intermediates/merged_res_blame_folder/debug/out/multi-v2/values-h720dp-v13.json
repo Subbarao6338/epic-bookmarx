@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "cc.astron.app-mergeDebugResources-2:/values-h720dp-v13/values-h720dp-v13.xml",
+            "map": [
+                {
+                    "source": "/home/jules/.gradle/caches/8.8/transforms/31e6ad0538fa0147fd8771acd39e0eac/transformed/appcompat-1.6.1/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "66",
+                        "endOffsets": "117"
+                    }
+                }
+            ]
+        }
+    ]
+}

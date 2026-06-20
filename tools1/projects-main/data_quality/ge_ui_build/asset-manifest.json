@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2c064cff.css",
+    "main.js": "/static/js/main.7387855a.js",
+    "static/js/787.b4bf6672.chunk.js": "/static/js/787.b4bf6672.chunk.js",
+    "static/media/dqc_back.png": "/static/media/dqc_back.ffd086b39a9f8540dc12.png",
+    "static/media/dqc_intro.jpg": "/static/media/dqc_intro.b4975b54421cd1406e9a.jpg",
+    "static/media/header.png": "/static/media/header.e62f0e09ea1b70f0f904.png",
+    "static/media/wizard_backup.png": "/static/media/wizard_backup.5fb4609619f2bd10f948.png",
+    "static/media/validations.png": "/static/media/validations.f08c3eb9ffd4ae2f577e.png",
+    "static/media/datasource.png": "/static/media/datasource.9f4d07a8fb8e7bb91916.png",
+    "static/media/profiling.png": "/static/media/profiling.b96e2d87b5af848c376d.png",
+    "static/media/expectation.png": "/static/media/expectation.c411d5ece4e46414de04.png",
+    "static/media/wizard.png": "/static/media/wizard.73a4cf4a396b3717551d.png",
+    "static/media/streamdata.png": "/static/media/streamdata.a14e6e396129ec9478fe.png",
+    "static/media/checkpoint.png": "/static/media/checkpoint.046ff6034c0284002ab1.png",
+    "static/media/graviton.png": "/static/media/graviton.422e86a79a85c232ea55.png",
+    "static/media/reports.png": "/static/media/reports.8d67a360cb524638b25d.png",
+    "static/media/dashboard.png": "/static/media/dashboard.176259527a5c7cfccdad.png",
+    "index.html": "/index.html",
+    "main.2c064cff.css.map": "/static/css/main.2c064cff.css.map",
+    "main.7387855a.js.map": "/static/js/main.7387855a.js.map",
+    "787.b4bf6672.chunk.js.map": "/static/js/787.b4bf6672.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2c064cff.css",
+    "static/js/main.7387855a.js"
+  ]
+}

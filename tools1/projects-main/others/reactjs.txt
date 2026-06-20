@@ -1,0 +1,28 @@
+download visual studio code
+download node js
+npm i -g create-react-app
+npm i
+npm audit
+npm fund
+npm audit fix
+create-react-app my-app
+npm --version
+node --version
+cd my-app
+npm start
+npm run build
+npm test
+npm run eject
+
+extensions:
+simple react
+prettier formatter
+   select default formatter to prettier in settings
+npm i bootstrap
+
+
+Email Id: de@hclazurecloudconnect.onmicrosoft.com
+Password: DataEng@2021
+server>  node index.js
+client>  npm i 
+		 npm start

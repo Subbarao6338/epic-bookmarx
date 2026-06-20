@@ -1,0 +1,12 @@
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:01.673457", "Temperature": 92, "UVValue": 0.3746367877153248, "Humidity": 93, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:07.700926", "Temperature": 76, "UVValue": 0.28417263127423775, "Humidity": 84, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:09.716417", "Temperature": 87, "UVValue": 0.17447136990764756, "Humidity": 96, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:11.724698", "Temperature": 86, "UVValue": 0.01873900005568463, "Humidity": 91, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:13.726671", "Temperature": 87, "UVValue": 0.5670861092233318, "Humidity": 94, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:15.742273", "Temperature": 75, "UVValue": 0.6176636499270584, "Humidity": 83, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:17.755468", "Temperature": 80, "UVValue": 0.9122228720735308, "Humidity": 95, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:19.766185", "Temperature": 82, "UVValue": 0.8667803529923517, "Humidity": 72, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:56:23.771555", "Temperature": 72, "UVValue": 0.47012863124687054, "Humidity": 94, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:58:37.044914", "Temperature": 74, "UVValue": 0.588432582563366, "Humidity": 78, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:58:39.067890", "Temperature": 79, "UVValue": 0.5444005312041215, "Humidity": 96, "source": "kafka"}
+{"DeviceName": "temp_sensor_kafka_1", "Timestamp": "2022-05-26 02:58:47.086419", "Temperature": 75, "UVValue": 0.7103251728044682, "Humidity": 82, "source": "kafka"}

@@ -1,0 +1,41 @@
+dependencies {
+    // scala
+    compileOnly 'org.scala-lang:scala-library:2.11.12'
+    compileOnly('org.apache.hadoop:hadoop-common:2.6.5') {
+        transitive = false
+    }
+    // spark hive
+    compileOnly('org.apache.spark:spark-hive_2.11:2.4.8') {
+        transitive = false
+    }
+    compileOnly "org.javassist:javassist:3.29.0-GA"
+    compileOnly "ch.qos.reload4j:reload4j:1.2.19"
+    // deequ
+    compileOnly('com.amazon.deequ:deequ:1.2.2-spark-2.2') {
+        transitive = false
+    }
+    // http client
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    implementation("com.squareup.retrofit2:converter-jackson:2.9.0") {
+        transitive = false
+    }
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.12.6.1") {
+        transitive = false
+    }
+    compileOnly("com.fasterxml.jackson.core:jackson-core:2.12.6") {
+        transitive = false
+    }
+    compileOnly("com.fasterxml.jackson.core:jackson-annotations:2.12.6") {
+        transitive = false
+    }
+    compileOnly("com.fasterxml.jackson.module:jackson-module-scala_2.11:2.12.7") {
+        transitive = false
+    }
+
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+}
+
+test {
+    environment "dbnd.tracking", "True"
+}

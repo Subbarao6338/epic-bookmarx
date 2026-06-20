@@ -1,0 +1,25 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus_service"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "azure_billing"
+    static_configs:
+      - targets: ["host.docker.internal:9301"]
+
+  - job_name: airflow_metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["20.204.104.9:9102"]
+
+  - job_name: "azure_monitor"
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["20.204.104.9:9276"]
+
+remote_write:
+  - url: "http://synergizer_telegraf:1234/receive"

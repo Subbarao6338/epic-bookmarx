@@ -1,0 +1,4 @@
+pip install confluent-kafka
+
+python send_using_kafka_package.py demo_event_hub
+python consume_using_kafka_package.py '$default' demo_event_hub

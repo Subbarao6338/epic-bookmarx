@@ -1,0 +1,54 @@
+{
+  "expect_column_values_to_be_between": {
+    "dq_dimension": "accuracy",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_be_in_set": {
+    "dq_dimension": "accuracy",
+    "threshold": 0.8
+  },
+  "expect_multicolumn_sum_to_equal": {
+    "dq_dimension": "integrity",
+    "threshold": 0.8
+  },
+  "expect_foreign_keys_in_column_a_to_exist_in_column_b": {
+    "dq_dimension": "integrity",
+    "threshold": 0.8
+  },
+  "expect_column_pair_values_to_be_equal": {
+    "dq_dimension": "integrity",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_not_be_null": {
+    "dq_dimension": "completeness",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_be_unique": {
+    "dq_dimension": "uniqueness",
+    "threshold": 0.8
+  },
+  "expect_compound_columns_to_be_unique": {
+    "dq_dimension": "uniqueness",
+    "threshold": 0.8
+  },
+  "expect_column_values_number_of_decimal_places_to_equal": {
+    "dq_dimension": "precision",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_contain_valid_email": {
+    "dq_dimension": "validity",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_match_regex": {
+    "dq_dimension": "validity",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_be_of_type": {
+    "dq_dimension": "validity",
+    "threshold": 0.8
+  },
+  "expect_column_values_to_match_strftime_format": {
+    "dq_dimension": "validity",
+    "threshold": 0.8
+  }
+}

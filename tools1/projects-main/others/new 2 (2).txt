@@ -1,0 +1,212 @@
+import React from 'react' // ,{ useState }
+import { useHistory } from 'react-router-dom'
+import { loadMessages } from '@progress/kendo-react-intl'
+import { enMessages } from '../messages/en-US'
+import { httpget } from '../commonUtility/common_http'
+import {
+  gettokens_url,
+  listusagemonitoring_url,
+  gettokens_exturl,
+  listusagemonitoring_exturl,
+  tenant_id,
+} from '../commonUtility/api_urls'
+import {
+  Client_ID,
+  Secret_ID,
+  Grant_Type,
+  Resource,
+} from '../commonUtility/azure_api_config'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import * as recharts from 'recharts'
+import { ComboBox } from '@progress/kendo-react-dropdowns'
+import { Breadcrumb } from '@progress/kendo-react-layout'
+import { SplitButton } from '@progress/kendo-react-buttons'
+import { Pie, PieChart } from 'recharts'
+
+loadMessages(enMessages, 'en-US')
+
+// const pdata = []
+
+const navitems = [
+  {
+    id: 'home',
+    route_url: '/costusage',
+    text: 'Cost and Usage Management',
+  },
+  {
+    id: 'costsummary',
+    route_url: '/cost',
+    text: 'Cost Details',
+  },
+  {
+    id: 'costUsage',
+    route_url: '/cost',
+    text: 'Charts',
+  },
+]
+
+const items = []
+
+const CostCharts = () => {
+  // const [startDate, setStartDate] = useState(new Date())
+
+  let history = useHistory()
+  const [navdata] = React.useState(navitems)
+  const handleItemSelect = (event) => {
+    const itemIndex = navdata.findIndex((curValue) => curValue.id === event.id)
+    console.log(navdata[itemIndex]['route_url'])
+    history.push(navdata[itemIndex]['route_url'])
+  }
+  const [pdata, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const req_value = {
+      params: {
+        tenant_id: tenant_id,
+        grant_type: Grant_Type,
+        client_id: Client_ID,
+        client_secret: Secret_ID,
+        resource: Resource,
+        gettokens_exturl: gettokens_exturl,
+      },
+    }
+
+    httpget(gettokens_url, req_value).then((token_response) => {
+      const token_value = token_response['token']
+      const req_listusagemonitoring = {
+        params: {
+          tenant_id: tenant_id,
+          listusagemonitoring_exturl: listusagemonitoring_exturl,
+          token: token_value,
+        },
+      }
+      httpget(listusagemonitoring_url, req_listusagemonitoring).then(
+        (listusagemonitoring_result) => {
+          var costmonitoring_details = {}
+          var arr_costmonitoring = []
+          console.log(listusagemonitoring_result['value'].length)
+          for (let i = 0; i < listusagemonitoring_result['value'].length; i++) {
+            var prop_value =
+              listusagemonitoring_result['value'][i]['properties']
+            var date_val = new Date(prop_value['date'])
+
+            costmonitoring_details.cost = prop_value['cost']
+
+            costmonitoring_details.date =
+              date_val.getFullYear() +
+              '-' +
+              (date_val.getMonth() + 1) +
+              '-' +
+              date_val.getDate()
+
+            arr_costmonitoring.push({ ...costmonitoring_details })
+          }
+          console.log(arr_costmonitoring)
+          setData(arr_costmonitoring)
+        },
+      )
+    })
+  }, [])
+
+  return (
+    <React.Fragment>
+      <Breadcrumb
+        className="navigationbtn"
+        data={navdata}
+        onItemSelect={handleItemSelect}
+      />
+      <div>
+        <div>
+          <h3 align="left" id="heading">
+            Cost Summary Chart
+          </h3>
+        </div>
+        <hr />
+        <div style={{ display: 'flex', maxWidth: 600 }}>
+          <input type="text" placeholder="Search Here" />
+          <DatePicker showPopperArrow={true} placeholderText="Select Date" />
+          <SplitButton text="Accumulated Cost(INR)" items={items} />
+        </div>
+        <br />
+        <div style={{ display: 'flex', maxWidth: 600 }}>
+          <SplitButton text="Actual Cost(INR)" items={items} />
+          <SplitButton text="FORCAST:CHART VIEW OF" items={items} />
+          <SplitButton text="Actual Cost(INR)" items={items} />
+        </div>
+        <br />
+        <div>
+          <recharts.ResponsiveContainer width="80%" aspect={3}>
+            <recharts.LineChart width={100} height={100} data={pdata}>
+              <recharts.CartesianGrid />
+              <recharts.XAxis dataKey="date" interval={'preserveStartEnd'} />
+              <recharts.YAxis dataKey="cost"></recharts.YAxis>
+              <recharts.Legend />
+              <recharts.Tooltip />
+              <recharts.Line
+                dataKey="cost"
+                stroke="black"
+                activeDot={{ r: 8 }}
+              />
+              <recharts.Line dataKey="date" stroke="red" activeDot={{ r: 8 }} />
+            </recharts.LineChart>
+          </recharts.ResponsiveContainer>{' '}
+          <br />
+          <hr />
+        </div>
+
+        <div style={{ display: 'flex', margin: 'auto', color: 'black' }}>
+          <div>
+            <div>Service name</div>
+            <ComboBox
+              className="mb-3"
+              style={{ width: '300px' }}
+              data={pdata}
+            />
+            <recharts.BarChart width={300} height={300} data={pdata}>
+              <recharts.Bar dataKey="cost" fill="green" />
+              <recharts.CartesianGrid stroke="#ccc" />
+              <recharts.XAxis dataKey="date" />
+              <recharts.YAxis />
+            </recharts.BarChart>
+            Bar Chart
+          </div>
+          &emsp;
+          <div>
+            <div>Resource type</div>
+            <ComboBox
+              className="mb-3"
+              style={{ width: '300px' }}
+              data={pdata}
+            />
+          </div>
+          <div style={{ margin: 10, marginLeft: -295, marginTop: 25 }}>
+            <PieChart width={300} height={300}>
+              <Pie data={pdata} dataKey="cost" outerRadius={100} fill="pink" />
+            </PieChart>{' '}
+            <br />
+            <br />
+            Pie chart
+          </div>
+          <div>
+            <div>Resource Group name</div>
+            <ComboBox
+              className="mb-3"
+              style={{ width: '300px' }}
+              data={pdata}
+            />
+            <recharts.AreaChart width={300} height={300} data={pdata}>
+              <recharts.Area dataKey="cost" fill="green" stroke="green" />
+              <recharts.CartesianGrid stroke="#ccc" />
+              <recharts.XAxis dataKey="date" />
+              <recharts.YAxis />
+            </recharts.AreaChart>
+            Area Chart
+          </div>
+        </div>
+        <br />
+      </div>
+    </React.Fragment>
+  )
+}
+export default CostCharts

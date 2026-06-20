@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/griffin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/react/react-1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/react/react-pdf" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/refine/OpenRefine" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/refine/OpenRefine-1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/refine/reconciliation-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/refine/refine-client-py" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/refine/refine-python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/subbu-apps-practise-coding" vcs="Git" />
+  </component>
+</project>

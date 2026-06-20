@@ -1,0 +1,47 @@
+Datascope deploy in Azure Steps:
+
+1. Go to the Client folder -> Install the dependencies
+2. As of now client\src\authUtility\config inside change the work_env: "DEVELOPMENT".
+3. client\src\commonUtility -> common_http file inside configure the server url.
+4. Create build using npm run build command -> Build folder created
+5. build folder all values copy into server -> graviton_ui folder.
+6. Then server->graviton_ui index.html logo icon path need to change href="/cdp.png" to href="/static/media/cdp.png"
+7. cdp.png file copy into static/media folder
+
+Then start the deployment. 
+Once deployment successfully completed.
+
+1. go to the https://graviton.scm.azurewebsites.net/ URL in browser
+
+2. go to the SSH menu/tab run the below command one by one ( Required for Resource Provisioning - Terraform)
+
+	- 	apt update 
+	- 	apt install  software-properties-common gnupg2 curl
+	-	curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
+	-	install -o root -g root -m 644 hashicorp.gpg /etc/apt/trusted.gpg.d/
+	-	apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com focal main"
+	-	apt update
+	-	apt install terraform
+	-	terraform --version
+	
+3.  go to the SSH menu/tab run the below command one by one ( Required for Resource Provisioning - Helm chart)
+
+	-	wget https://get.helm.sh/helm-v3.9.3-linux-amd64.tar.gz
+	-	tar xvf helm-v3.9.3-linux-amd64.tar.gz
+	-	mv linux-amd64/helm /usr/local/bin
+	-	rm helm-v3.9.3-linux-amd64.tar.gz
+	-	rm -rf linux-amd64
+	-	helm version
+	
+4. go to the SSH menu/tab run the below command ( Required for Resource Provisioning - Login Azure)
+
+	-	az login
+		We can see message like below
+		To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EBAM8YHPG to authenticate.
+		-	Go to the  https://microsoft.com/devicelogin  URL paste the code then login azure account.
+		
+		
+5. Install kubectl in linux
+	
+	-	curl -LO https://dl.k8s.io/release/v1.25.0/bin/linux/amd64/kubectl
+	- 	install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl

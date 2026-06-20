@@ -1,0 +1,12 @@
+{
+  "Standard_D1_v21": { "vCPU": 1, "Memory (GiB)": 3.5, "Max Data Disks": 4 },
+  "Standard_D2_v2": { "vCPU": 2, "Memory (GiB)": 7, "Max Data Disks": 8 },
+  "Standard_D3_v2": { "vCPU": 4, "Memory (GiB)": 14, "Max Data Disks": 16 },
+  "Standard_D4_v2": { "vCPU": 8, "Memory (GiB)": 28, "Max Data Disks": 32 },
+  "Standard_D5_v2": { "vCPU": 16, "Memory (GiB)": 56, "Max Data Disks": 64 },
+  "Standard_DS1_v21": { "vCPU": 1, "Memory (GiB)": 3.5, "Max Data Disks": 4 },
+  "Standard_DS2_v2": { "vCPU": 2, "Memory (GiB)": 7, "Max Data Disks": 8 },
+  "Standard_DS3_v2": { "vCPU": 4, "Memory (GiB)": 14, "Max Data Disks": 16 },
+  "Standard_DS4_v2": { "vCPU": 8, "Memory (GiB)": 28, "Max Data Disks": 32 },
+  "Standard_DS5_v2": { "vCPU": 16, "Memory (GiB)": 56, "Max Data Disks": 64 }
+}

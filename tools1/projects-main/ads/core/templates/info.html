@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html' %}
+{% block stylesheets %}
+{% endblock stylesheets %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center p-3">
+         <!--breadcrumb      start  -->
+        <div class="p-1" style="
+        margin-top: 45px;
+        position: fixed;
+        height: 30px;
+        width: 1150px;
+        background-color: white;
+        z-index:100;
+      ">
+            <a class="btn-link" href="/" style="font-size: 14px;">
+                <b>Home&emsp;</b>
+            </a>
+
+            <b>></b> &emsp;
+            <b style="font-size: 14px;">Help</b>
+        </div>
+        <!--breadcrumb    end    -->
+        <div class="" style="
+        width: auto;
+        padding: 1rem !important;
+        margin-top: 70px;
+      ">
+            <h4 class="text-left">About Anomaly Detection</h4>
+            <p style="text-align:justify">
+                Anomaly detection is the process of finding the outliers of a dataset, which are the items that do not
+                belong. These anomalies might highlight unusual network traffic, simplify identify data for cleaning, or
+                unveil a sensor on the fritz, prior to analysis.
+                In simple words, it is a process of finding an unusual point or pattern in a dataset. Anomaly is also
+                referred to as outlier. It is a part of the data cleansing process. In today’s world of distributed
+                systems, tracking and monitoring
+                the performance of a system is a necessity. With several thousand things to watch, anomaly detection can
+                help figure out where the error is occurring, thereby improving root cause analysis and quickly bringing
+                notice to tech support. Anomaly
+                detection helps track and identify the root cause of chaos engineering by identifying the outliers and
+                informing the tech support to act.
+            </p>
+            <h6>Anomaly detection is mainly used in enterprise IT for:</h6>
+            <ul>
+                <li>Intrusion Detection</li>
+                <li>Ecosystem Disturbances</li>
+                <li>Data Cleansing</li>
+                <li>Event Detection in Sensor Networks</li>
+                <li>Fraud Detection</li>
+                <li>System Health Monitoring</li>
+            </ul>
+            <p style="text-align:justify">
+                Anomaly detection is a major application of unsupervised machine learning (ML) algorithms. For example,
+                DBSCAN is a robust unsupervised ML algorithm frequently used for anomaly detection in production curve
+                auto-fitting.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+{% endblock javascripts %}

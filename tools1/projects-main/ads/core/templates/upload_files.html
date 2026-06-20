@@ -1,0 +1,166 @@
+{% extends 'layouts/base.html' %}
+
+{% block stylesheets %}
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="/static/assets/css/custom.css" />
+<link rel="stylesheet" href="/static/assets/css/style.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css" />
+<link rel="stylesheet" href="/static/assets/plugins/sweetalert2/sweetalert2.min.css" />
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" />
+<!-- iCheck -->
+<link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
+<!-- JQVMap -->
+<link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css" />
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css" />
+<!-- overlayScrollbars -->
+<link rel="stylesheet" href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+<!-- Daterange picker -->
+<link rel="stylesheet" href="/static/assets/plugins/daterangepicker/daterangepicker.css" />
+<!-- summernote -->
+<link rel="stylesheet" href="/static/assets/plugins/summernote/summernote-bs4.min.css" />
+<!-- table -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+
+{% endblock stylesheets %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center p-4">
+<!--breadcrumb      start  -->
+        <div class="p-1" style="
+        margin-top: 36px;
+        position: fixed;
+        height: 30px;
+        width: 1150px;
+        background-color: white;
+        z-index:100;
+      ">
+            <a class="btn-link" href="/" style="font-size: 14px;">
+                <b>Home&emsp;</b>
+            </a>
+            <b>></b> &emsp;
+            <a class="btn-link" href="/uploaded_files_table" style="font-size: 14px;">
+                <b>List Of Sources&emsp;</b>
+            </a>
+            <b>></b> &emsp;
+            <b style="font-size: 14px;">Connect Data Source</b>
+        </div>
+        <!--breadcrumb    end    -->
+        <div style="margin-top: 70px;">
+            <div class="border m-2 p-1" style="width: 750px; height: auto;">
+                <h5 class="text-center border-bottom" style="padding: 5px;">
+                    <b>Connect Data Source</b>
+                </h5>
+                <form name="upload_file" class="was-validated mt-3" style="padding-left: 30px; padding-top: 10px; font-size: 16px;">
+                    <div class="mb-3 row" style="margin-left: -25px; margin-right: -11px;">
+                        <label class="form-label col-4">Name</label>
+                        <input id="title_name" name="title_name" style="margin-left: 3px;" aria-label="required" required minlength="1" class="form-control is-invalid col-7" type="text" placeholder="Enter Title" value="" />
+                    </div>
+
+                    <div class="mb-3 row" style="margin-left: -25px; margin-right: -11px;">
+                        <label class="form=label col-4" for="datasource_type_select">
+              Type
+            </label>
+                        <select id="datasource_type_select" name="datasource_type_select" style="margin-left: 3px;" class="form-control col-7" onchange="get_selected_data_type()">
+              <option value="local_file">Local File</option>
+                            <option value="database">Database</option>
+              <!-- <option value="azure_storage">Azure Storage</option> -->
+              <option value="apache_kafka">Apache Kafka</option>
+
+            </select>
+                    </div>
+
+                    <div id="connection_details_form" class="mb-3 row" style="margin-left: -25px; margin-right: -11px;">
+                        <label class="form-label col-4">Upload Delimiter File</label>
+                        <input id="upload_file" aria-label="required" style="margin-left: 3px;" required minlength="1" name="upload_file" class="form-control col-7" type="file" accept=".csv, .json" value="" />
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        <button id="submit_button" type="button" class="btn btn-outline-primary" onclick="save_details()" style="display: '';">
+              Submit
+            </button>
+                        <button id="connect_button" type="button" class="btn btn-outline-primary" onclick="save_details()" data-toggle="modal" data-target="#myModal" style="display: none;">
+              Submit
+            </button> &ensp;
+                        <button id="kafka_button" type="button" class="btn btn-outline-primary" onclick="save_kafka_details()" style="display: none;">
+              Submit
+            </button> &ensp;
+                        <button type="button" class="btn btn-outline-secondary" onclick="clear_form_content()" style="margin-left: -12px;">
+              Reset
+            </button> &ensp;
+                        <button type="button" class="btn btn-outline-danger" onclick="HandleBack()">
+              Back
+            </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label class="form-label">Selected Dataset</label>
+                    <select id="select_dataset" required class="form-control">
+            <option value="none">No Dataset Found</option>
+          </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" onclick="save_db_conn()">
+            Submit
+          </button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="/static/assets/js/pages/anomaly_detection/anomaly.js"></script>
+<script src="/static/assets/js/pages/anomaly_detection/datatype_form.js"></script>
+
+{% endblock javascripts %}

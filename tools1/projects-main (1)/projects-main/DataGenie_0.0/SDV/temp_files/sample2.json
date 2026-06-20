@@ -1,0 +1,14 @@
+{
+    "device_id": "Device_10",
+    "ip_address": "10.163.2.10",
+    "token": "token_Ena@s5&n_2021=",
+    "timestamp": "2021-11-09 04:09:42.232688",
+    "uv": 0.9774476540598765,
+    "temperature": 75,
+    "humidity": 99,
+    "volt": 138.9781521521568,
+    "rotate": 500.1636110892506,
+    "pressure": 70.9885642157645,
+    "vibration": 51.93891943156827,
+    "EventType": "Telemetry"
+    }

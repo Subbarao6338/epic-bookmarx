@@ -1,0 +1,25 @@
+{
+  "name": "OpenRefine-Documentation",
+  "version": "1.0.0",
+  "description": "Documentation for OpenRefine",
+  "license": "BSD-3-Clause",
+  "author": "OpenRefine",
+  "private": true,
+  "scripts": {
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "crowdin": "crowdin",
+    "netlify:build:production": "docusaurus write-translations && crowdin upload && crowdin download && yarn build",
+    "netlify:build:deployPreview": "docusaurus write-translations && yarn build"
+  },
+  "dependencies": {
+    "@crowdin/cli": "3",
+    "@docusaurus/core": "^2.0.0-beta.6",
+    "@docusaurus/preset-classic": "^2.0.0-beta.8",
+    "clsx": "^1.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

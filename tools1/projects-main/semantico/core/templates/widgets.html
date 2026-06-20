@@ -1,0 +1,476 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Add Domain Object {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+  <link rel="stylesheet" href="/static/assets/css/wizard_css/custom_wizard.css">
+  <link rel="stylesheet" href="/static/assets/css/wizard_css/list_box/listbox.css">
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Create Domain Object</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Create Domain Object</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+		  <div class="row">
+              <div class="card card-primary">
+			    <div class="card-body">
+			  	    <form id="wizardForm">
+                      <div class="tab">
+                          <h2>Datastore Connection Detail</h2>
+                          <br/>
+                        <div class="form-group">
+                             <select class="form-control select2 validate_ddl" name="ddlDB" id="ddlDB" style="width: 100%;">
+                                 <option selected="selected" >--Select--</option>
+                                 <option value="ADLSGen2">Azure Data Lake Storage Gen2</option>
+                                 <option value="SQL SERVER">SQL SERVER</option>
+                                 <option value="SQLITE">SQLITE</option>
+                                 <option value="DynamoDB">DynamoDB</option>
+                            </select>
+                        </div>
+                      <div id="rdbms_section">
+                        <div class="form-group">
+                            <label for="txtHost" id="lbl_dbpath" style="display:none">Database Path </label>
+                            <label for="txtHost" id="lbl_servername" style="display:none">Server Name</label>
+                            <input type="text" class="form-control" id="txtHost" placeholder="Enter Server Name" style="display:none">
+                            <small id="lbl_format" style="display:none;">(Format : C:/sqlite/SemanticLayer.db)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtPort" id="lbl_portname" style="display:none">Port</label>
+                            <label for="txtPort" id="lbl_username" style="display:none">User Name</label>
+                            <input type="text" class="form-control" id="txtPort" placeholder="Enter User Name" style="display:none">
+                        </div>
+                        <div class="form-group">
+                             <label for="txtUserName" id="lbl_Password" style="display:none">Password</label>
+                             <input type="password" class="form-control" id="txtUserName" placeholder="Enter Password" style="display:none">
+                        </div>
+                      </div>
+                      <div id="adls_section" style="display:none">
+                          <div class="form-group">
+                            <label for="txtPort" id="lbl_storageName">Storage Account Name</label>
+                              <input type="text" class="form-control" value="gravitonadlsgen2" id="txtstorageName" placeholder="Enter User Name">
+<!--                            <input type="text" class="form-control" value="gravitondatastorage" id="txtstorageName" placeholder="Enter User Name">-->
+                        </div>
+                        <div class="form-group">
+                             <label for="txtUserName" id="lbl_AccessKey">Access Key</label>
+                            <input type="password" value="CZTGUJLL/UrIfBkuVZBf7Z55FcvhS5dnc2yV1LeWg5/9GXEv7G0WHtAiplU5mMA23iDrMa2mEuRe+ASt7biWHA==" class="form-control" id="txtAccessKey" placeholder="Enter Password">
+<!--                             <input type="password" value="GK1i3ySEfapzpN+9erlzMo2ZMpa+I/abz05D0hzNYB+NQbJ896AEzjVWfy5ti3A6lJVtKiMPah6k+AStzt6gpg==" class="form-control" id="txtAccessKey" placeholder="Enter Password">-->
+                        </div>
+                      </div>
+                      </div>
+                      <div class="tab">
+                        <h2>Domain Object Info</h2>
+<!--                        <div style="float:right;">-->
+<!--                            <a href="javascript:void(0)" onclick="Reload(0)"><i class="nav-icon fas fa-sync-alt"></i></a>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="txtBusinessObjectName">Business Object Name</label>-->
+<!--                            <input type="text" class="form-control" name="txtBusinessObjectName" id="txtBusinessObjectName" placeholder="Enter Object Name">-->
+<!--                        </div>-->
+                        <div class="form-group">
+                            <label>Select Database</label>
+                            <select class="form-control select2 validate_ddl" name="ddlDatabase" id="ddlDatabase" style="width: 100%;">
+                                <option selected="selected" value="">--select--</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="tab">
+                          <h2>Table Selection</h2>
+<!--                          <div style="float:right;">-->
+<!--                            <a href="javascript:void(0)" onclick="Reload(1)"><i class="nav-icon fas fa-sync-alt"></i></a>-->
+<!--                          </div>-->
+                          <div id="list_box_selection">
+                            <div class="listbox-area">
+                              <div class="left-area">
+                                <span id="ms_av_l" class="listbox-label">Available Tables:</span>
+                                <ul id="ms_table_list" tabindex="0" role="listbox" aria-labelledby="ms_av_l" aria-multiselectable="true">
+                                    <!--Table list display here-->
+                                </ul>
+                                <button type="button" id="list_box_selection-add" class="move-right-btn" aria-keyshortcuts="Alt+ArrowRight Enter" aria-disabled="true">Add</button>
+                              </div>
+                              <div class="right-area">
+                                <span id="ms_ch_l" class="listbox-label">Selected Tables:</span>
+                                <ul id="ms_selected_table_list" tabindex="0" role="listbox"
+                                  aria-labelledby="ms_ch_l"
+                                  aria-activedescendant
+                                  aria-multiselectable="true">
+                                </ul>
+                                <button type="button" id="list_box_selection-delete" class="move-left-btn" aria-keyshortcuts="Alt+ArrowLeft Delete" aria-disabled="true">Remove</button>
+                              </div>
+                                <div class="offscreen">Last change: <span aria-live="polite" id="ms_live_region"></span></div>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="tab">
+                          <h2>Field Selection</h2>
+<!--                          <div style="float:right;">-->
+<!--                            <a href="javascript:void(0)" onclick="Reload(2)"><i class="nav-icon fas fa-sync-alt"></i></a>-->
+<!--                          </div>-->
+                          <div id="ex1">
+                            <div class="listbox-area">
+                              <div class="left-area" style="width:30%">
+                                <div class="row">
+                                    <div class="col-6">
+                                      <span class="listbox-label">Selected Tables</span>
+                                    </div>
+                                    <div class="col-6">
+                                      <span class="listbox-label">Alias</span>
+                                    </div>
+                                </div>
+                                <ul id="ss_tbl_list" tabindex="0" role="listbox" aria-labelledby="ss_imp_l">
+                                    <!--Selected table list will display here-->
+                                </ul>
+                              </div>
+                              <div class="right-area" style="width:70%">
+                                <div class="row">
+                                    <div class="div_bottom_content" style="width:28%">
+                                      <span class="listbox-label bottom_align">Select Fields</span>
+                                    </div>
+                                    <div class="div_bottom_content" style="width:15%">
+                                      <span class="listbox-label bottom_align">Data Type</span>
+                                    </div>
+                                    <div class="div_bottom_content" style="width:20%">
+                                      <span class="listbox-label bottom_align">Alias</span>
+                                    </div>
+<!--                                    <div class="col-1">-->
+<!--                                      <span class="listbox-label">Mask</span>-->
+<!--                                    </div>-->
+                                    <div class="div_bottom_content" style="width:15%">
+                                      <span class="listbox-label bottom_align">Access Level</span>
+                                    </div>
+                                    <div class="div_bottom_content" style="width:7%">
+                                        <span class="listbox-label bottom_align" title="Is Access Controlled">Access cont..</span>
+                                    </div>
+                                    <div class="div_bottom_content" style="width:15%">
+                                      <span class="listbox-label bottom_align">Mask/Encrypt</span>
+                                    </div>
+                                </div>
+                                <ul id="ms_fields_list" tabindex="0" role="listbox" aria-labelledby="ss_imp_l" aria-multiselectable="true">
+                                    <!--Fields based on table will be display here-->
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="tab join_tab">
+                          <h2>Table Join Details</h2>
+<!--                          <div style="float:right;">-->
+<!--                            <a href="javascript:void(0)" onclick="Reload(3)"><i class="nav-icon fas fa-sync-alt"></i></a>-->
+<!--                          </div>-->
+                          <div class="row">
+                              <div class="form-group col-4">
+                                <label>Left Table</label>
+                                <select class="form-control select2" id="ddlTable1" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-4">
+                                <label>Join</label>
+                                <select class="form-control select2" id="ddlJoin" style="width: 100%;">
+                                    <option value="Inner Join" selected="selected">Inner Join</option>
+                                    <option value="Left Join">Left Join</option>
+                                    <option value="Right Join">Right Join</option>
+                                    <option value="Cross Join">Cross Join</option>
+                                    <option value="Full Join">Full Join</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-4">
+                                <label>Right Table</label>
+                                <select class="form-control select2" id="ddlTable2" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="form-group col-4">
+                                <label>Left Table Field</label>
+                                <select class="form-control select2" id="ddlField1" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-4">
+                                <label>Right Table Field</label>
+                                <select class="form-control select2" id="ddlField2" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                </select>
+                              </div>
+                              <div class="col-2">
+                                <label>Condition</label>
+                                <select class="form-control select2" id="ddlJoinCondition" style="width: 100%;">
+                                    <option value="=" selected="selected">=</option>
+                                    <option value=">">></option>
+                                    <option value="<"><</option>
+                                    <option value=">=">>=</option>
+                                    <option value="<="><=</option>
+                                    <option value="<>"><></option>
+                                </select>
+                              </div>
+                              <div class="col-2 wrapper_btn">
+                                  <button type="button" onclick="add_join_details()" class="btn btn-info">Add</button>
+                              </div>
+                          </div>
+                          <div class="row table_low_height tbl_join" style="display:none">
+                              <table class="table table-bordered">
+                                  <thead>
+                                    <tr>
+                                        <th>Left Table</th>
+                                        <th>Join Type</th>
+                                        <th>Right Table</th>
+                                        <th>Left Table Field</th>
+                                        <th>Right Table Field</th>
+                                        <th>Condition</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="tbl_join_body">
+                                  </tbody>
+                                </table>
+                          </div>
+                      </div>
+                      <div class="tab">
+                          <h2>Where Conditions</h2>
+<!--                          <div style="float:right;">-->
+<!--                            <a href="javascript:void(0)" onclick="Reload(4)"><i class="nav-icon fas fa-sync-alt"></i></a>-->
+<!--                          </div>-->
+                          <div class="row">
+                              <div class="form-group col-5">
+                                <label>Select Table</label>
+                                <select class="form-control select2" id="ddlWhereTable" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-4">
+                                <label>Select Column</label>
+                                <select class="form-control select2" id="ddlWhereColumn" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-3">
+                                <label>Select Condition</label>
+                                <select class="form-control select2" id="ddlWhereCondition" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                    <option value=">"></option>
+                                    <option value="<"><</option>
+                                    <option value="=">=</option>
+                                    <option value=">=">>=</option>
+                                    <option value="<="><=</option>
+                                    <option value="<>"><></option>
+                                </select>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="form-group col-4">
+                                <label>Enter Value</label>
+                                <input type="text" class="form-control" id="txtWhereValue" placeholder="Enter Value">
+                              </div>
+                              <div class="col-4 wrapper_btn">
+                                  <button type="button" onclick="add_where_details()" class="btn btn-info">Add</button>
+                              </div>
+                          </div>
+                          <div class="row table_low_height tbl_where" style="display:none">
+                              <table class="table table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <th>Table Name</th>
+                                      <th>Column Name</th>
+                                      <th>Condition</th>
+                                      <th>Value</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="tbl_where_body">
+                                  </tbody>
+                                </table>
+                          </div>
+                      </div>
+                      <div class="tab">
+                          <h2>Domain Object Summary</h2>
+<!--                          <div style="float:right;">-->
+<!--                            <a href="javascript:void(0)" onclick="Reload(5)"><i class="nav-icon fas fa-sync-alt"></i></a>-->
+<!--                          </div>-->
+                          <div class="row">
+                              <div class="form-group col-4">
+                                <label>Domain Object Name :</label>
+                                <input type="text" class="form-control" id="txtBusinessObjectName">
+                              </div>
+                              <div class="form-group col-4">
+                                <label>Access Level:</label>
+                                <select class="form-control select2" id="ddlUserAccessLevel" style="width: 100%;">
+                                    <option value="" selected="selected">--select--</option>
+                                    <option value = "Public">Public</option>
+                                    <option value = "Private">Private</option>
+                                    <option value = "Protected">Protected</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-4">
+                                    <label>Database Name : </label>
+                                    <input type="text" class="form-control" id="txtSDatabaseName" disabled>
+                              </div>
+                          </div>
+                          <div class="row">
+                                <div class="form-group col-8">
+                                    <label>Table Details : </label>
+                                     <table class="table" id="tbl_details">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th scope="col">S.No.</th>
+                                          <th scope="col">Table Name</th>
+                                          <th scope="col">Alias Name</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="stbl_details">
+
+                                      </tbody>
+                                    </table>
+                                </div>
+                          </div>
+
+                          <div class="row">
+                                <div class="form-group col-10">
+                                    <label>Field Details : </label>
+                                     <table class="table">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th scope="col">S.No.</th>
+                                            <th scope="col">Table Name</th>
+                                          <th scope="col">Field Name</th>
+                                            <th scope="col">Data Type</th>
+                                          <th scope="col">Alias Name</th>
+                                          <!--<th scope="col">Mask</th>-->
+                                             <th scope="col">Access Level</th>
+                                            <th scope="col">Access Controlled</th>
+                                            <th scope="col">Mask/Encrypt</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="sfld_details">
+
+                                      </tbody>
+                                    </table>
+                                </div>
+                          </div>
+
+                          <div class="row">
+                                <div class="form-group col-10">
+                                    <label>Join Details : </label>
+                                     <table class="table">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th scope="col">S.No.</th>
+                                          <th scope="col">Table Name</th>
+                                            <th scope="col">Join Type</th>
+                                          <th scope="col">Join With</th>
+                                          <th scope="col">Join On Field1</th>
+                                            <th scope="col">Join On Field2</th>
+                                            <th scope="col">Join Condition</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody id="sjoin_dtl">
+
+                                      </tbody>
+                                    </table>
+                                </div>
+                          </div>
+                          <div class="row">
+                                <div class="form-group col-10">
+                                    <label>Where Conditions : </label>
+                                     <table class="table">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th scope="col">S.No.</th>
+                                          <th scope="col">Table Name</th>
+                                            <th scope="col">Column Name</th>
+                                          <th scope="col">Condition</th>
+                                          <th scope="col">Value</th>
+
+                                        </tr>
+                                      </thead>
+                                      <tbody id="swhere_dtl">
+
+                                      </tbody>
+                                    </table>
+                                </div>
+                          </div>
+                      </div>
+                      <div class="card-footer">
+                          <div class="row">
+                              <div class="col-7">
+                                  <!-- Circles which indicates the steps of the form: -->
+                                  <div style="text-align:right">
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                  </div>
+                              </div>
+                              <div class="col-5">
+                                 <div style="float:right;">
+                                  <button type="button" id="prevBtn" class="btn btn-default" onclick="nextPrev(-1)">Previous</button>
+                                  <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Next</button>
+                                 </div>
+                              </div>
+                          </div>
+                      </div>
+				    </form>
+			    </div>
+              </div>
+		  </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script src="/static/assets/js/wizard_js/custom_wizard.js"></script>
+  <script src="/static/assets/js/wizard_js/listbox/listbox.js"></script>
+  <script src="/static/assets/js/wizard_js/listbox/toolbar.js"></script>
+  <script src="/static/assets/js/wizard_js/listbox/listbox-rearrangeable.js"></script>
+
+{% endblock javascripts %}

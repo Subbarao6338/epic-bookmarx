@@ -1,0 +1,27 @@
+{
+  "data": [{
+    "TableName": "Categories",
+    "Fields": [{
+      "FieldName": "CategoryId",
+      "DataType": "int"
+    },{
+      "FieldName": "CategoryName",
+      "DataType": "string"
+    },{
+      "FieldName": "Description",
+      "DataType": "string"
+    }]
+  },{
+    "TableName": "Products",
+    "Fields": [{
+      "FieldName": "ProductId",
+      "DataType": "int"
+    },{
+      "FieldName": "CategoryId",
+      "DataType": "int"
+    },{
+      "FieldName": "ProductName",
+      "DataType": "string"
+    }]
+  }]
+}

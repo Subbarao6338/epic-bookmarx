@@ -1,0 +1,67 @@
+version: "2"
+services:
+  influxdb:
+    image: influxdb:2.0
+    container_name: synergizer_influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=pass1234
+      - DOCKER_INFLUXDB_INIT_ORG=my-org
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
+    volumes:
+      - ./influxdb/config:/etc/influxdb2
+      - influxdb-data:/var/lib/influxdb2
+
+  prometheus:
+    image: prom/prometheus
+    container_name: synergizer_prometheus
+    restart: always
+    ports:
+      - 9090:9090
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: synergizer_grafana
+    restart: always
+    ports:
+      - "5000:3000"
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - grafana-data:/var/lib/grafana
+
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=pass123
+
+  telegraf:
+    image: telegraf
+    container_name: synergizer_telegraf
+    restart: always
+    ports:
+      - "57100:57100"
+      - "57500:57500"
+      - "1234:1234"
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+
+volumes:
+  influxdb-data:
+  prometheus-data:
+  grafana-data:

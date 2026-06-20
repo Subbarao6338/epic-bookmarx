@@ -1,0 +1,57 @@
+exclude: >
+  (?x)^(
+      .+/airflow_override/.+|
+      .+/_vendor/.+|
+      .+/_vendor_package/.+|
+      .+/docs/sdk-docs/.+
+  )$
+repos:
+  # Keep autoflake as a first hook
+  # it may change you code without fixing formatting
+  # so following isort&black will do the rest
+  - repo: https://github.com/fsouza/autoflake8
+    rev: v0.3.1
+    hooks:
+      - id: autoflake8
+        args: ['--in-place', '--verbose', '--expand-star-imports', '--remove-duplicate-keys', '--remove-unused-variables']
+        verbose: true
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        language_version: python3
+        # support running black from parent dirrectory and from dbnd-core root:
+        entry: >
+          sh -c '
+            if test -f "dbnd-core/pyproject.toml"; then
+              black --config dbnd-core/pyproject.toml "$@"
+            else
+              black "$@"
+            fi;
+          ' --
+        verbose: true
+
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        language_version: python3
+        # support running isort from parent dirrectory and from dbnd-core root:
+        args: [--resolve-all-configs]
+        entry: >
+          sh -c '
+            if test -f "dbnd-core/pyproject.toml"; then
+              isort --config-root dbnd-core "$@"
+            else
+              isort "$@"
+            fi;
+          ' --
+        verbose: true
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+      - id: check-added-large-files
+        args: [ '--maxkb=3000' ]
+      - id: trailing-whitespace

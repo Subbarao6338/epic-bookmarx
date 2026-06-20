@@ -1,0 +1,4 @@
+00:00:00.40 Old version Trek data lose. Only receive 3 parameters
+00:00:03.37 Old version Trek data lose. Only receive 2 parameters
+00:00:04.10 Old version Trek data lose. Only receive 8 parameters
+00:00:12.27 Old version Trek data lose. Only receive 1 parameters

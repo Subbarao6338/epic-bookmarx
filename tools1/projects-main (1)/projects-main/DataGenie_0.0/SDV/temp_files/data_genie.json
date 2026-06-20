@@ -1,0 +1,706 @@
+[
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.42,
+   "New_LB": 1.4,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.4,
+   "New_LB": 1.39,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.39,
+   "New_LB": 1.39,
+   "change": 0
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.39,
+   "New_LB": 1.4,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.4,
+   "New_LB": 1.41,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.41,
+   "New_LB": 1.4,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.4,
+   "New_LB": 1.42,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "TOP DIE CASTING",
+   "Supplier_Code": "S001",
+   "Alloy": "A400",
+   "Current_LB": 1.42,
+   "New_LB": 1.41,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "ABC Supplier",
+   "Supplier_Code": "S002",
+   "Alloy": "A380",
+   "Current_LB": 1.28,
+   "New_LB": 1.27,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "XPZ Supp",
+   "Supplier_Code": "S003",
+   "Alloy": "A372",
+   "Current_LB": 1.78,
+   "New_LB": 1.76,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "XYZ",
+   "Supplier_Code": "S006",
+   "Alloy": "A101",
+   "Current_LB": 1.8,
+   "New_LB": 1.78,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "BLUE METAL",
+   "Supplier_Code": "S007",
+   "Alloy": "A320",
+   "Current_LB": 1.3,
+   "New_LB": 1.32,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "ALOY MASTERS",
+   "Supplier_Code": "S008",
+   "Alloy": "A330",
+   "Current_LB": 1.73,
+   "New_LB": 1.75,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "STRONG ALLOY",
+   "Supplier_Code": "S009",
+   "Alloy": "A340",
+   "Current_LB": 1.22,
+   "New_LB": 1.2,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER B",
+   "Supplier_Code": "S010",
+   "Alloy": "A400",
+   "Current_LB": 1.86,
+   "New_LB": 1.82,
+   "change": 0.04
+ },
+ {
+   "Supplier_Name": "SUPPLIER C",
+   "Supplier_Code": "S011",
+   "Alloy": "A380",
+   "Current_LB": 1.55,
+   "New_LB": 1.5,
+   "change": 0.05
+ },
+ {
+   "Supplier_Name": "SUPPLIER D",
+   "Supplier_Code": "S012",
+   "Alloy": "A372",
+   "Current_LB": 1.59,
+   "New_LB": 1.6,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER E",
+   "Supplier_Code": "S013",
+   "Alloy": "A400",
+   "Current_LB": 1.32,
+   "New_LB": 1.28,
+   "change": 0.04
+ },
+ {
+   "Supplier_Name": "SUPPLIER F",
+   "Supplier_Code": "S014",
+   "Alloy": "B747",
+   "Current_LB": 1.44,
+   "New_LB": 1.42,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER G",
+   "Supplier_Code": "S015",
+   "Alloy": "A101",
+   "Current_LB": 1.59,
+   "New_LB": 1.62,
+   "change": -0.03
+ },
+ {
+   "Supplier_Name": "SUPPLIER H",
+   "Supplier_Code": "S016",
+   "Alloy": "A320",
+   "Current_LB": 1.62,
+   "New_LB": 1.59,
+   "change": 0.03
+ },
+ {
+   "Supplier_Name": "SUPPLIER AB",
+   "Supplier_Code": "S017",
+   "Alloy": "A330",
+   "Current_LB": 1.82,
+   "New_LB": 1.8,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER AA",
+   "Supplier_Code": "S018",
+   "Alloy": "A340",
+   "Current_LB": 1.21,
+   "New_LB": 1.22,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER AC",
+   "Supplier_Code": "S019",
+   "Alloy": "A341",
+   "Current_LB": 3.14,
+   "New_LB": 3.16,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER AD",
+   "Supplier_Code": "S020",
+   "Alloy": "A342",
+   "Current_LB": 2.22,
+   "New_LB": 2.02,
+   "change": 0.2
+ },
+ {
+   "Supplier_Name": "SUPPLIER A1",
+   "Supplier_Code": "S021",
+   "Alloy": "A343",
+   "Current_LB": 2.02,
+   "New_LB": 2,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A2",
+   "Supplier_Code": "S022",
+   "Alloy": "A344",
+   "Current_LB": 1.42,
+   "New_LB": 1.4,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A3",
+   "Supplier_Code": "S023",
+   "Alloy": "A345",
+   "Current_LB": 1.4,
+   "New_LB": 1.39,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A4",
+   "Supplier_Code": "S024",
+   "Alloy": "A346",
+   "Current_LB": 1.39,
+   "New_LB": 1.39,
+   "change": 0
+ },
+ {
+   "Supplier_Name": "SUPPLIER A5",
+   "Supplier_Code": "S025",
+   "Alloy": "A347",
+   "Current_LB": 1.39,
+   "New_LB": 1.4,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A6",
+   "Supplier_Code": "S026",
+   "Alloy": "A348",
+   "Current_LB": 1.4,
+   "New_LB": 1.41,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A7",
+   "Supplier_Code": "S027",
+   "Alloy": "A349",
+   "Current_LB": 1.41,
+   "New_LB": 1.4,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A8",
+   "Supplier_Code": "S028",
+   "Alloy": "A350",
+   "Current_LB": 1.4,
+   "New_LB": 1.42,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A9",
+   "Supplier_Code": "S029",
+   "Alloy": "A351",
+   "Current_LB": 1.42,
+   "New_LB": 1.41,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A10",
+   "Supplier_Code": "S030",
+   "Alloy": "A352",
+   "Current_LB": 1.28,
+   "New_LB": 1.27,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A12",
+   "Supplier_Code": "S032",
+   "Alloy": "A354",
+   "Current_LB": 1.78,
+   "New_LB": 1.76,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A15",
+   "Supplier_Code": "S035",
+   "Alloy": "A357",
+   "Current_LB": 1.8,
+   "New_LB": 1.78,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A17",
+   "Supplier_Code": "S037",
+   "Alloy": "A359",
+   "Current_LB": 1.73,
+   "New_LB": 1.75,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A18",
+   "Supplier_Code": "S038",
+   "Alloy": "A360",
+   "Current_LB": 1.22,
+   "New_LB": 1.2,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A19",
+   "Supplier_Code": "S039",
+   "Alloy": "A361",
+   "Current_LB": 1.86,
+   "New_LB": 1.82,
+   "change": 0.04
+ },
+ {
+   "Supplier_Name": "SUPPLIER A20",
+   "Supplier_Code": "S040",
+   "Alloy": "A362",
+   "Current_LB": 1.55,
+   "New_LB": 1.5,
+   "change": 0.05
+ },
+ {
+   "Supplier_Name": "SUPPLIER A21",
+   "Supplier_Code": "S041",
+   "Alloy": "A363",
+   "Current_LB": 1.59,
+   "New_LB": 1.6,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A22",
+   "Supplier_Code": "S042",
+   "Alloy": "A364",
+   "Current_LB": 1.32,
+   "New_LB": 1.28,
+   "change": 0.04
+ },
+ {
+   "Supplier_Name": "SUPPLIER A23",
+   "Supplier_Code": "S043",
+   "Alloy": "A365",
+   "Current_LB": 1.44,
+   "New_LB": 1.42,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A24",
+   "Supplier_Code": "S044",
+   "Alloy": "A366",
+   "Current_LB": 1.59,
+   "New_LB": 1.62,
+   "change": -0.03
+ },
+ {
+   "Supplier_Name": "SUPPLIER A25",
+   "Supplier_Code": "S045",
+   "Alloy": "A367",
+   "Current_LB": 1.62,
+   "New_LB": 1.59,
+   "change": 0.03
+ },
+ {
+   "Supplier_Name": "SUPPLIER A26",
+   "Supplier_Code": "S046",
+   "Alloy": "A368",
+   "Current_LB": 1.82,
+   "New_LB": 1.8,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A27",
+   "Supplier_Code": "S047",
+   "Alloy": "A369",
+   "Current_LB": 1.21,
+   "New_LB": 1.22,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A28",
+   "Supplier_Code": "S048",
+   "Alloy": "A370",
+   "Current_LB": 3.14,
+   "New_LB": 3.16,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A29",
+   "Supplier_Code": "S049",
+   "Alloy": "A371",
+   "Current_LB": 2.22,
+   "New_LB": 2.02,
+   "change": 0.2
+ },
+ {
+   "Supplier_Name": "SUPPLIER A30",
+   "Supplier_Code": "S050",
+   "Alloy": "A372",
+   "Current_LB": 2.02,
+   "New_LB": 2,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A31",
+   "Supplier_Code": "S051",
+   "Alloy": "A373",
+   "Current_LB": 1.42,
+   "New_LB": 1.4,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A32",
+   "Supplier_Code": "S052",
+   "Alloy": "A374",
+   "Current_LB": 1.4,
+   "New_LB": 1.39,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A33",
+   "Supplier_Code": "S053",
+   "Alloy": "A375",
+   "Current_LB": 1.39,
+   "New_LB": 1.39,
+   "change": 0
+ },
+ {
+   "Supplier_Name": "SUPPLIER A34",
+   "Supplier_Code": "S054",
+   "Alloy": "A376",
+   "Current_LB": 1.39,
+   "New_LB": 1.4,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A35",
+   "Supplier_Code": "S055",
+   "Alloy": "A377",
+   "Current_LB": 1.4,
+   "New_LB": 1.41,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A36",
+   "Supplier_Code": "S056",
+   "Alloy": "A378",
+   "Current_LB": 1.41,
+   "New_LB": 1.4,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A37",
+   "Supplier_Code": "S057",
+   "Alloy": "A379",
+   "Current_LB": 1.4,
+   "New_LB": 1.42,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A38",
+   "Supplier_Code": "S058",
+   "Alloy": "A380",
+   "Current_LB": 1.42,
+   "New_LB": 1.41,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A39",
+   "Supplier_Code": "S059",
+   "Alloy": "A381",
+   "Current_LB": 1.28,
+   "New_LB": 1.27,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A41",
+   "Supplier_Code": "S061",
+   "Alloy": "A383",
+   "Current_LB": 1.78,
+   "New_LB": 1.76,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A43",
+   "Supplier_Code": "S063",
+   "Alloy": "A385",
+   "Current_LB": 1.56,
+   "New_LB": 1.54,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A44",
+   "Supplier_Code": "S064",
+   "Alloy": "A386",
+   "Current_LB": 1.8,
+   "New_LB": 1.78,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A46",
+   "Supplier_Code": "S066",
+   "Alloy": "A388",
+   "Current_LB": 1.73,
+   "New_LB": 1.75,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A48",
+   "Supplier_Code": "S068",
+   "Alloy": "A390",
+   "Current_LB": 1.86,
+   "New_LB": 1.82,
+   "change": 0.04
+ },
+ {
+   "Supplier_Name": "SUPPLIER A49",
+   "Supplier_Code": "S069",
+   "Alloy": "A391",
+   "Current_LB": 1.55,
+   "New_LB": 1.5,
+   "change": 0.05
+ },
+ {
+   "Supplier_Name": "SUPPLIER A50",
+   "Supplier_Code": "S070",
+   "Alloy": "A392",
+   "Current_LB": 1.59,
+   "New_LB": 1.6,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A51",
+   "Supplier_Code": "S071",
+   "Alloy": "A393",
+   "Current_LB": 1.32,
+   "New_LB": 1.28,
+   "change": 0.04
+ },
+ {
+   "Supplier_Name": "SUPPLIER A52",
+   "Supplier_Code": "S072",
+   "Alloy": "A394",
+   "Current_LB": 1.44,
+   "New_LB": 1.42,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A53",
+   "Supplier_Code": "S073",
+   "Alloy": "A395",
+   "Current_LB": 1.59,
+   "New_LB": 1.62,
+   "change": -0.03
+ },
+ {
+   "Supplier_Name": "SUPPLIER A54",
+   "Supplier_Code": "S074",
+   "Alloy": "A396",
+   "Current_LB": 1.62,
+   "New_LB": 1.59,
+   "change": 0.03
+ },
+ {
+   "Supplier_Name": "SUPPLIER A55",
+   "Supplier_Code": "S075",
+   "Alloy": "A397",
+   "Current_LB": 1.82,
+   "New_LB": 1.8,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A56",
+   "Supplier_Code": "S076",
+   "Alloy": "A398",
+   "Current_LB": 1.21,
+   "New_LB": 1.22,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A57",
+   "Supplier_Code": "S077",
+   "Alloy": "A399",
+   "Current_LB": 3.14,
+   "New_LB": 3.16,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A58",
+   "Supplier_Code": "S078",
+   "Alloy": "A400",
+   "Current_LB": 2.22,
+   "New_LB": 2.02,
+   "change": 0.2
+ },
+ {
+   "Supplier_Name": "SUPPLIER A59",
+   "Supplier_Code": "S079",
+   "Alloy": "A401",
+   "Current_LB": 2.02,
+   "New_LB": 2,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A60",
+   "Supplier_Code": "S080",
+   "Alloy": "A402",
+   "Current_LB": 1.42,
+   "New_LB": 1.4,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A61",
+   "Supplier_Code": "S081",
+   "Alloy": "A403",
+   "Current_LB": 1.4,
+   "New_LB": 1.39,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A62",
+   "Supplier_Code": "S082",
+   "Alloy": "A404",
+   "Current_LB": 1.39,
+   "New_LB": 1.39,
+   "change": 0
+ },
+ {
+   "Supplier_Name": "SUPPLIER A63",
+   "Supplier_Code": "S083",
+   "Alloy": "A405",
+   "Current_LB": 1.39,
+   "New_LB": 1.4,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A64",
+   "Supplier_Code": "S084",
+   "Alloy": "A406",
+   "Current_LB": 1.4,
+   "New_LB": 1.41,
+   "change": -0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A65",
+   "Supplier_Code": "S085",
+   "Alloy": "A407",
+   "Current_LB": 1.41,
+   "New_LB": 1.4,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A66",
+   "Supplier_Code": "S086",
+   "Alloy": "A408",
+   "Current_LB": 1.4,
+   "New_LB": 1.42,
+   "change": -0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A67",
+   "Supplier_Code": "S087",
+   "Alloy": "A409",
+   "Current_LB": 1.42,
+   "New_LB": 1.41,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A68",
+   "Supplier_Code": "S088",
+   "Alloy": "A410",
+   "Current_LB": 1.28,
+   "New_LB": 1.27,
+   "change": 0.01
+ },
+ {
+   "Supplier_Name": "SUPPLIER A70",
+   "Supplier_Code": "S090",
+   "Alloy": "A412",
+   "Current_LB": 1.78,
+   "New_LB": 1.76,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A72",
+   "Supplier_Code": "S092",
+   "Alloy": "A414",
+   "Current_LB": 1.56,
+   "New_LB": 1.54,
+   "change": 0.02
+ },
+ {
+   "Supplier_Name": "SUPPLIER A73",
+   "Supplier_Code": "S093",
+   "Alloy": "A415",
+   "Current_LB": 1.8,
+   "New_LB": 1.78,
+   "change": 0.02
+ }
+]

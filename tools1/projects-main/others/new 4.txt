@@ -1,0 +1,8 @@
+InfluxDB URL:
+http://20.204.104.9:8086
+Organization:
+my-org
+Bucket Name:
+my-bucket
+Token:
+vqRI2EmaHVv7q5sEgHb5qKpqSuXlQBCz6sTSAB2n4GwQCMT-Fi9B4dxNEhOpbe4sSM9_vVfQ-F00Pre6mrnnoA==

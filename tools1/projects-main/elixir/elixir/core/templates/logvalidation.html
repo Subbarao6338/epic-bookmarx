@@ -1,0 +1,200 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Data Tasks
+{% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/static/assets/plugins/sweetalert2/sweetalert2.min.css">
+  <!-- pace-progress -->
+  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+  <!-- adminlte-->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+<!--            <h1>Blank Page</h1>-->
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Data Task</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Data Tasks</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <br/>
+          <div class="row">
+            <div class="col-md-3 form-group">
+               <label for="ddl_tasktype">Log</label>
+               <select class="form-control select2"  id="ddl_tasktype">
+                  <option value="0" selected>--Select--</option>
+                  <option value="1">Upload</option>
+                  <option value="2">Filepath</option>
+                  <option value="3">Database</option>
+               </select>
+               <input type='file' name="log_files" id="fileUpload" style="display:none" accept=".log, .csv, .txt" onchange="upload_val_logfile()" />
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="txt_delimeter">Log Separator</label>
+                <input type="text" class="form-control" id="txt_delimeter" placeholder="\n" value="\n">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-info" style="width:180px;margin-top:30px;" id="btnTaskList">Select Training Task</button>
+            </div>
+          </div>
+           <div class="row">
+               <div class="col-md-3">
+                     <label id="lbl_filename">No file selected</label>
+                </div>
+             <div class="col-md-5" >
+                <textarea class="form-control" rows="3" placeholder="Enter Regex Expression" id="txt_regexexpr" style="display:none"></textarea>
+                <label id="lbl_ml_model" style="display:none">Selected task's result type is ML Model.</label>
+              </div>
+          </div>
+             <br/>
+            <div class="row">
+                 <div class="col-md-6 form-group">
+                     <label for="txt_taskname">Data Task Name</label>
+                <input type="text" class="form-control" id="txt_taskname" placeholder="Enter Data Task Name">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-info" style="width:180px;margin-top:30px;" id="btnSaveTask">Submit</button>
+            </div>
+            </div>
+             <div class="row">
+                 <div class="col-md-3">
+
+                </div>
+               <div class="col-md-7">
+                    <input type="hidden" id="tagnames" name="tagname" value="s">
+                </div>
+                <div class="col-md-2">
+
+                </div>
+             </div>
+
+
+<br/>
+            <div class="row" style="width:100%;height:80%; overflow-y:scroll;">
+              <div class="col-md-12">
+                    <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                          <th scope="col" width="5%" >S.No.</th>
+                          <th scope="col" width="15%" >Date</th>
+                          <th scope="col" width="15%">Data Task Name</th>
+                          <th scope="col" width="15%">Training Task Name</th>
+                          <th scope="col" width="15%">Approach</th>
+                          <th scope="col" width="10%">Status</th>
+                          <th scope="col" width="25%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbl_taskdtl">
+
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+
+<div id="view_tasklist" class="modal fade popup-modal" role="dialog">
+       <div class="modal-dialog modal-xl">
+          <!-- Modal content-->
+          <div class="modal-content">
+             <div class="modal-header">
+                <h4 class="modal-title">List of Completed Training Task</h4>
+                <div class='float-right'>
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+             </div>
+             <div class="modal-body">
+                <div class="task_list">
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+<div id="view-validation-Result" class="modal fade popup-modal" role="dialog" >
+   <div class="modal-dialog modal-xl">
+      <!-- Modal content-->
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Result</h4>
+            <div class='float-right'>
+                <button type="button" class="close" data-dismiss="modal">x</button>
+            </div>
+         </div>
+         <div class="modal-body">
+            <div class="log_val_result">
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- pace-progress -->
+  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+  <script src="/static/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+   <script src="/static/assets/js/pages/logvalidation.js"></script>
+{% endblock javascripts %}

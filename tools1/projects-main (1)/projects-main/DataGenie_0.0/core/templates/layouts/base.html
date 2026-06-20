@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/static/assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/assets/css/custom.css">
+
+  <title>
+    DataGenie
+  </title> 
+
+  {% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+<body style="background-color:white;" class="hold-transition {% block body_class %}{% endblock body_class %} text-sm">
+<div class="wrapper">
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+    {% include 'includes/header.html' %}
+
+    {% block content %}{% endblock content %}
+
+    <!-- Control Sidebar -->
+    <!--<aside class="control-sidebar control-sidebar-dark">
+        &lt;!&ndash; Control sidebar content goes here &ndash;&gt;
+    </aside>-->
+    <!-- /.control-sidebar -->
+
+</div>
+<!-- ./wrapper -->
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
+</body>
+</html>
+
+<!--<footer style="background-color:#202B86;height:30px;position:sticky;"> -->
+<!--<footer style="background-color:#202B86; position:fixed;left: 0;bottom: 0;width: 100%;color: white;">-->
+<!--    <div>-->
+<!--        <a target="_blank" rel="noopener noreferrer" href="https://hcl.com" style="color:white; text-align:center;">2022 &copy HCL Technologies Ltd.&nbsp;</a>-->
+<!--        <p style="position: absolute;right:15px;color:white;">Version-1.0</p>-->
+<!--    </div>-->
+
+<!--</footer>-->
+
+<footer >
+    <div style="background-color:#0e68aa;position:fixed;left: 0;bottom: 0;width: 100%;z-index:999;height:20px;font_size:13px">
+    <a style="color:white ; text-decoration: none" target="_blank" rel="noopener noreferrer" href="https://hcl.com">&nbsp;2022 &copy; HCL Technologies Ltd.</a>
+      <a target="_blank" rel="noopener noreferrer" href="/" style="position: absolute;right:15px;color:white;text-decoration: none">v0.5</a>
+        </div>
+  </footer>
+

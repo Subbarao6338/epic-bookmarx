@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_instagram"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Instagram" />
+    <item
+        android:id="@+id/nav_facebook"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="Facebook" />
+    <item
+        android:id="@+id/nav_twitter"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="Twitter" />
+    <item
+        android:id="@+id/nav_pinterest"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Pinterest" />
+    <item
+        android:id="@+id/nav_more"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="More" />
+</menu>

@@ -1,0 +1,19 @@
+/****** Object:  Table [dbo].[AnomalyServiceConfig]    Script Date: 8/24/2022 6:44:04 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[AnomalyServiceConfig](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[AnomalyServiceType] [varchar](100) NOT NULL,
+	[SUBSCRIPTION_KEY] [varchar](100) NOT NULL,
+	[ANOMALY_DETECTOR_ENDPOINT] [varchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+

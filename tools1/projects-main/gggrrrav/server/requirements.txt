@@ -1,0 +1,16 @@
+pandas==1.4.0
+configparser==5.2.0
+Django==4.0.2
+django-cors-headers==3.11.0
+psycopg2==2.9.3
+requests==2.27.1
+whitenoise==6.0.0
+azure-purview-catalog
+azure-purview-account
+azure-identity
+sqlalchemy
+pyodbc
+Babel
+az.cli
+kubernetes
+python-terraform

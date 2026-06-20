@@ -1,0 +1,30 @@
+{
+    "objects" : [
+    {
+        "objectType":"Dashboards",
+        "object_icon":"fa fa-tachometer"
+    },
+    {
+        "objectType":"Data pipelines",
+        "object_icon":"fa fa-sitemap"
+    },
+    {
+        "objectType":"Files",
+        "object_icon":"fa fa-files-o"
+    },
+    {
+        "objectType":"Folders",
+        "object_icon":"fa fa-folder-o"
+    },
+    {   
+        "objectType":"Reports",
+        "object_icon":"fa fa-tasks"
+    },
+    {
+        "objectType":"Stored procedures",
+        "object_icon":"fa fa-list-alt"},
+    {
+        "objectType":"Tables",
+        "object_icon":"fa fa-table"
+    }
+]}
