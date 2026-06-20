@@ -379,17 +379,22 @@ const BookmarkCard = ({ link, idx, openInNewTab, onPin, onEdit, onDelete, handle
   const cardRef = React.useRef(null);
 
   const startPress = (e) => {
+    // Only handle left clicks for mouse
+    if (e.type === 'mousedown' && e.button !== 0) return;
+
     const coords = {
       x: e.clientX || (e.touches ? e.touches[0].clientX : 0),
       y: e.clientY || (e.touches ? e.touches[0].clientY : 0)
     };
+
+    cancelPress();
     isLongPressActive.current = false;
     setIsPressing(true);
     pressTimer.current = setTimeout(() => {
       isLongPressActive.current = true;
       onLongPress(coords);
       setIsPressing(false);
-    }, 400);
+    }, 500);
   };
 
   const cancelPress = () => {

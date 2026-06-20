@@ -24,9 +24,6 @@ const Header = memo(({ appName, currentProfile, profiles, setView, onSettingsCli
       </div>
       <div className="top-actions">
         {children}
-        <button id="settings-toggle" className="icon-btn desktop-only" title="Settings" onClick={onSettingsClick}>
-          <span className="material-icons">settings</span>
-        </button>
       </div>
     </header>
   );
