@@ -125,10 +125,12 @@ const SocialTools = () => {
   const [status, setStatus] = useState('idle');
   const [info, setInfo] = useState(null);
   const [result, setResult] = useState(null);
+  const [summary, setSummary] = useState('');
 
   const getInfo = async () => {
     if (!url) return;
     setStatus('loading');
+    setSummary('');
     try {
       const response = await fetch(`/api/social/info?url=${encodeURIComponent(url)}`);
       if (!response.ok) throw new Error("Failed to get info");
@@ -139,6 +141,20 @@ const SocialTools = () => {
       setStatus('error');
       setResult({ error: err.message });
     }
+  };
+
+  const handleSummarize = async () => {
+      setStatus('summarizing');
+      try {
+          const res = await fetch(`/api/social/summarize?url=${encodeURIComponent(url)}`);
+          const data = await res.json();
+          if (data.success) setSummary(data.summary);
+          else throw new Error(data.message);
+      } catch (e) {
+          setResult({ error: e.message });
+      } finally {
+          setStatus('idle');
+      }
   };
 
   const handleDownload = async (formatId) => {
@@ -162,11 +178,23 @@ const SocialTools = () => {
           <label>Media URL</label>
           <input type="text" value={url} onChange={e => setUrl(e.target.value)} placeholder="YouTube, Twitter, Instagram URL..." className="pill w-full" />
         </div>
-        <button className="btn-primary w-full" onClick={getInfo} disabled={status === 'loading' || !url}>
-          <span className="material-icons mr-10">{status === 'loading' ? 'sync' : 'search'}</span>
-          {status === 'loading' ? 'Fetching...' : 'Fetch Media Info'}
-        </button>
+        <div className="grid grid-2-cols gap-10">
+            <button className="btn-primary" onClick={getInfo} disabled={status === 'loading' || !url}>
+              <span className="material-icons mr-10">{status === 'loading' ? 'sync' : 'search'}</span>
+              {status === 'loading' ? 'Fetching...' : 'Fetch Media Info'}
+            </button>
+            <button className="pill" onClick={handleSummarize} disabled={status === 'summarizing' || !url}>
+              <span className="material-icons mr-10">auto_awesome</span> AI Summary
+            </button>
+        </div>
       </div>
+
+      {summary && (
+          <div className="card p-20 glass-card animate-fadeIn">
+              <h3>AI Video Summary</h3>
+              <div className="small opacity-8" style={{ whiteSpace: 'pre-wrap' }}>{summary}</div>
+          </div>
+      )}
 
       {info && (
         <div className="card p-20 glass-card grid gap-15 animate-fadeIn">

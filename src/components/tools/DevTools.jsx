@@ -4,6 +4,7 @@ import { create, all } from 'mathjs';
 import { QRCodeSVG } from 'qrcode.react';
 import JsBarcode from 'jsbarcode';
 import ToolResult from './ToolResult';
+import { generateRegex, testRegex } from '../../utils/regexGen';
 
 const math = create(all);
 
@@ -14,7 +15,7 @@ const DevTools = ({ toolId, onSubtoolChange }) => {
     { id: 'diff', label: 'Diff Viewer' },
     { id: 'converter', label: 'Unit Converter' },
     { id: 'security', label: 'Security Hub' },
-    { id: 'regex', label: 'Regex Tester' },
+    { id: 'regex', label: 'Regex Tools' },
     { id: 'otp', label: 'OTP Generator' },
     { id: 'kusto', label: 'Kusto Query Gen' },
     { id: 'base64', label: 'Base64' },
@@ -105,11 +106,12 @@ const RegexTester = () => {
     const [p, setP] = useState('[a-z]+');
     const [s, setS] = useState('test string');
     const [matchResult, setMatchResult] = useState(null);
+    const [genInput, setGenInput] = useState('');
 
     const patterns = {
         email: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}',
         url: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
-        phone: '\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}',
+        phone: '\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}',
         ipv4: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
     };
 
@@ -128,22 +130,32 @@ const RegexTester = () => {
     }, [p, s]);
 
     return (
-        <div className="card p-20 glass-card grid gap-15">
-            <h3>Regex Tester</h3>
-            <div className="pill-group scrollable-x">
-                {Object.keys(patterns).map(key => (
-                    <button key={key} className="pill" onClick={() => setP(patterns[key])} style={{ textTransform: 'capitalize' }}>{key}</button>
-                ))}
+        <div className="grid gap-20">
+            <div className="card p-20 glass-card grid gap-15">
+                <h3>Regex Generator (from Elixir)</h3>
+                <p className="smallest opacity-6">Enter a sample string to generate a matching regular expression.</p>
+                <div className="flex-gap">
+                    <input className="pill flex-1" value={genInput} onChange={e=>setGenInput(e.target.value)} placeholder="Example: ABC-123" />
+                    <button className="btn-primary" onClick={() => setP(generateRegex(genInput))}>Generate</button>
+                </div>
             </div>
-            <div className="form-group">
-                <label>Pattern</label>
-                <input className="pill font-mono w-full" value={p} onChange={e => setP(e.target.value)} placeholder="Regex pattern" />
+            <div className="card p-20 glass-card grid gap-15">
+                <h3>Regex Tester</h3>
+                <div className="pill-group scrollable-x">
+                    {Object.keys(patterns).map(key => (
+                        <button key={key} className="pill" onClick={() => setP(patterns[key])} style={{ textTransform: 'capitalize' }}>{key}</button>
+                    ))}
+                </div>
+                <div className="form-group">
+                    <label>Pattern</label>
+                    <input className="pill font-mono w-full" value={p} onChange={e => setP(e.target.value)} placeholder="Regex pattern" />
+                </div>
+                <div className="form-group">
+                    <label>Test String</label>
+                    <textarea className="pill font-mono w-full" rows="4" value={s} onChange={e => setS(e.target.value)} placeholder="Text to test against" />
+                </div>
+                <ToolResult result={{ text: matchResult }} title="Match Result" />
             </div>
-            <div className="form-group">
-                <label>Test String</label>
-                <textarea className="pill font-mono w-full" rows="4" value={s} onChange={e => setS(e.target.value)} placeholder="Text to test against" />
-            </div>
-            <ToolResult result={{ text: matchResult }} title="Match Result" />
         </div>
     );
 };
@@ -347,7 +359,6 @@ const YamlConverter = () => {
 
     const convert = () => {
         try {
-            // Very basic YAML-like logic as we don't have a full YAML lib
             const obj = JSON.parse(val);
             const toYaml = (o, indent = 0) => {
                 return Object.entries(o).map(([k, v]) => {
@@ -378,14 +389,14 @@ const Minifier = () => {
     const minify = () => {
         let res = val;
         if (type === 'js' || type === 'css') {
-            res = val.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '$1') // Remove comments
-                     .replace(/\s+/g, ' ') // Collapse whitespace
-                     .replace(/\s?([\{\}\[\]\(\)\+\-\*\/\=\,\;\:\>])\s?/g, '$1') // Remove spaces around operators
+            res = val.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '$1')
+                     .replace(/\s+/g, ' ')
+                     .replace(/\s?([\{\}\[\]\(\)\+\-\*\/\=\,\;\:\>])\s?/g, '$1')
                      .trim();
         } else if (type === 'html') {
-            res = val.replace(/<!--[\s\S]*?-->/g, '') // Remove comments
-                     .replace(/>\s+</g, '><') // Remove space between tags
-                     .replace(/\s+/g, ' ') // Collapse whitespace
+            res = val.replace(/<!--[\s\S]*?-->/g, '')
+                     .replace(/>\s+</g, '><')
+                     .replace(/\s+/g, ' ')
                      .trim();
         }
         setResult({ text: res, filename: `minified.${type}` });
@@ -464,7 +475,7 @@ const XmlFormatter = () => {
             const formatXml = (node, level = 0) => {
                 const indent = "  ".repeat(level);
                 let xml = "";
-                if (node.nodeType === 1) { // Element
+                if (node.nodeType === 1) {
                     xml += indent + "<" + node.nodeName;
                     for (let i = 0; i < node.attributes.length; i++) {
                         const attr = node.attributes.item(i);
@@ -476,7 +487,7 @@ const XmlFormatter = () => {
                         for (let i = 0; i < node.childNodes.length; i++) xml += formatXml(node.childNodes[i], level + 1);
                         xml += indent + "</" + node.nodeName + ">\n";
                     }
-                } else if (node.nodeType === 3) { // Text
+                } else if (node.nodeType === 3) {
                     const text = node.nodeValue.trim();
                     if (text) xml += indent + text + "\n";
                 }

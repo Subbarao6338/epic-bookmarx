@@ -6,11 +6,11 @@ router = APIRouter()
 
 @router.post("/anomaly-detect")
 async def detect_anomalies(file: UploadFile = File(...)):
+    # Fallback/Minimal backend implementation if needed
     try:
         df = pd.read_csv(io.BytesIO(await file.read()))
         numeric_df = df.select_dtypes(include=[np.number]).fillna(0)
         if numeric_df.empty: return {"success": False, "error": "No numeric columns"}
-        # Simple Z-score fallback for backend if still called
         mean = numeric_df.mean()
         std = numeric_df.std()
         anomalies = ((numeric_df - mean).abs() > 3 * std).any(axis=1)

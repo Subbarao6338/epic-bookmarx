@@ -2,12 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import ToolResult from './ToolResult';
+import { detectMultivariateAnomalies, runDataQualitySuite, generateSyntheticData } from '../../utils/dataAnalysis';
 
 const DataTools = ({ toolId, onSubtoolChange }) => {
   const tabs = [
     { id: 'viewer', label: 'Data Viewer' },
     { id: 'science', label: 'Statistics' },
-    { id: 'adv-data', label: 'Anomaly Detection' },
+    { id: 'adv-data', label: 'Advanced Analysis' },
     { id: 'reconcile', label: 'Reconciliation' },
     { id: 'synthetic', label: 'Synthetic Lab' },
     { id: 'image-lab', label: 'Image Lab' },
@@ -38,9 +39,9 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
 
       <div className="hub-content animate-fadeIn">
         {activeTab === 'viewer' && <DataViewer setGlobalData={setUploadedData} setRawFile={setCurrentFile} />}
-        {activeTab === 'adv-data' && <AdvancedDataHub file={currentFile} />}
+        {activeTab === 'adv-data' && <AdvancedDataHub data={uploadedData} />}
         {activeTab === 'reconcile' && <ReconciliationTool />}
-        {activeTab === 'synthetic' && <SyntheticDataTool file={currentFile} />}
+        {activeTab === 'synthetic' && <SyntheticDataTool data={uploadedData} />}
         {activeTab === 'image-lab' && <ImageLab />}
         {activeTab === 'finance' && <FinanceHub subtool={toolId} />}
         {activeTab === 'science' && <DataScienceHub data={uploadedData} />}
@@ -113,63 +114,55 @@ const DataViewer = ({ setGlobalData, setRawFile }) => {
     );
 };
 
-const AdvancedDataHub = ({ file }) => {
+const AdvancedDataHub = ({ data }) => {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
 
-    const run = async (type) => {
-        if (!file) return setResult({ error: 'Upload file in Viewer first.' });
+    const runAnalysis = async (type, multivariate = false) => {
+        if (!data) return setResult({ error: 'Upload file in Viewer first.' });
         setLoading(true);
 
         try {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                Papa.parse(content, {
-                    header: true,
-                    complete: (results) => {
-                        const df = results.data;
-                        if (type === 'data-quality') {
-                            const report = Object.keys(df[0] || {}).map(col => ({
-                                column: col,
-                                missing: df.filter(r => !r[col] || r[col] === '').length,
-                                unique: new Set(df.map(r => r[col])).size
-                            }));
-                            setResult({ text: JSON.stringify({ success: true, report }, null, 2) });
-                        } else if (type === 'anomaly-detect') {
-                            // Simple Z-Score Anomaly Detection
-                            const numericCols = Object.keys(df[0] || {}).filter(k => !isNaN(parseFloat(df[0][k])));
-                            const anomalies = [];
-                            numericCols.forEach(col => {
-                                const vals = df.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
-                                const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
-                                const std = Math.sqrt(vals.map(v => Math.pow(v - mean, 2)).reduce((a, b) => a + b, 0) / vals.length);
-                                df.forEach((row, idx) => {
-                                    const val = parseFloat(row[col]);
-                                    if (Math.abs(val - mean) > 3 * std) {
-                                        anomalies.push({ row: idx, column: col, value: val, z_score: ((val - mean) / std).toFixed(2) });
-                                    }
-                                });
-                            });
-                            setResult({ text: JSON.stringify({ success: true, anomaly_count: anomalies.length, anomalies: anomalies.slice(0, 10) }, null, 2) });
-                        }
-                        setLoading(false);
-                    }
-                });
-            };
-            reader.readAsText(file);
+            let res;
+            if (type === 'data-quality') {
+                res = runDataQualitySuite(data);
+                setResult({ text: JSON.stringify({ success: true, report: res }, null, 2) });
+            } else {
+                if (multivariate) {
+                    res = detectMultivariateAnomalies(data);
+                    setResult({ text: JSON.stringify({ success: true, type: 'multivariate', anomaly_count: res.length, anomalies: res.slice(0, 10) }, null, 2) });
+                } else {
+                    // Simple Univariate Anomaly
+                    const numericCols = Object.keys(data[0] || {}).filter(k => !isNaN(parseFloat(data[0][k])));
+                    const anomalies = [];
+                    numericCols.forEach(col => {
+                        const vals = data.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
+                        const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+                        const std = Math.sqrt(vals.map(v => Math.pow(v - mean, 2)).reduce((a, b) => a + b, 0) / vals.length);
+                        data.forEach((row, idx) => {
+                            const val = parseFloat(row[col]);
+                            if (Math.abs(val - mean) > 3 * std) {
+                                anomalies.push({ row: idx, column: col, value: val });
+                            }
+                        });
+                    });
+                    setResult({ text: JSON.stringify({ success: true, type: 'univariate', anomaly_count: anomalies.length, anomalies: anomalies.slice(0, 10) }, null, 2) });
+                }
+            }
         } catch (e) {
             setResult({ error: e.message });
+        } finally {
             setLoading(false);
         }
     };
 
     return (
         <div className="grid gap-15 card p-30 glass-card">
-            <h3>Advanced Analysis (Local)</h3>
+            <h3>Advanced Data Analysis (Local JS)</h3>
             <div className="grid grid-2-cols gap-10">
-                <button className="btn-primary" onClick={() => run('anomaly-detect')} disabled={loading}>Detect Anomalies</button>
-                <button className="pill" onClick={() => run('data-quality')} disabled={loading}>Data Quality</button>
+                <button className="btn-primary" onClick={() => runAnalysis('anomaly-detect', true)} disabled={loading}>Multivariate Anomaly</button>
+                <button className="pill" onClick={() => runAnalysis('anomaly-detect', false)} disabled={loading}>Standard Anomaly</button>
+                <button className="pill" onClick={() => runAnalysis('data-quality')} disabled={loading}>Advanced Quality Rules</button>
             </div>
             <ToolResult result={result} />
         </div>
@@ -227,46 +220,29 @@ const ReconciliationTool = () => {
     );
 };
 
-const SyntheticDataTool = ({ file }) => {
+const SyntheticDataTool = ({ data }) => {
     const [rows, setRows] = useState(100);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
 
     const run = async () => {
-        if (!file) return setResult({ error: 'Upload seed file in Viewer.' });
+        if (!data) return setResult({ error: 'Upload seed file in Viewer.' });
         setLoading(true);
 
         try {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                Papa.parse(e.target.result, {
-                    header: true,
-                    complete: (res) => {
-                        const df = res.data;
-                        const synthetic = Array.from({ length: rows }, () => {
-                            const mockRow = {};
-                            Object.keys(df[0] || {}).forEach(col => {
-                                const vals = df.map(r => r[col]).filter(v => v !== undefined);
-                                mockRow[col] = vals[Math.floor(Math.random() * vals.length)];
-                            });
-                            return mockRow;
-                        });
-                        setResult({ text: Papa.unparse(synthetic), filename: 'synthetic.csv' });
-                        setLoading(false);
-                    }
-                });
-            };
-            reader.readAsText(file);
+            const synthetic = generateSyntheticData(data, rows);
+            setResult({ text: Papa.unparse(synthetic), filename: 'synthetic_data.csv' });
         } catch (e) {
             setResult({ error: e.message });
+        } finally {
             setLoading(false);
         }
     };
 
     return (
         <div className="card p-30 glass-card grid gap-15">
-            <h3>Synthetic Data Lab</h3>
-            <p className="small opacity-7">Generates data by shuffling and sampling existing distributions.</p>
+            <h3>Synthetic Data Lab (Client-side)</h3>
+            <p className="small opacity-7">Preserves statistical distributions via local dataset sampling.</p>
             <input type="number" className="pill w-full" value={rows} onChange={e=>setRows(e.target.value)} placeholder="Number of rows" />
             <button className="btn-primary w-full" onClick={run} disabled={loading}>{loading?'Synthesizing...':'Generate Synthetic Dataset'}</button>
             <ToolResult result={result} />
@@ -289,6 +265,8 @@ const ImageLab = () => {
             img.onload = () => {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
 
                 if (type === 'rotate') {
                     canvas.width = img.height;
@@ -297,26 +275,24 @@ const ImageLab = () => {
                     ctx.rotate(90 * Math.PI / 180);
                     ctx.drawImage(img, -img.width / 2, -img.height / 2);
                 } else if (type === 'flip') {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
                     ctx.scale(-1, 1);
                     ctx.drawImage(img, -img.width, 0);
                 } else if (type === 'grayscale') {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
                     ctx.filter = 'grayscale(100%)';
                     ctx.drawImage(img, 0, 0);
                 } else if (type === 'anonymize') {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
                     ctx.drawImage(img, 0, 0);
-                    // Client-side privacy filter: applies a blur to the entire image for quick anonymization
-                    // In a production environment, we would use a client-side face detection model like face-api.js
-                    ctx.globalAlpha = 0.5;
-                    ctx.filter = 'blur(10px)';
-                    ctx.drawImage(canvas, 0, 0);
-                    ctx.globalAlpha = 1.0;
+                    // High-quality Blur Filter for privacy
+                    ctx.filter = 'blur(15px)';
+                    // We apply a selective blur heuristic: center area for typical portrait masking
+                    const bx = canvas.width * 0.1;
+                    const by = canvas.height * 0.1;
+                    const bw = canvas.width * 0.8;
+                    const bh = canvas.height * 0.8;
+                    ctx.drawImage(img, bx, by, bw, bh, bx, by, bw, bh);
                     ctx.filter = 'none';
+                } else {
+                    ctx.drawImage(img, 0, 0);
                 }
 
                 const url = canvas.toDataURL('image/png');
@@ -332,7 +308,7 @@ const ImageLab = () => {
         <div className="card p-30 glass-card grid gap-15">
             <h3>Image Privacy Lab (Canvas)</h3>
             <div className="file-input-wrapper"><input type="file" id="img-in" onChange={e=>setFile(e.target.files[0])} accept="image/*" /><label htmlFor="img-in" className="file-input-label">{file?file.name:'Choose Image'}</label></div>
-            <button className="btn-primary w-full" onClick={()=>runTransform('anonymize')} title="Applies a global blur for privacy" disabled={loading}>Anonymize Image (Blur)</button>
+            <button className="btn-primary w-full" onClick={()=>runTransform('anonymize')} title="Applies a high-quality privacy blur" disabled={loading}>Anonymize Image (Blur)</button>
             <div className="grid grid-3 gap-10">
                 <button className="pill" onClick={()=>runTransform('rotate')} disabled={loading}>Rotate 90°</button>
                 <button className="pill" onClick={()=>runTransform('flip')} disabled={loading}>Flip Horiz</button>
@@ -379,8 +355,7 @@ const FinanceHub = ({ subtool }) => {
             const emi = (amt * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
             setResult({ text: `Monthly EMI: ${emi.toFixed(2)}\nTotal Payment: ${(emi * n).toFixed(2)}\nTotal Interest: ${(emi * n - amt).toFixed(2)}` });
         } else if (activeCalc === 'cagr') {
-            // amt = final value, yrs = years, rate = initial value
-            const initial = rate; // repurposing rate field for initial value
+            const initial = rate;
             const final = amt;
             const cagr = (Math.pow(final / initial, 1 / yrs) - 1) * 100;
             setResult({ text: `CAGR: ${cagr.toFixed(2)}%` });
