@@ -12,7 +12,6 @@ langchain-core
 langchain-text-splitters
 openai
 faiss-cpu
-tiktoken
 opencv-python
 numpy
 python-multipart
@@ -21,12 +20,7 @@ pyotp
 requests
 scikit-learn
 sdv
-great_expectations
-azure-ai-anomalydetector
-mammoth
 python-docx
-EbookLib
-mail-parser
 deep-translator
 pypdf
 python-pptx
