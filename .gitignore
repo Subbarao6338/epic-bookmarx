@@ -8,3 +8,4 @@ data/*.db
 *.db
 *.log
 venv/
+tools1/

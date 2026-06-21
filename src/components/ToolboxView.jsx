@@ -14,8 +14,14 @@ const DevTools = lazy(() => import('./tools/DevTools'));
 const WebTools = lazy(() => import('./tools/WebTools'));
 const AiTools = lazy(() => import('./tools/AiTools'));
 const ConvertTools = lazy(() => import('./tools/ConvertTools'));
+const AgentTools = lazy(() => import('./tools/AgentTools'));
+const NotionTools = lazy(() => import('./tools/NotionTools'));
+const OpsTools = lazy(() => import('./tools/OpsTools'));
 
 const TOOLS = [
+    { id: 'agent-main', title: 'Agent Lab', icon: 'psychology', category: 'Developer', component: AgentTools, subTools: ['agent-ingest', 'agent-gen', 'agent-results'] },
+    { id: 'notion-main', title: 'Notion Hub', icon: 'AutoStories', category: 'Productivity', component: NotionTools, subTools: ['notion-ingest', 'notion-folder', 'notion-scraper', 'notion-history'] },
+    { id: 'ops-main', title: 'Ops Center', icon: 'settings_input_component', category: 'Developer', component: OpsTools, subTools: ['sys-status', 'telemetry-live'] },
     { id: 'convert-main', title: 'Batch Converter', icon: 'auto_fix_high', category: 'Productivity', component: ConvertTools, subTools: ['pdf-to-md', 'docx-to-md', 'html-to-md', 'url-to-md', 'csv-to-md', 'excel-to-md', 'image-ocr', 'mdx-to-md', 'md-to-mdx', 'pptx-to-md'] },
     { id: 'web-main', title: 'Web & Social Tools', icon: 'public', category: 'Web', component: WebTools, subTools: ['social-downloader', 'web-to-md', 'web-mhtml', 'url-to-pdf', 'userscripts', 'bookmarklets'] },
     { id: 'network-main', title: 'Network Hub', icon: 'router', category: 'Web', component: NetworkTools, subTools: ['ip-info', 'ping', 'dns', 'whois', 'speed', 'geo', 'ssl', 'subnet', 'bluetooth'] },
