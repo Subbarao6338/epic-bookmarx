@@ -118,7 +118,7 @@ const AdvancedDataHub = ({ file }) => {
     const [result, setResult] = useState(null);
 
     const run = async (type) => {
-        if (!file) return alert('Upload file in Viewer first.');
+        if (!file) return setResult({ error: 'Upload file in Viewer first.' });
         setLoading(true);
 
         try {
@@ -184,7 +184,7 @@ const ReconciliationTool = () => {
     const [result, setResult] = useState(null);
 
     const run = async () => {
-        if (!f1 || !f2) return alert('Select files.');
+        if (!f1 || !f2) return setResult({ error: 'Select files.' });
         setLoading(true);
 
         try {
@@ -233,7 +233,7 @@ const SyntheticDataTool = ({ file }) => {
     const [result, setResult] = useState(null);
 
     const run = async () => {
-        if (!file) return alert('Upload seed file in Viewer.');
+        if (!file) return setResult({ error: 'Upload seed file in Viewer.' });
         setLoading(true);
 
         try {
@@ -280,7 +280,7 @@ const ImageLab = () => {
     const [result, setResult] = useState(null);
 
     const runTransform = (type) => {
-        if (!file) return alert('Select image.');
+        if (!file) return setResult({ error: 'Select image.' });
         setLoading(true);
 
         const reader = new FileReader();
@@ -366,9 +366,58 @@ const DataScienceHub = ({ data }) => {
 };
 
 const FinanceHub = ({ subtool }) => {
-    const [amt, setAmt] = useState(100000); const [rate, setRate] = useState(7.5); const [yrs, setYrs] = useState(15);
-    const emi = (amt * (rate/1200) * Math.pow(1+rate/1200, yrs*12)) / (Math.pow(1+rate/1200, yrs*12)-1);
-    return (<div className="card p-30 glass-card grid gap-15"><h3>Loan EMI Calculator</h3><input type="number" className="pill w-full" value={amt} onChange={e=>setAmt(e.target.value)} /><div className="h2 color-primary text-center">EMI: {emi.toFixed(0)}</div></div>);
+    const [activeCalc, setActiveCalc] = useState('emi');
+    const [amt, setAmt] = useState(100000);
+    const [rate, setRate] = useState(7.5);
+    const [yrs, setYrs] = useState(15);
+    const [result, setResult] = useState(null);
+
+    const calculate = () => {
+        if (activeCalc === 'emi') {
+            const r = rate / 1200;
+            const n = yrs * 12;
+            const emi = (amt * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            setResult({ text: `Monthly EMI: ${emi.toFixed(2)}\nTotal Payment: ${(emi * n).toFixed(2)}\nTotal Interest: ${(emi * n - amt).toFixed(2)}` });
+        } else if (activeCalc === 'cagr') {
+            // amt = final value, yrs = years, rate = initial value
+            const initial = rate; // repurposing rate field for initial value
+            const final = amt;
+            const cagr = (Math.pow(final / initial, 1 / yrs) - 1) * 100;
+            setResult({ text: `CAGR: ${cagr.toFixed(2)}%` });
+        } else if (activeCalc === 'mortgage') {
+            const r = rate / 1200;
+            const n = yrs * 12;
+            const monthly = (amt * r) / (1 - Math.pow(1 + r, -n));
+            setResult({ text: `Monthly Mortgage: ${monthly.toFixed(2)}` });
+        }
+    };
+
+    return (
+        <div className="card p-30 glass-card grid gap-15">
+            <h3>Finance Hub</h3>
+            <div className="pill-group">
+                <button className={`pill ${activeCalc === 'emi' ? 'active' : ''}`} onClick={() => setActiveCalc('emi')}>EMI</button>
+                <button className={`pill ${activeCalc === 'cagr' ? 'active' : ''}`} onClick={() => setActiveCalc('cagr')}>CAGR</button>
+                <button className={`pill ${activeCalc === 'mortgage' ? 'active' : ''}`} onClick={() => setActiveCalc('mortgage')}>Mortgage</button>
+            </div>
+            <div className="grid gap-10">
+                <div className="form-group">
+                    <label>{activeCalc === 'cagr' ? 'Final Value' : 'Principal Amount'}</label>
+                    <input type="number" className="pill w-full" value={amt} onChange={e => setAmt(parseFloat(e.target.value) || 0)} />
+                </div>
+                <div className="form-group">
+                    <label>{activeCalc === 'cagr' ? 'Initial Value' : 'Interest Rate (%)'}</label>
+                    <input type="number" className="pill w-full" value={rate} onChange={e => setRate(parseFloat(e.target.value) || 0)} />
+                </div>
+                <div className="form-group">
+                    <label>Period (Years)</label>
+                    <input type="number" className="pill w-full" value={yrs} onChange={e => setYrs(parseFloat(e.target.value) || 0)} />
+                </div>
+                <button className="btn-primary" onClick={calculate}>Calculate</button>
+            </div>
+            <ToolResult result={result} />
+        </div>
+    );
 };
 
 const DataAnonymizer = ({ data }) => {
