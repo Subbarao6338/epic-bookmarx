@@ -1,5 +1,7 @@
 from fastapi import APIRouter, HTTPException
 import random, string
+from api.core.data_adv.kusto import generate_kusto_query
+
 router = APIRouter()
 
 @router.get("/generate-otp")
@@ -13,6 +15,8 @@ async def regex_gen(pattern_type: str):
 
 @router.post("/kusto-gen")
 async def kusto_gen(data: dict):
-    from api.core.data_adv.kusto import generate_kusto_query
-    query = generate_kusto_query(data['table'], data['fields'], data.get('joins'), data.get('filters'))
-    return {"query": query}
+    try:
+        query = generate_kusto_query(data['table'], data['fields'], data.get('joins'), data.get('filters'))
+        return {"query": query}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

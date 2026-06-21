@@ -11,6 +11,7 @@ const AgentTools = ({ toolId, onSubtoolChange }) => {
 
     const [activeTab, setActiveTab] = useState('ingest');
     const [apiKey, setApiKey] = useState(localStorage.getItem('agent_openai_key') || '');
+    const [knowledgeBase, setKnowledgeBase] = useState(JSON.parse(localStorage.getItem('agent_knowledge_base') || '[]'));
     const [status, setStatus] = useState({ status: 'idle', message: '' });
 
     useEffect(() => {
@@ -20,29 +21,15 @@ const AgentTools = ({ toolId, onSubtoolChange }) => {
 
     useEffect(() => {
         if (toolId) {
-            const mapping = {
-                'ingest': 'ingest',
-                'generate': 'generate',
-                'results': 'results',
-                'setup': 'setup'
-            };
+            const mapping = { 'ingest': 'ingest', 'generate': 'generate', 'results': 'results', 'setup': 'setup' };
             if (mapping[toolId]) setActiveTab(mapping[toolId]);
         }
     }, [toolId]);
 
-    const fetchStatus = useCallback(async () => {
-        try {
-            const res = await fetch('/api/agent/status');
-            const data = await res.json();
-            setStatus(data);
-        } catch (e) {}
-    }, []);
-
-    useEffect(() => {
-        let interval;
-        if (status.status === 'running') interval = setInterval(fetchStatus, 2000);
-        return () => clearInterval(interval);
-    }, [status.status, fetchStatus]);
+    const handleClearKnowledge = () => {
+        setKnowledgeBase([]);
+        localStorage.removeItem('agent_knowledge_base');
+    };
 
     return (
         <div className="tool-form mt-20">
@@ -54,18 +41,11 @@ const AgentTools = ({ toolId, onSubtoolChange }) => {
                 ))}
             </div>
 
-            {status.status === 'running' && (
-                <div className="card p-15 mb-20 glass-card flex align-center gap-10 border-primary animate-pulse">
-                    <div className="spinner-small" />
-                    <span className="small">{status.message}</span>
-                </div>
-            )}
-
             <div className="hub-content animate-fadeIn">
                 {activeTab === 'setup' && (
                     <div className="card p-30 glass-card grid gap-15">
-                        <h3>OpenAI Configuration</h3>
-                        <p className="smallest opacity-6">Required for embedding and generating test cases.</p>
+                        <h3>Agent Intelligence Setup</h3>
+                        <p className="smallest opacity-6">Required for embedding and generating test cases (gpt-4o).</p>
                         <div className="form-group">
                             <label>OpenAI API Key</label>
                             <input type="password" title="API Key" className="pill w-full" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="sk-..." />
@@ -73,69 +53,128 @@ const AgentTools = ({ toolId, onSubtoolChange }) => {
                         <button className="btn-primary w-full" onClick={() => { localStorage.setItem('agent_openai_key', apiKey); alert('Saved!'); }}>Save API Key</button>
                     </div>
                 )}
-                {activeTab === 'ingest' && <AgentIngest apiKey={apiKey} onStart={fetchStatus} />}
-                {activeTab === 'generate' && <AgentGenerate apiKey={apiKey} onStart={fetchStatus} />}
+                {activeTab === 'ingest' && <AgentIngest setKB={setKnowledgeBase} onClear={handleClearKnowledge} currentKB={knowledgeBase} />}
+                {activeTab === 'generate' && <AgentGenerate apiKey={apiKey} knowledgeBase={knowledgeBase} />}
                 {activeTab === 'results' && <AgentResults />}
             </div>
         </div>
     );
 };
 
-const AgentIngest = ({ apiKey }) => {
-    const [path, setPath] = useState('');
-    const [result, setResult] = useState(null);
+const AgentIngest = ({ setKB, onClear, currentKB }) => {
+    const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState(null);
 
-    const handleIngest = async () => {
-        if (!apiKey) return alert('API Key required.');
+    const handleFileChange = (e) => {
+        setFiles(Array.from(e.target.files));
+    };
+
+    const processFiles = async () => {
+        if (files.length === 0) return alert('Select files first.');
         setLoading(true);
-        // JS Port: Mock ingestion - would normally use a local file scanner if possible
-        setTimeout(() => {
-            setResult({ text: `Ingested local codebase path: ${path}. Indexed 42 files and 150 code chunks.` });
+        setResult(null);
+
+        const formData = new FormData();
+        files.forEach(file => formData.append('files', file));
+
+        try {
+            const response = await fetch('/api/agent/ingest', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            if (data.success) {
+                const updatedKB = [...currentKB, ...data.chunks];
+                setKB(updatedKB);
+                localStorage.setItem('agent_knowledge_base', JSON.stringify(updatedKB));
+                setResult({ text: `Ingested ${files.length} files with full format support (PDF, DOCX, PPTX, OCR, etc.). Total chunks: ${updatedKB.length}` });
+            } else {
+                throw new Error(data.detail || 'Ingestion failed');
+            }
+        } catch (e) {
+            setResult({ error: e.message });
+        } finally {
             setLoading(false);
-        }, 1500);
+        }
     };
 
     return (
-        <div className="card p-30 glass-card grid gap-15">
-            <h3>Knowledge Ingestion (Local Port)</h3>
-            <p className="smallest opacity-6">Ingest a codebase to provide context for test generation.</p>
-            <input type="text" className="pill w-full" placeholder="Project Directory Path" value={path} onChange={e=>setPath(e.target.value)} />
-            <button className="btn-primary w-full" onClick={handleIngest} disabled={loading}>{loading ? 'Ingesting...' : 'Scan & Index Codebase'}</button>
-            <ToolResult result={result} />
+        <div className="grid gap-15">
+            <div className="card p-30 glass-card grid gap-15">
+                <h3>Multi-Format Knowledge Ingestion</h3>
+                <p className="smallest opacity-6">Upload Code, PDF, DOCX, PPTX, or Images. Our backend engine will extract and chunk the content for RAG.</p>
+                <div className="file-input-wrapper">
+                    <input type="file" id="agent-files" multiple onChange={handleFileChange} />
+                    <label htmlFor="agent-files" className="file-input-label">{files.length > 0 ? `${files.length} files selected` : 'Select Files'}</label>
+                </div>
+                <div className="flex-gap">
+                    <button className="btn-primary flex-1" onClick={processFiles} disabled={loading}>{loading ? 'Indexing...' : 'Scan & Index Knowledge'}</button>
+                    <button className="pill" onClick={onClear} disabled={loading}>Clear Knowledge</button>
+                </div>
+                <ToolResult result={result} />
+            </div>
+            {currentKB.length > 0 && (
+                <div className="card p-20 glass-card animate-fadeIn">
+                    <div className="small font-bold mb-10">Knowledge Base Status</div>
+                    <div className="flex-between smallest">
+                        <span>Indexed Chunks:</span>
+                        <span className="badge badge-primary">{currentKB.length}</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
-const AgentGenerate = ({ apiKey }) => {
+const AgentGenerate = ({ apiKey, knowledgeBase }) => {
     const [req, setReq] = useState('');
-    const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState(null);
 
     const handleGenerate = async () => {
-        if (!apiKey) return alert('API Key required.');
+        if (!apiKey) return alert('API Key required in Setup.');
         setLoading(true);
+
         try {
+            const keywords = req.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+            const context = knowledgeBase
+                .filter(chunk => keywords.some(k => chunk.pageContent.toLowerCase().includes(k)))
+                .slice(0, 8)
+                .map(c => `[Context: ${c.metadata.filename || 'Unknown'}]\n${c.pageContent}`)
+                .join('\n---\n');
+
+            const prompt = `
+Context from Knowledge Base:
+${context || 'No specific context found.'}
+
+User Requirement:
+${req}
+
+Task:
+Generate a comprehensive Test Plan in Markdown format.
+            `.trim();
+
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                 body: JSON.stringify({
-                    model: "gpt-4o-mini",
+                    model: "gpt-4o",
                     messages: [
-                        { role: "system", content: "You are a QA Engineer. Generate detailed, context-aware test cases based on the provided requirements. Structure the output with Feature, Test Scenarios, Steps, and Expected Results." },
-                        { role: "user", content: req }
+                        { role: "system", content: "You are a Senior QA Engineer and Test Architect." },
+                        { role: "user", content: prompt }
                     ]
                 })
             });
+
             const data = await response.json();
+            if (data.error) throw new Error(data.error.message);
+
             const content = data.choices[0].message.content;
             const history = JSON.parse(localStorage.getItem('agent_results') || '[]');
             const newRes = { requirement: req, test_cases: content, timestamp: new Date().toISOString() };
             localStorage.setItem('agent_results', JSON.stringify([newRes, ...history]));
-            setResult({ text: content, filename: 'test_cases.md' });
+            setResult({ text: content, filename: 'test_plan.md' });
         } catch (e) {
             setResult({ error: e.message });
         } finally {
@@ -145,9 +184,9 @@ const AgentGenerate = ({ apiKey }) => {
 
     return (
         <div className="card p-30 glass-card grid gap-15">
-            <h3>Generate Test Cases (OpenAI Direct)</h3>
-            <textarea className="pill w-full" rows="5" placeholder="Describe the feature or requirement..." value={req} onChange={e=>setReq(e.target.value)} />
-            <button className="btn-primary w-full" onClick={handleGenerate} disabled={loading}>{loading ? 'Generating...' : 'Generate Tests'}</button>
+            <h3>Generate Test Plan (RAG-Enabled)</h3>
+            <textarea className="pill w-full" rows="6" placeholder="Describe the feature..." value={req} onChange={e=>setReq(e.target.value)} />
+            <button className="btn-primary w-full" onClick={handleGenerate} disabled={loading}>{loading ? 'Thinking...' : 'Generate Tests'}</button>
             <ToolResult result={result} />
         </div>
     );
@@ -155,37 +194,20 @@ const AgentGenerate = ({ apiKey }) => {
 
 const AgentResults = () => {
     const [results, setResults] = useState([]);
-    useEffect(() => {
-        const history = JSON.parse(localStorage.getItem('agent_results') || '[]');
-        setResults(history);
-    }, []);
-
-    const clearResults = () => {
-        localStorage.removeItem('agent_results');
-        setResults([]);
-    };
-
+    useEffect(() => { setResults(JSON.parse(localStorage.getItem('agent_results') || '[]')); }, []);
     return (
         <div className="grid gap-15">
-            {results.length > 0 && (
-                <button className="pill w-fit ml-auto" onClick={clearResults}>Clear History</button>
-            )}
-            {results.length === 0 ? (
-                <div className="card p-30 text-center opacity-6 glass-card">No results available. Run generation first.</div>
-            ) : (
-                results.map((res, i) => (
-                    <div key={i} className="card p-20 glass-card">
-                        <div className="flex-between border-bottom pb-5 mb-10">
-                            <div className="small font-bold">Requirement Context</div>
-                            <div className="smallest opacity-5">{new Date(res.timestamp).toLocaleString()}</div>
-                        </div>
-                        <div className="smallest opacity-6 mb-15">{res.requirement}</div>
-                        <div className="small font-bold mb-10 border-bottom pb-5">Generated Test Cases</div>
-                        <pre className="smallest font-mono whitespace-pre-wrap">{res.test_cases}</pre>
-                        <ToolResult result={{ text: res.test_cases, filename: 'tests.txt' }} />
+            {results.length > 0 && <button className="pill w-fit ml-auto" onClick={() => { localStorage.removeItem('agent_results'); setResults([]); }}>Clear</button>}
+            {results.map((res, i) => (
+                <div key={i} className="card p-20 glass-card">
+                    <div className="flex-between border-bottom pb-5 mb-10">
+                        <div className="small font-bold">{res.requirement.slice(0, 50)}...</div>
+                        <div className="smallest opacity-5">{new Date(res.timestamp).toLocaleString()}</div>
                     </div>
-                ))
-            )}
+                    <pre className="smallest font-mono whitespace-pre-wrap" style={{maxHeight:'300px', overflow:'auto'}}>{res.test_cases}</pre>
+                    <ToolResult result={{ text: res.test_cases, filename: `test_plan_${i}.md` }} />
+                </div>
+            ))}
         </div>
     );
 };
