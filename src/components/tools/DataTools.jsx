@@ -116,20 +116,57 @@ const DataViewer = ({ setGlobalData, setRawFile }) => {
 const AdvancedDataHub = ({ file }) => {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+
     const run = async (type) => {
         if (!file) return alert('Upload file in Viewer first.');
         setLoading(true);
-        const formData = new FormData();
-        formData.append('file', file);
+
         try {
-            const res = await fetch(`/api/data-adv/${type}`, { method: 'POST', body: formData });
-            const data = await res.json();
-            setResult({ text: JSON.stringify(data, null, 2) });
-        } catch (e) { setResult({ error: e.message }); } finally { setLoading(false); }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                Papa.parse(content, {
+                    header: true,
+                    complete: (results) => {
+                        const df = results.data;
+                        if (type === 'data-quality') {
+                            const report = Object.keys(df[0] || {}).map(col => ({
+                                column: col,
+                                missing: df.filter(r => !r[col] || r[col] === '').length,
+                                unique: new Set(df.map(r => r[col])).size
+                            }));
+                            setResult({ text: JSON.stringify({ success: true, report }, null, 2) });
+                        } else if (type === 'anomaly-detect') {
+                            // Simple Z-Score Anomaly Detection
+                            const numericCols = Object.keys(df[0] || {}).filter(k => !isNaN(parseFloat(df[0][k])));
+                            const anomalies = [];
+                            numericCols.forEach(col => {
+                                const vals = df.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
+                                const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+                                const std = Math.sqrt(vals.map(v => Math.pow(v - mean, 2)).reduce((a, b) => a + b, 0) / vals.length);
+                                df.forEach((row, idx) => {
+                                    const val = parseFloat(row[col]);
+                                    if (Math.abs(val - mean) > 3 * std) {
+                                        anomalies.push({ row: idx, column: col, value: val, z_score: ((val - mean) / std).toFixed(2) });
+                                    }
+                                });
+                            });
+                            setResult({ text: JSON.stringify({ success: true, anomaly_count: anomalies.length, anomalies: anomalies.slice(0, 10) }, null, 2) });
+                        }
+                        setLoading(false);
+                    }
+                });
+            };
+            reader.readAsText(file);
+        } catch (e) {
+            setResult({ error: e.message });
+            setLoading(false);
+        }
     };
+
     return (
         <div className="grid gap-15 card p-30 glass-card">
-            <h3>Advanced Analysis</h3>
+            <h3>Advanced Analysis (Local)</h3>
             <div className="grid grid-2-cols gap-10">
                 <button className="btn-primary" onClick={() => run('anomaly-detect')} disabled={loading}>Detect Anomalies</button>
                 <button className="pill" onClick={() => run('data-quality')} disabled={loading}>Data Quality</button>
@@ -145,17 +182,39 @@ const ReconciliationTool = () => {
     const [key, setKey] = useState('id');
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+
     const run = async () => {
         if (!f1 || !f2) return alert('Select files.');
         setLoading(true);
-        const fd = new FormData();
-        fd.append('file1', f1); fd.append('file2', f2); fd.append('key_column', key);
+
         try {
-            const res = await fetch('/api/data-adv/reconcile', { method: 'POST', body: fd });
-            const data = await res.json();
-            setResult({ text: JSON.stringify(data.result, null, 2) });
-        } catch (e) { setResult({ error: e.message }); } finally { setLoading(false); }
+            const readAsJson = (file) => new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => Papa.parse(e.target.result, { header: true, complete: (res) => resolve(res.data) });
+                reader.readAsText(file);
+            });
+
+            const data1 = await readAsJson(f1);
+            const data2 = await readAsJson(f2);
+
+            const ids1 = new Set(data1.map(r => r[key]));
+            const ids2 = new Set(data2.map(r => r[key]));
+
+            const onlyIn1 = data1.filter(r => !ids2.has(r[key])).length;
+            const onlyIn2 = data2.filter(r => !ids1.has(r[key])).length;
+            const common = data1.filter(r => ids2.has(r[key])).length;
+
+            setResult({ text: JSON.stringify({
+                summary: { only_in_file1: onlyIn1, only_in_file2: onlyIn2, matches: common },
+                details: "Reconciliation complete using key: " + key
+            }, null, 2) });
+        } catch (e) {
+            setResult({ error: e.message });
+        } finally {
+            setLoading(false);
+        }
     };
+
     return (
         <div className="card p-30 glass-card grid gap-15">
             <h3>Data Reconciliation</h3>
@@ -170,28 +229,45 @@ const ReconciliationTool = () => {
 
 const SyntheticDataTool = ({ file }) => {
     const [rows, setRows] = useState(100);
-    const [advanced, setAdvanced] = useState(false);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+
     const run = async () => {
         if (!file) return alert('Upload seed file in Viewer.');
         setLoading(true);
-        const fd = new FormData();
-        fd.append('file', file); fd.append('num_rows', rows); fd.append('advanced', advanced);
+
         try {
-            const res = await fetch('/api/data-adv/generate-synthetic', { method: 'POST', body: fd });
-            const data = await res.json();
-            setResult({ text: Papa.unparse(data.data), filename: 'synthetic.csv' });
-        } catch (e) { setResult({ error: e.message }); } finally { setLoading(false); }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                Papa.parse(e.target.result, {
+                    header: true,
+                    complete: (res) => {
+                        const df = res.data;
+                        const synthetic = Array.from({ length: rows }, () => {
+                            const mockRow = {};
+                            Object.keys(df[0] || {}).forEach(col => {
+                                const vals = df.map(r => r[col]).filter(v => v !== undefined);
+                                mockRow[col] = vals[Math.floor(Math.random() * vals.length)];
+                            });
+                            return mockRow;
+                        });
+                        setResult({ text: Papa.unparse(synthetic), filename: 'synthetic.csv' });
+                        setLoading(false);
+                    }
+                });
+            };
+            reader.readAsText(file);
+        } catch (e) {
+            setResult({ error: e.message });
+            setLoading(false);
+        }
     };
+
     return (
         <div className="card p-30 glass-card grid gap-15">
-            <h3>Synthetic Data Generation</h3>
+            <h3>Synthetic Data Lab</h3>
+            <p className="small opacity-7">Generates data by shuffling and sampling existing distributions.</p>
             <input type="number" className="pill w-full" value={rows} onChange={e=>setRows(e.target.value)} placeholder="Number of rows" />
-            <label className="flex align-center gap-10 pointer">
-                <input type="checkbox" checked={advanced} onChange={e=>setAdvanced(e.target.checked)} />
-                <span className="small">Use Gaussian Copula (SDV High-Fidelity)</span>
-            </label>
             <button className="btn-primary w-full" onClick={run} disabled={loading}>{loading?'Synthesizing...':'Generate Synthetic Dataset'}</button>
             <ToolResult result={result} />
         </div>
@@ -202,27 +278,65 @@ const ImageLab = () => {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
-    const run = async (type, transform = '') => {
+
+    const runTransform = (type) => {
         if (!file) return alert('Select image.');
         setLoading(true);
-        const fd = new FormData();
-        fd.append('file', file);
-        if (transform) fd.append('transform', transform);
-        try {
-            const res = await fetch(`/api/data-adv/image-${type}`, { method: 'POST', body: fd });
-            const data = await res.json();
-            setResult({ text: data.message + (data.detected_count !== undefined ? ` (Detected: ${data.detected_count})` : '') });
-        } catch (e) { setResult({ error: e.message }); } finally { setLoading(false); }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                if (type === 'rotate') {
+                    canvas.width = img.height;
+                    canvas.height = img.width;
+                    ctx.translate(canvas.width / 2, canvas.height / 2);
+                    ctx.rotate(90 * Math.PI / 180);
+                    ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                } else if (type === 'flip') {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(img, -img.width, 0);
+                } else if (type === 'grayscale') {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.filter = 'grayscale(100%)';
+                    ctx.drawImage(img, 0, 0);
+                } else if (type === 'anonymize') {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    // Client-side privacy filter: applies a blur to the entire image for quick anonymization
+                    // In a production environment, we would use a client-side face detection model like face-api.js
+                    ctx.globalAlpha = 0.5;
+                    ctx.filter = 'blur(10px)';
+                    ctx.drawImage(canvas, 0, 0);
+                    ctx.globalAlpha = 1.0;
+                    ctx.filter = 'none';
+                }
+
+                const url = canvas.toDataURL('image/png');
+                setResult({ text: `Applied ${type} transformation`, url, filename: `transformed_${type}.png` });
+                setLoading(false);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     };
+
     return (
         <div className="card p-30 glass-card grid gap-15">
-            <h3>Image Privacy Lab</h3>
+            <h3>Image Privacy Lab (Canvas)</h3>
             <div className="file-input-wrapper"><input type="file" id="img-in" onChange={e=>setFile(e.target.files[0])} accept="image/*" /><label htmlFor="img-in" className="file-input-label">{file?file.name:'Choose Image'}</label></div>
-            <button className="btn-primary w-full" onClick={()=>run('anonymize')} disabled={loading}>Anonymize Faces & Plates</button>
+            <button className="btn-primary w-full" onClick={()=>runTransform('anonymize')} title="Applies a global blur for privacy" disabled={loading}>Anonymize Image (Blur)</button>
             <div className="grid grid-3 gap-10">
-                <button className="pill" onClick={()=>run('simulate', 'rotate')} disabled={loading}>Rotate 45°</button>
-                <button className="pill" onClick={()=>run('simulate', 'flip')} disabled={loading}>Flip Horiz</button>
-                <button className="pill" onClick={()=>run('simulate', 'grayscale')} disabled={loading}>Grayscale</button>
+                <button className="pill" onClick={()=>runTransform('rotate')} disabled={loading}>Rotate 90°</button>
+                <button className="pill" onClick={()=>runTransform('flip')} disabled={loading}>Flip Horiz</button>
+                <button className="pill" onClick={()=>runTransform('grayscale')} disabled={loading}>Grayscale</button>
             </div>
             <ToolResult result={result} />
         </div>
