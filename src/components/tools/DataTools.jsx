@@ -25,7 +25,28 @@ const DataTools = ({ toolId, onSubtoolChange }) => {
   useEffect(() => {
     const current = tabs.find(t => t.id === activeTab);
     if (current && onSubtoolChange) onSubtoolChange(current.label);
-  }, [activeTab]);
+  }, [activeTab, onSubtoolChange, tabs]);
+
+  useEffect(() => {
+    if (toolId) {
+      const mapping = {
+        'viewer': 'viewer',
+        'data-viewer': 'viewer',
+        'science': 'science',
+        'data-science': 'science',
+        'adv-data': 'adv-data',
+        'data-profiling': 'adv-data',
+        'reconcile': 'reconcile',
+        'synthetic': 'synthetic',
+        'image-lab': 'image-lab',
+        'anonymizer': 'anonymizer',
+        'json-csv': 'json-csv',
+        'mock': 'mock',
+        'finance': 'finance'
+      };
+      if (mapping[toolId]) setActiveTab(mapping[toolId]);
+    }
+  }, [toolId]);
 
   return (
     <div className="tool-form mt-20">

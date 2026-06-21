@@ -560,6 +560,7 @@ input.pill:focus {
   gap: 8px;
   scrollbar-width: none;
   padding-bottom: 8px;
+  padding-right: 24px;
   -webkit-overflow-scrolling: touch;
 }
 .scrollable-x::-webkit-scrollbar { display: none; }

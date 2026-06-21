@@ -32,7 +32,34 @@ const DevTools = ({ toolId, onSubtoolChange }) => {
   ].sort((a, b) => a.label.localeCompare(b.label));
 
   const [activeTab, setActiveTab] = useState('json-fmt');
-  useEffect(() => { if (onSubtoolChange) onSubtoolChange(tabs.find(t=>t.id===activeTab).label); }, [activeTab]);
+  useEffect(() => { if (onSubtoolChange) onSubtoolChange(tabs.find(t=>t.id===activeTab).label); }, [activeTab, onSubtoolChange, tabs]);
+
+  useEffect(() => {
+    if (toolId) {
+      const mapping = {
+        'json-fmt': 'json-fmt',
+        'sql': 'sql',
+        'diff': 'diff',
+        'converter': 'converter',
+        'security': 'security',
+        'regex': 'regex',
+        'otp': 'otp',
+        'kusto': 'kusto',
+        'base64': 'base64',
+        'jwt': 'jwt',
+        'cron': 'cron',
+        'url': 'url',
+        'yaml': 'yaml',
+        'minifier': 'minifier',
+        'xml-json': 'xml-json',
+        'xml-fmt': 'xml-fmt',
+        'json-ts': 'json-ts',
+        'color': 'color',
+        'qr-barcode': 'qr-barcode'
+      };
+      if (mapping[toolId]) setActiveTab(mapping[toolId]);
+    }
+  }, [toolId]);
 
   return (
     <div className="tool-form mt-20">

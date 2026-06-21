@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-const Header = memo(({ appName, currentProfile, profiles, setView, onSettingsClick, hideBookmarks, hideToolbox, currentTab, children }) => {
+const Header = memo(({ appName, currentProfile, profiles, setView, hideBookmarks, hideToolbox, currentTab, children }) => {
   const profile = profiles.find(p => p.name === currentProfile) || { icon: 'inbox' };
 
   return (
@@ -24,9 +24,6 @@ const Header = memo(({ appName, currentProfile, profiles, setView, onSettingsCli
       </div>
       <div className="top-actions">
         {children}
-        <button className="icon-btn" onClick={onSettingsClick} title="Settings">
-            <span className="material-icons">settings</span>
-        </button>
       </div>
     </header>
   );

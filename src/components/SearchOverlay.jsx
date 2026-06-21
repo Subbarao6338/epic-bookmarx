@@ -33,7 +33,7 @@ const SearchOverlay = ({ active, setActive, query, onChange, onClear, currentTab
   };
 
   return (
-    <div className={`search-container ${active ? 'active' : 'desktop-only'}`} style={{position: 'relative'}}>
+    <div className={`search-container ${active ? 'active' : 'mobile-only'}`}>
       <span className="material-icons-outlined search-icon">search</span>
       <input
         type="search"

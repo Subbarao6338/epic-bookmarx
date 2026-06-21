@@ -20,7 +20,7 @@ const NetworkTools = ({ toolId, onSubtoolChange }) => {
   useEffect(() => {
     const current = tabs.find(t => t.id === activeTab);
     if (current && onSubtoolChange) onSubtoolChange(current.label);
-  }, [activeTab]);
+  }, [activeTab, onSubtoolChange, tabs]);
 
   useEffect(() => {
     if (toolId) {

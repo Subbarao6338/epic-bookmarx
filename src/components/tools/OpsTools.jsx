@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-const OpsTools = ({ onSubtoolChange }) => {
+const OpsTools = ({ toolId, onSubtoolChange }) => {
     const tabs = [{ id: 'status', label: 'System Status' }, { id: 'telemetry', label: 'Live Telemetry' }, { id: 'lineage', label: 'Data Lineage' }];
     const [activeTab, setActiveTab] = useState('status');
-    useEffect(() => { if (onSubtoolChange) onSubtoolChange(tabs.find(t=>t.id===activeTab).label); }, [activeTab]);
+    useEffect(() => { if (onSubtoolChange) onSubtoolChange(tabs.find(t=>t.id===activeTab).label); }, [activeTab, onSubtoolChange, tabs]);
+
+    useEffect(() => {
+        if (toolId) {
+            const mapping = {
+                'status': 'status',
+                'telemetry': 'telemetry',
+                'lineage': 'lineage'
+            };
+            if (mapping[toolId]) setActiveTab(mapping[toolId]);
+        }
+    }, [toolId]);
 
     return (
         <div className="tool-form mt-20">

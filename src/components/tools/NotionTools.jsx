@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ToolResult from './ToolResult';
 
-const NotionTools = ({ onSubtoolChange }) => {
+const NotionTools = ({ toolId, onSubtoolChange }) => {
     const tabs = [
         { id: 'ingest', label: 'Document Ingestion' },
         { id: 'folder', label: 'Folder Scanner' },
@@ -19,7 +19,20 @@ const NotionTools = ({ onSubtoolChange }) => {
     useEffect(() => {
         const current = tabs.find(t => t.id === activeTab);
         if (current && onSubtoolChange) onSubtoolChange(current.label);
-    }, [activeTab]);
+    }, [activeTab, onSubtoolChange, tabs]);
+
+    useEffect(() => {
+        if (toolId) {
+            const mapping = {
+                'ingest': 'ingest',
+                'folder': 'folder',
+                'scraper': 'scraper',
+                'history': 'history',
+                'setup': 'setup'
+            };
+            if (mapping[toolId]) setActiveTab(mapping[toolId]);
+        }
+    }, [toolId]);
 
     const fetchStatus = useCallback(async () => {
         try {
