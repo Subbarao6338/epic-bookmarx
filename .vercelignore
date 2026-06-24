@@ -1,3 +1,5 @@
 tools1/
 legacy/
 .git/
+tests/
+test-results/
