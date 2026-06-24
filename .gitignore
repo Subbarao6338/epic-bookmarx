@@ -9,3 +9,4 @@ data/*.db
 *.log
 venv/
 tools1/
+test-results

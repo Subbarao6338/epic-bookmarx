@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('Verify Bookmark Card Changes', async ({ page }) => {
-  await page.goto('http://localhost:5173/?tab=bookmarks');
+  await page.goto('http://localhost:3001/?tab=bookmarks');
 
   // Wait for data to load
   await page.waitForSelector('.card');

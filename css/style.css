@@ -543,12 +543,10 @@ input.pill:focus {
 
 /* Utility */
 .grid { display: grid; gap: 1rem; }
-.grid-2 { grid-template-columns: 1fr 1fr; }
 .grid-2-cols { grid-template-columns: 1fr 1fr; }
 .flex-column { display: flex; flex-direction: column; }
 .flex-center { display: flex; align-items: center; justify-content: center; }
 .text-center { text-align: center; }
-.h2 { font-size: 1.75rem; font-weight: 800; }
 .font-mono { font-family: 'JetBrains Mono', monospace; }
 .opacity-6 { opacity: 0.6; }
 .rotating { animation: rotate 2s linear infinite; }
@@ -887,17 +885,8 @@ input.pill:focus {
   font-size: 0.9rem;
 }
 
-.progress-bar-container {
-  background: var(--brand-bg-light);
-  height: 6px;
-  border-radius: 3px;
-  overflow: hidden;
-  margin: 12px 0;
-  border: 1px solid var(--border);
-}
 
 .about-content {
-  line-height: 1.6;
 }
 
 .about-content h1, .about-content h2, .about-content h3 {
@@ -909,12 +898,6 @@ input.pill:focus {
 .overflow-auto { overflow: auto; }
 
 .desktop-only { display: flex !important; }
-.mobile-only { display: none !important; }
-
-@media (max-width: 768px) {
-  .desktop-only { display: none !important; }
-  .mobile-only { display: flex !important; }
-}
 
 .search-container {
   flex: 1;
@@ -1415,33 +1398,6 @@ input:checked + .slider:before {
 }
 
 /* Panchangam Tool Styles */
-.panchangam-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.panchangam-item {
-    background: var(--primary-glow);
-    border-left: 4px solid var(--primary);
-    padding: 12px;
-    border-radius: var(--radius-md);
-    transition: transform 0.2s ease;
-}
-
-.panchangam-item:hover {
-    transform: scale(1.02);
-}
-
-.panchangam-footer {
-    grid-column: span 2;
-    background: var(--surface-solid);
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    border-radius: var(--radius-md);
-}
 
 .icon-btn.highlight {
     background: var(--primary-glow);
@@ -1462,10 +1418,6 @@ input:checked + .slider:before {
   padding: 10px 12px;
 }
 
-.copy-all-btn {
-  flex: 1;
-  justify-content: center;
-}
 
 .dismiss-btn {
   padding: 10px 20px;

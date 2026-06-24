@@ -92,13 +92,28 @@ const MarkdownEditor = () => (
     </div>
 );
 
-const DocTranslator = () => (
-    <div className="card p-30 glass-card text-center grid gap-15">
-        <h3>Document Translator</h3>
-        <p className="smallest opacity-6">Translate PDF, DOCX, EPUB with layout preservation.</p>
-        <button className="btn-primary w-full">Start Translation</button>
-    </div>
-);
+const DocTranslator = () => {
+    const [file, setFile] = useState(null);
+    const [targetLang, setTargetLang] = useState('telugu');
+
+    return (
+        <div className="card p-30 glass-card text-center grid gap-15">
+            <h3>Document Translator</h3>
+            <p className="smallest opacity-6">Translate PDF, DOCX, EPUB with layout preservation.</p>
+            <div className="form-group">
+                <input type="file" className="pill w-full" onChange={e => setFile(e.target.files[0])} accept=".pdf,.docx,.epub" />
+            </div>
+            <div className="form-group">
+                <select className="pill w-full" value={targetLang} onChange={e => setTargetLang(e.target.value)}>
+                    <option value="telugu">Telugu</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="spanish">Spanish</option>
+                </select>
+            </div>
+            <button className="btn-primary w-full" disabled={!file}>Translate Document</button>
+        </div>
+    );
+};
 
 const BatchConverter = () => (
     <div className="card p-30 glass-card text-center grid gap-15">

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Verify Word Rank Calculator', async ({ page }) => {
     // Navigate to Word Rank tool directly
-    await page.goto('http://localhost:5173/?tab=toolbox&tool=word-rank');
+    await page.goto('http://localhost:3001/?tab=toolbox&tool=word-rank');
 
     // Wait for the tool to load
     await page.waitForSelector('textarea[placeholder*="word-rank"]');

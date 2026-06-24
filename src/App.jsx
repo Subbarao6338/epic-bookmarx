@@ -9,7 +9,6 @@ import SearchOverlay from './components/SearchOverlay';
 import SettingsModal from './components/SettingsModal';
 import ProfileModal from './components/ProfileModal';
 import BookmarkModal from './components/BookmarkModal';
-import API_BASE from './api';
 import { storage } from './utils/storage';
 import { useLocalStorageState } from './utils/hooks';
 

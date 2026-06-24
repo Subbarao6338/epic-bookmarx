@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('Verify Settings Organization and Card Layouts', async ({ page }) => {
-  await page.goto('http://localhost:5173');
+  await page.goto('http://localhost:3001');
 
   // Open Settings
   await page.click('.tab-item:has-text("Settings")');

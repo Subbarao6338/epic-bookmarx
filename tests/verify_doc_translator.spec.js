@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Doc Translator UI is visible', async ({ page }) => {
   // Use a longer timeout and go to the specific sub-tool
-  await page.goto('http://localhost:5173/?tab=toolbox&tool=doc-translator', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:3001/?tab=toolbox&tool=doc-translator', { waitUntil: 'networkidle' });
 
   // The hub uses lazy loading, so wait for the component
   await page.waitForSelector('.tool-form', { timeout: 15000 });

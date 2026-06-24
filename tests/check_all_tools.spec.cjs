@@ -8,7 +8,7 @@ test('Check all tools in toolbox for crashes', async ({ page }) => {
   });
   page.on('pageerror', err => console.log('UNCAUGHT EXCEPTION:', err.message));
 
-  await page.goto('http://localhost:5173/?tab=toolbox');
+  await page.goto('http://localhost:3001/?tab=toolbox');
   await page.waitForSelector('.card-title');
 
   const hubCards = await page.locator('.card').all();
@@ -22,7 +22,7 @@ test('Check all tools in toolbox for crashes', async ({ page }) => {
 
   for (const title of hubTitles) {
       console.log(`\n--- Testing Hub: ${title} ---`);
-      await page.goto('http://localhost:5173/?tab=toolbox');
+      await page.goto('http://localhost:3001/?tab=toolbox');
       await page.locator('.card', { hasText: title }).first().click();
       await page.waitForTimeout(1000);
 
@@ -50,7 +50,7 @@ test('Check all tools in toolbox for crashes', async ({ page }) => {
                   const errorText = await page.locator('pre').textContent();
                   console.log('  ERROR TEXT:', errorText);
                   // Reload hub to continue
-                  await page.goto('http://localhost:5173/?tab=toolbox');
+                  await page.goto('http://localhost:3001/?tab=toolbox');
                   await page.locator('.card', { hasText: title }).first().click();
                   await page.waitForTimeout(1000);
               }

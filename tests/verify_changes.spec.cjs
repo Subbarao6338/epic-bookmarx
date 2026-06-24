@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('Verify Toolbox Pruning and URL to PDF', async ({ page }) => {
-  await page.goto('http://localhost:5173/?tab=toolbox');
+  await page.goto('http://localhost:3001/?tab=toolbox');
 
   // Check that only approved hubs are present
   // approved: Web & Social Tools, Network Hub, Markdown Tools, Data Science
@@ -27,6 +27,6 @@ test('Verify Toolbox Pruning and URL to PDF', async ({ page }) => {
   // Check header title logic
   await expect(page.locator('h1.page-title')).toHaveText('Epic Toolbox');
 
-  await page.goto('http://localhost:5173/?tab=bookmarks');
+  await page.goto('http://localhost:3001/?tab=bookmarks');
   await expect(page.locator('h1.page-title')).toHaveText('Epic Toolbox');
 });

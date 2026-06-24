@@ -39,12 +39,24 @@ const WebTools = ({ toolId, onSubtoolChange }) => {
       </div>
 
       <div className="hub-content animate-fadeIn">
-        <div className="card p-30 glass-card text-center grid gap-15">
-            <span className="material-icons text-5xl opacity-2">public</span>
-            <h3>{WEB_TABS.find(t => t.id === activeTab)?.label}</h3>
-            <p className="smallest opacity-6">Advanced web utilities and social media analysis.</p>
-            <button className="btn-primary w-full">Launch Tool</button>
-        </div>
+        {activeTab === 'url2pdf' ? (
+          <div className="card p-30 glass-card text-center grid gap-15">
+            <span className="material-icons text-5xl opacity-2">picture_as_pdf</span>
+            <h3>URL to PDF</h3>
+            <p className="smallest opacity-6">Convert any website into a high-quality PDF document.</p>
+            <div className="form-group">
+                <input type="url" className="pill w-full" placeholder="Enter Web URL..." />
+            </div>
+            <button className="btn-primary w-full">Convert URL to PDF</button>
+          </div>
+        ) : (
+          <div className="card p-30 glass-card text-center grid gap-15">
+              <span className="material-icons text-5xl opacity-2">public</span>
+              <h3>{WEB_TABS.find(t => t.id === activeTab)?.label}</h3>
+              <p className="smallest opacity-6">Advanced web utilities and social media analysis.</p>
+              <button className="btn-primary w-full">Launch Tool</button>
+          </div>
+        )}
       </div>
     </div>
   );

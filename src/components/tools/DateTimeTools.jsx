@@ -281,11 +281,11 @@ const PanchangamTool = () => {
                 <div className="grid grid-3-cols gap-10 animate-fadeIn">
                     <div className="form-group">
                         <label className="smallest opacity-6 uppercase ml-10">Lat</label>
-                        <input type="number" step="0.0001" className="pill w-full px-5" value={lat} onChange={e=>setLat(e.target.value)} />
+                        <input type="number" step="0.0001" className="pill w-full px-5" placeholder="17.38" value={lat} onChange={e=>setLat(e.target.value)} />
                     </div>
                     <div className="form-group">
                         <label className="smallest opacity-6 uppercase ml-10">Lng</label>
-                        <input type="number" step="0.0001" className="pill w-full px-5" value={lng} onChange={e=>setLng(e.target.value)} />
+                        <input type="number" step="0.0001" className="pill w-full px-5" placeholder="78.48" value={lng} onChange={e=>setLng(e.target.value)} />
                     </div>
                     <div className="form-group">
                         <label className="smallest opacity-6 uppercase ml-10">TZ</label>

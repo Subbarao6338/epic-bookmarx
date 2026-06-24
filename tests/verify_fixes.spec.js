@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('Verify UI fixes', async ({ page }) => {
-  await page.goto('http://localhost:5173');
+  await page.goto('http://localhost:3001');
   await page.waitForSelector('.logo-container');
 
   // 1. Main View

@@ -15,6 +15,9 @@ test('verify Telugu Panchangam tool', async ({ page }) => {
   // Verify inputs are present
   await expect(page.locator('input[type="date"]')).toBeVisible();
   await expect(page.locator('input[type="time"]')).toBeVisible();
+
+  // Select Custom Location to see Lat/Lng inputs
+  await page.selectOption('select', 'Custom');
   await expect(page.locator('input[placeholder="17.38"]')).toBeVisible();
   await expect(page.locator('input[placeholder="78.48"]')).toBeVisible();
 
@@ -28,5 +31,5 @@ test('verify Telugu Panchangam tool', async ({ page }) => {
   await expect(page.locator('text=Rahu Kalam')).toBeVisible();
 
   // Take screenshot
-  await page.screenshot({ path: 'panchangam_verification.png' });
+  await page.screenshot({ path: 'test-results/panchangam_verification.png' });
 });

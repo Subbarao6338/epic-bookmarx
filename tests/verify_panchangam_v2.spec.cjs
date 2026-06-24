@@ -32,5 +32,5 @@ test('verify Telugu Panchangam tool v2', async ({ page }) => {
   await expect(page.locator('text=Lucky Color')).toBeVisible();
 
   // Take screenshot
-  await page.screenshot({ path: 'panchangam_v2_verification.png' });
+  await page.screenshot({ path: 'test-results/panchangam_v2_verification.png' });
 });

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('Verify Tool Hub Pruning', async ({ page }) => {
-  await page.goto('http://localhost:5173/?tab=toolbox');
+  await page.goto('http://localhost:3001/?tab=toolbox');
 
   // Allowed Hub IDs
   const allowedHubs = [

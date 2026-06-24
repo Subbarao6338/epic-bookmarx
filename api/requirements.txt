@@ -1,15 +1,12 @@
 fastapi
 uvicorn
-python-dotenv
 notion-client
 beautifulsoup4
 pandas
 openpyxl
-openai
 numpy
 python-multipart
 yt-dlp
-pyotp
 requests
 python-docx
 deep-translator
@@ -20,3 +17,4 @@ pdf2image
 Pillow
 psutil
 google-generativeai
+PyYAML
