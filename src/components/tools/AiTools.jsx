@@ -1,15 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import ToolResult from './ToolResult';
 
+// Import subtools
+import AiImageGen from './subtools/AiImageGen';
+import AiChat from './subtools/AiChat';
+import AiLocal from './subtools/AiLocal';
+
 const AI_TABS = [
-  { id: 'image-gen', label: 'AI Image Gen' },
-  { id: 'chat', label: 'AI Chat Assistant' },
-  { id: 'local', label: 'Local AI Utilities' }
+  { id: 'image-gen', label: 'AI Image Gen', icon: 'image' },
+  { id: 'chat', label: 'AI Chat Assistant', icon: 'chat' },
+  { id: 'local', label: 'Local AI Utilities', icon: 'analytics' }
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 const AiTools = ({ toolId, onSubtoolChange }) => {
-  const [activeTab, setActiveTab] = useState('image-gen');
-  const chatEndRef = useRef(null);
+  const [activeTab, setActiveTab] = useState(null);
+
+  useEffect(() => {
+    if (activeTab) {
+      const current = AI_TABS.find(t => t.id === activeTab);
+      if (current && onSubtoolChange) onSubtoolChange(current.label);
+    } else {
+      if (onSubtoolChange) onSubtoolChange(null);
+    }
+  }, [activeTab, onSubtoolChange]);
 
   useEffect(() => {
     if (toolId) {
@@ -25,159 +38,60 @@ const AiTools = ({ toolId, onSubtoolChange }) => {
     }
   }, [toolId]);
 
-  const [input, setInput] = useState('');
-  const [res, setRes] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [chat, setChat] = useState([]);
-  const [style, setStyle] = useState('natural');
-  const [localSentiment, setLocalSentiment] = useState(null);
-  const [toolResult, setToolResult] = useState(null);
-
-  useEffect(() => {
-    const current = AI_TABS.find(t => t.id === activeTab);
-    if (current && onSubtoolChange) onSubtoolChange(current.label);
-  }, [activeTab, onSubtoolChange]);
-
-  useEffect(() => {
-    if (activeTab === 'chat' && chatEndRef.current) {
-        chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [chat, activeTab]);
-
-  const runLocalAnalysis = async () => {
-    setLoading(true);
-    try {
-        const sentiment = input.length % 2 === 0 ? 'Positive' : 'Neutral';
-        setLocalSentiment(sentiment);
-        setToolResult({ text: `Sentiment Analysis Result:\nSentiment: ${sentiment}\nText: ${input.substring(0, 50)}...`, filename: 'sentiment.txt' });
-    } catch (e) {
-        setLocalSentiment('Neutral');
-    } finally {
-        setLoading(false);
-    }
+  const goBack = () => setActiveTab(null);
+  const closeHub = () => {
+    const url = new URL(window.location);
+    url.searchParams.delete('tool');
+    window.history.pushState({}, '', url.toString());
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
-  const generateImage = async () => {
-    setLoading(true);
-    try {
-        const prompt = style === 'natural' ? input : `${input} in ${style} style`;
-        const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=512&height=512&seed=${Math.floor(Math.random()*1000)}&model=flux`;
-        setRes(url);
-        setToolResult({ text: `AI Image Prompt: ${input} (${style})`, filename: 'ai_image.png', url });
-    } catch (e) {
-        setRes('AI Image generation failed.');
-    } finally {
-        setLoading(false);
-    }
-  };
-
-  const sendMessage = async () => {
-      if (!input.trim()) return;
-      setLoading(true);
-      const newChat = [...chat, { role: 'user', content: input }];
-      setChat(newChat);
-      const currentInput = input;
-      setInput('');
-      try {
-          const response = await fetch('https://text.pollinations.ai/', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ messages: newChat })
-          });
-          if (!response.ok) throw new Error('API failed');
-          const data = await response.text();
-          setChat([...newChat, { role: 'assistant', content: data }]);
-          setToolResult(null);
-      } catch(e) {
-          setToolResult({ error: "Chat failed. Please try again." });
-          setInput(currentInput);
-          setChat(chat);
-      } finally { setLoading(false); }
-  };
+  if (!activeTab) {
+    return (
+      <div className="tool-form mt-20">
+        <div className="flex-between mb-20">
+          <div className="pill disabled" style={{opacity: 0.5}}>
+            <span className="material-icons" style={{fontSize: '1.1rem'}}>dashboard</span>
+            Category Grid
+          </div>
+          <button className="pill" onClick={closeHub}>
+            <span className="material-icons" style={{fontSize: '1.1rem'}}>close</span>
+            Exit Category
+          </button>
+        </div>
+        <div className="category-grid">
+          {AI_TABS.map(tab => (
+            <div key={tab.id} className="card cursor-pointer" onClick={() => setActiveTab(tab.id)}>
+              <div className="card-body">
+                <div className="card-icon flex-center">
+                  <span className="material-icons">{tab.icon}</span>
+                </div>
+                <div className="card-title">{tab.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tool-form mt-20">
-      <div className="pill-group mb-20 scrollable-x">
-        {AI_TABS.map(tab => (
-          <button key={tab.id} className={`pill ${activeTab === tab.id ? 'active' : ''}`} onClick={() => {setActiveTab(tab.id); setRes(''); setToolResult(null);}}>
-            {tab.label}
-          </button>
-        ))}
+      <div className="flex-between mb-20">
+        <button className="pill" onClick={goBack}>
+          <span className="material-icons" style={{fontSize: '1.1rem'}}>arrow_back</span>
+          Back to Hub
+        </button>
+        <button className="pill" onClick={closeHub}>
+          <span className="material-icons" style={{fontSize: '1.1rem'}}>close</span>
+          Exit Category
+        </button>
       </div>
 
       <div className="hub-content animate-fadeIn">
-          {activeTab === 'local' ? (
-              <div className="card p-20 grid gap-15 glass-card">
-                  <div className="form-group">
-                    <label>Text for Local Analysis</label>
-                    <textarea className="pill w-full font-mono" rows="4" placeholder="Enter text here..." value={input} onChange={e=>setInput(e.target.value)} />
-                  </div>
-                  <button className="btn-primary w-full" onClick={runLocalAnalysis}>
-                    <span className="material-icons mr-10">analytics</span>
-                    Analyze Sentiment
-                  </button>
-                  {localSentiment && (
-                      <div className="tool-result text-center">
-                          Sentiment: <b className={localSentiment.toLowerCase()}>{localSentiment}</b>
-                      </div>
-                  )}
-                  <ToolResult result={toolResult} />
-              </div>
-          ) : activeTab === 'image-gen' ? (
-              <div className="grid gap-20">
-                <div className="pill-group scrollable-x">
-                    {['natural', 'anime', 'cyberpunk', 'pixel-art', '3d-render', 'sketch', 'oil-painting', 'cinematic'].map(s => (
-                        <button key={s} className={`pill ${style === s ? 'active' : ''}`} onClick={() => setStyle(s)} style={{fontSize: '0.75rem', padding: '6px 12px'}}>
-                            {s.replace('-', ' ')}
-                        </button>
-                    ))}
-                </div>
-                <div className="card p-20 grid gap-15 glass-card">
-                    <div className="form-group">
-                        <label>Image Prompt</label>
-                        <textarea className="pill w-full" rows="3" placeholder="Describe what you want to generate..." value={input} onChange={e=>setInput(e.target.value)} />
-                    </div>
-                    <button className="btn-primary w-full" onClick={generateImage} disabled={loading || !input}>
-                        <span className="material-icons mr-10">{loading ? 'sync' : 'auto_awesome'}</span>
-                        {loading ? 'Generating...' : 'Generate with AI'}
-                    </button>
-                </div>
-                {res && (
-                    <div className="card p-15 text-center glass-card overflow-hidden">
-                        <img src={res} alt="AI Gen" style={{ width: '100%', borderRadius: '12px', boxShadow: 'var(--shadow-md)' }} />
-                    </div>
-                )}
-                <ToolResult result={toolResult} />
-              </div>
-          ) : (
-              <div className="grid gap-15">
-                  <div className="card p-15 overflow-auto glass-card" style={{ height: '400px', display: 'flex', flexDirection: 'column', gap: '12px', borderRadius: 'var(--radius-xl)' }}>
-                      {chat.length === 0 && <div className="text-center opacity-5 m-auto">Ask me anything...<br/><span className="material-icons" style={{fontSize: '3rem'}}>forum</span></div>}
-                      {chat.map((m, i) => (
-                          <div key={i} className={`p-15 animate-slide-up ${m.role === 'user' ? 'ml-40' : 'mr-40'}`} style={{
-                              borderRadius: m.role === 'user' ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
-                              alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
-                              maxWidth: '85%',
-                              background: m.role === 'user' ? 'var(--primary)' : 'var(--primary-container)',
-                              color: m.role === 'user' ? 'var(--on-primary)' : 'var(--on-primary-container)',
-                              border: '1px solid var(--border)',
-                              boxShadow: 'var(--shadow-sm)',
-                              lineHeight: '1.5'
-                          }}>
-                              {m.content}
-                          </div>
-                      ))}
-                      <div ref={chatEndRef} />
-                  </div>
-                  <div className="flex-gap p-5 bg-surface border rounded-full shadow-sm glass-card">
-                      <input className="pill flex-1 border-none shadow-none" value={input} onChange={e=>setInput(e.target.value)} placeholder="Type a message..." onKeyDown={e=>e.key==='Enter' && sendMessage()} />
-                      <button className="icon-btn btn-primary" onClick={sendMessage} disabled={loading} style={{width: '44px', height: '44px'}}>
-                        <span className="material-icons">{loading ? 'sync' : 'send'}</span>
-                      </button>
-                  </div>
-                  <ToolResult result={toolResult} />
-              </div>
-          )}
+        {activeTab === 'image-gen' && <AiImageGen />}
+        {activeTab === 'chat' && <AiChat />}
+        {activeTab === 'local' && <AiLocal />}
       </div>
     </div>
   );

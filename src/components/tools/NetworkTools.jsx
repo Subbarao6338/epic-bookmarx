@@ -1,54 +1,107 @@
 import React, { useState, useEffect } from 'react';
 import ToolResult from './ToolResult';
 
+// Import subtools
+import SubnetCalc from './subtools/SubnetCalc';
+import SpeedTest from './subtools/SpeedTest';
+import IpInfo from './subtools/IpInfo';
+import DnsLookup from './subtools/DnsLookup';
+import WhoisLookup from './subtools/WhoisLookup';
+import SslChecker from './subtools/SslChecker';
+import PingTester from './subtools/PingTester';
+import GeoTool from './subtools/GeoTool';
+import BluetoothScanner from './subtools/BluetoothScanner';
+
 const NETWORK_TABS = [
-  { id: 'ip-info', label: 'IP Information' },
-  { id: 'ping', label: 'Ping Tester' },
-  { id: 'dns', label: 'DNS Lookup' },
-  { id: 'whois', label: 'WHOIS Record' },
-  { id: 'speed', label: 'Speed Test' },
-  { id: 'geo', label: 'IP Geolocation' },
-  { id: 'ssl', label: 'SSL Checker' },
-  { id: 'subnet', label: 'Subnet Calc' },
-  { id: 'bluetooth', label: 'BT Scanner' }
+  { id: 'ip-info', label: 'IP Information', icon: 'info' },
+  { id: 'ping', label: 'Ping Tester', icon: 'network_check' },
+  { id: 'dns', label: 'DNS Lookup', icon: 'language' },
+  { id: 'whois', label: 'WHOIS Record', icon: 'person_search' },
+  { id: 'speed', label: 'Speed Test', icon: 'speed' },
+  { id: 'geo', label: 'Geolocation', icon: 'my_location' },
+  { id: 'ssl', label: 'SSL Checker', icon: 'verified_user' },
+  { id: 'subnet', label: 'Subnet Calc', icon: 'view_list' },
+  { id: 'bluetooth', label: 'BT Scanner', icon: 'bluetooth' }
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 const NetworkTools = ({ toolId, onSubtoolChange }) => {
-  const [activeTab, setActiveTab] = useState('ip-info');
+  const [activeTab, setActiveTab] = useState(null);
 
   useEffect(() => {
-    const current = NETWORK_TABS.find(t => t.id === activeTab);
-    if (current && onSubtoolChange) onSubtoolChange(current.label);
+    if (activeTab) {
+      const current = NETWORK_TABS.find(t => t.id === activeTab);
+      if (current && onSubtoolChange) onSubtoolChange(current.label);
+    } else {
+      if (onSubtoolChange) onSubtoolChange(null);
+    }
   }, [activeTab, onSubtoolChange]);
 
   useEffect(() => {
-    if (toolId) {
-      const mapping = {
-        'ip-info': 'ip-info', 'ping': 'ping', 'dns': 'dns',
-        'whois': 'whois', 'speed': 'speed', 'geo': 'geo',
-        'ssl': 'ssl', 'subnet': 'subnet', 'bluetooth': 'bluetooth'
-      };
-      if (mapping[toolId]) setActiveTab(mapping[toolId]);
+    if (toolId && NETWORK_TABS.some(t => t.id === toolId)) {
+        setActiveTab(toolId);
     }
   }, [toolId]);
 
+  const goBack = () => setActiveTab(null);
+  const closeHub = () => {
+    const url = new URL(window.location);
+    url.searchParams.delete('tool');
+    window.history.pushState({}, '', url.toString());
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
+  if (!activeTab) {
+    return (
+      <div className="tool-form mt-20">
+        <div className="flex-between mb-20">
+          <div className="pill disabled" style={{opacity: 0.5}}>
+            <span className="material-icons" style={{fontSize: '1.1rem'}}>dashboard</span>
+            Category Grid
+          </div>
+          <button className="pill" onClick={closeHub}>
+            <span className="material-icons" style={{fontSize: '1.1rem'}}>close</span>
+            Exit Category
+          </button>
+        </div>
+        <div className="category-grid">
+          {NETWORK_TABS.map(tab => (
+            <div key={tab.id} className="card cursor-pointer" onClick={() => setActiveTab(tab.id)}>
+              <div className="card-body">
+                <div className="card-icon flex-center">
+                  <span className="material-icons">{tab.icon}</span>
+                </div>
+                <div className="card-title">{tab.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="tool-form mt-20">
-      <div className="pill-group mb-20 scrollable-x">
-        {NETWORK_TABS.map(tab => (
-          <button key={tab.id} className={`pill ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
-            {tab.label}
-          </button>
-        ))}
+      <div className="flex-between mb-20">
+        <button className="pill" onClick={goBack}>
+          <span className="material-icons" style={{fontSize: '1.1rem'}}>arrow_back</span>
+          Back to Hub
+        </button>
+        <button className="pill" onClick={closeHub}>
+          <span className="material-icons" style={{fontSize: '1.1rem'}}>close</span>
+          Exit Category
+        </button>
       </div>
 
       <div className="hub-content animate-fadeIn">
-        <div className="card p-30 glass-card text-center grid gap-15">
-            <span className="material-icons text-5xl opacity-2">router</span>
-            <h3>{NETWORK_TABS.find(t => t.id === activeTab)?.label}</h3>
-            <p className="smallest opacity-6">Network diagnostics and connectivity analysis.</p>
-            <button className="btn-primary w-full">Run Analysis</button>
-        </div>
+        {activeTab === 'ip-info' && <IpInfo />}
+        {activeTab === 'dns' && <DnsLookup />}
+        {activeTab === 'whois' && <WhoisLookup />}
+        {activeTab === 'ssl' && <SslChecker />}
+        {activeTab === 'subnet' && <SubnetCalc />}
+        {activeTab === 'speed' && <SpeedTest />}
+        {activeTab === 'ping' && <PingTester />}
+        {activeTab === 'geo' && <GeoTool />}
+        {activeTab === 'bluetooth' && <BluetoothScanner />}
       </div>
     </div>
   );
