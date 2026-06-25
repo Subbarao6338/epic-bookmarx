@@ -165,25 +165,12 @@ const BookmarksView = ({ profileId, searchQuery, onEdit, onDelete, onPin, refres
     };
   }, [currentLinks, categories]);
 
-  if (loading) return (
-    <div style={{ padding: '2rem' }}>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '2rem', overflowX: 'auto' }}>
-            {[1,2,3,4,5].map(i => <div key={i} className="skeleton" style={{ width: '100px', height: '40px', borderRadius: '20px', flexShrink: 0 }} />)}
-        </div>
-        <div className="category-grid">
-            {[1,2,3,4,5,6].map(i => (
-                <div key={i} className="card skeleton" style={{ height: '120px' }}></div>
-            ))}
-        </div>
-    </div>
-  );
-
   const copyAllUrls = useCallback(() => {
     if (!selectedLinkForUrls) return;
     const allUrls = selectedLinkForUrls.urls || [selectedLinkForUrls.url];
     navigator.clipboard.writeText(allUrls.join('\n'));
     alert("All URLs copied to clipboard!");
-  };
+  }, [selectedLinkForUrls]);
 
   const getModalStyle = useCallback(() => {
     if (window.innerWidth <= 768) return { display: 'block' };
@@ -215,7 +202,20 @@ const BookmarksView = ({ profileId, searchQuery, onEdit, onDelete, onPin, refres
       maxWidth: `${modalWidth}px`,
       maxHeight: '90vh'
     };
-  };
+  }, [modalPosition]);
+
+  if (loading) return (
+    <div style={{ padding: '2rem' }}>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '2rem', overflowX: 'auto' }}>
+            {[1,2,3,4,5].map(i => <div key={i} className="skeleton" style={{ width: '100px', height: '40px', borderRadius: '20px', flexShrink: 0 }} />)}
+        </div>
+        <div className="category-grid">
+            {[1,2,3,4,5,6].map(i => (
+                <div key={i} className="card skeleton" style={{ height: '120px' }}></div>
+            ))}
+        </div>
+    </div>
+  );
 
   return (
     <>

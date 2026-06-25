@@ -1,43 +1,49 @@
 # Epic Toolbox
 
-A unified ecosystem of essential tools, designed for professional efficiency and streamlined workflows. This application consolidates multiple utility hubs into a single, high-performance interface with a modern Material Design system.
+Your all-in-one workspace for essential tools and productivity. Epic Toolbox brings together everything you need to handle documents, web tasks, development utilities, and daily productivity in one beautiful, easy-to-use application.
 
-## 🛠️ Core Hubs
+## 🌟 Key Features
 
-1.  **Document Tools**: Integrated PDF, Image, and Text utilities. Edit, convert, and translate documents with ease.
-2.  **Developer Hub**: Essential tools for engineers—JSON formatters, Unit converters, Color pickers, and Security utilities.
-3.  **Data Science**: Statistical analysis, data profiling, mock data generation, and financial calculators.
-4.  **Network Hub**: IP info, DNS lookups, WHOIS, SSL checks, and Subnet calculators.
-5.  **Web & Social Tools**: Media downloaders and web archiving utilities.
-6.  **AI Hub**: Image generation, chat assistants, and local sentiment analysis.
-7.  **Date & Time Tools**: World clocks, Pomodoro timers, Stopwatch, and Timestamp converters.
+### 📚 Bookmarks Manager
+Organize your favorite links and resources efficiently.
+- **Categorization**: Group your links by topics for easy access.
+- **Pinning**: Keep your most important bookmarks at the top.
+- **Search**: Quickly find any link with a powerful search bar.
+- **Multi-URL Support**: Handle bookmarks that contain multiple related links.
+- **Privacy Profiles**: Manage different sets of bookmarks for different needs.
 
-## 🚀 Features
+### 🛠️ Specialized Toolsets
+- **Document Tools**: Edit, convert, and translate documents (PDF, Image, Text) directly in your browser.
+- **Web & Social**: Download media from social platforms and archive web content easily.
+- **Productivity**: Use built-in world clocks, Pomodoro timers, and stopwatches to manage your time.
+- **Data & Math**: Perform statistical analysis, generate mock data, and use various calculators.
+- **Developer Utilities**: Format data, convert units, and generate secure passwords.
+- **AI Assistants**: Access chat assistants and image generation tools to boost your creativity.
 
-*   **Professional UI**: Clean, Material-inspired cards with smooth interactive states.
-*   **Performance**: Lazy-loaded hubs and optimized React components for maximum speed.
-*   **PWA Support**: Fully installable with offline capabilities via service workers.
-*   **Customization**: Material Expressive color palettes and theme modes (Light/Dark/System).
-*   **Privacy First**: Local-first processing for sensitive tools (Hashing, Password Gen, Image Blur).
+### 🎨 Personalization & Experience
+- **Modern Interface**: Enjoy a clean, intuitive design inspired by Material Design.
+- **Themes**: Switch between Light, Dark, or System modes to suit your preference.
+- **Offline Ready**: Access many of your tools even without an internet connection.
+- **Privacy Focused**: Your data stays with you—sensitive processing is done locally on your device whenever possible.
 
-## 💻 Tech Stack
+## 📖 How to Use
 
-*   **Frontend**: React 18, Vite, CSS3 (Material Expressive Design).
-*   **Backend**: Python (FastAPI) for heavy processing (Document translation, YT-DLP).
-*   **Libraries**: jsPDF, pdf-lib, PapaParse, Tesseract.js, Material Icons.
+### Navigating the App
+Use the navigation bar at the bottom (or side on desktop) to switch between the main sections:
+1. **Bookmarks**: Your personal library of saved links.
+2. **Toolbox**: The central hub for all utility tools.
+3. **Projects**: Manage your ongoing work and tasks.
+4. **Settings**: Customize the application to your liking.
 
-## 💻 Installation
+### Using the Toolbox
+1. Click on a category (e.g., "Document Tools") to see available utilities.
+2. Select a tool to open it.
+3. Most tools allow you to drag and drop files or paste text for instant processing.
 
-```bash
-# Install dependencies
-npm install
-pip install -r requirements.txt
+### Managing Bookmarks
+- **Adding**: Click the "Add" button in settings or the bookmark view to save a new link.
+- **Editing**: Long-press (on mobile) or click the menu icon on a bookmark card to edit its details.
+- **Opening**: Simply click a card to open the link. If it has multiple URLs, a menu will appear.
 
-# Start development server
-npm run dev
-
-# Start API server
-python3 -m uvicorn api.index:app --port 8000
-```
-
-Built for professionals who value speed and simplicity.
+---
+*Epic Toolbox is built to simplify your digital life. Start exploring and boost your productivity today!*
