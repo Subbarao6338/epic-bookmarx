@@ -2226,5 +2226,323 @@
       "https://replit.com/"
     ],
     "category": "Coding"
+  },
+  {
+    "title": "OpenDAW",
+    "url": "https://opendaw.org/",
+    "urls": ["https://opendaw.org/"],
+    "category": "Music"
+  },
+  {
+    "title": "Creature Creator",
+    "url": "https://perchance.org/9xc5hyhe5a",
+    "urls": ["https://perchance.org/9xc5hyhe5a"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Generators",
+    "url": "https://perchance.org/aadnnjkra7",
+    "urls": ["https://perchance.org/aadnnjkra7"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Minimal Mindmap",
+    "url": "https://perchance.org/q4uffat2wh",
+    "urls": ["https://perchance.org/q4uffat2wh"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Files",
+    "url": "https://perchance.org/uyh3fu0gy8",
+    "urls": ["https://perchance.org/uyh3fu0gy8"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Perchance Generators",
+    "url": "https://perchance.org/generators",
+    "urls": ["https://perchance.org/generators"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Anikoto TV",
+    "url": "https://anikototv.to/home",
+    "urls": ["https://anikototv.to/home"],
+    "category": "Manga / Anime"
+  },
+  {
+    "title": "Koryomi",
+    "url": "https://koryomi.com/",
+    "urls": ["https://koryomi.com/"],
+    "category": "Manga / Anime"
+  },
+  {
+    "title": "DocuSeal",
+    "url": "https://www.docuseal.com/",
+    "urls": ["https://www.docuseal.com/"],
+    "category": "Documents"
+  },
+  {
+    "title": "Notion Developers",
+    "url": "https://app.notion.com/developers",
+    "urls": ["https://app.notion.com/developers"],
+    "category": "Productivity"
+  },
+  {
+    "title": "XSN GitBook",
+    "url": "https://xsn.gitbook.io/xsn",
+    "urls": ["https://xsn.gitbook.io/xsn"],
+    "category": "Android"
+  },
+  {
+    "title": "Odysseus AI",
+    "url": "https://pewdiepie-archdaemon.github.io/odysseus/",
+    "urls": ["https://pewdiepie-archdaemon.github.io/odysseus/"],
+    "category": "AI"
+  },
+  {
+    "title": "Google Family Link",
+    "url": "https://familylink.google.com/",
+    "urls": ["https://familylink.google.com/"],
+    "category": "Google"
+  },
+  {
+    "title": "FckSignups",
+    "url": "https://fcksignups.com/",
+    "urls": ["https://fcksignups.com/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "My Telegram",
+    "url": "https://my.telegram.org/",
+    "urls": ["https://my.telegram.org/"],
+    "category": "Social"
+  },
+  {
+    "title": "Notion Mail Inbox",
+    "url": "https://mail.notion.com/inbox",
+    "urls": ["https://mail.notion.com/inbox"],
+    "category": "Email"
+  },
+  {
+    "title": "Clashgram",
+    "url": "https://clashgram.pages.dev/",
+    "urls": ["https://clashgram.pages.dev/"],
+    "category": "Social"
+  },
+  {
+    "title": "Google DeepMind",
+    "url": "https://deepmind.google/",
+    "urls": ["https://deepmind.google/"],
+    "category": "AI"
+  },
+  {
+    "title": "YouMind",
+    "url": "https://youmind.com/",
+    "urls": ["https://youmind.com/"],
+    "category": "AI"
+  },
+  {
+    "title": "PromptHero",
+    "url": "https://prompthero.com/",
+    "urls": ["https://prompthero.com/"],
+    "category": "AI"
+  },
+  {
+    "title": "Meigen AI",
+    "url": "https://www.meigen.ai/",
+    "urls": ["https://www.meigen.ai/"],
+    "category": "AI"
+  },
+  {
+    "title": "OmniTools",
+    "url": "https://omnitools.app/",
+    "urls": ["https://omnitools.app/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "eChallan Parivahan",
+    "url": "https://echallan.parivahan.gov.in/index/accused-challan",
+    "urls": ["https://echallan.parivahan.gov.in/index/accused-challan"],
+    "category": "Govt."
+  },
+  {
+    "title": "8gwifi",
+    "url": "https://8gwifi.org/",
+    "urls": ["https://8gwifi.org/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "Gemini Watermark Remover",
+    "url": "https://geminiwatermarkremover.io/",
+    "urls": ["https://geminiwatermarkremover.io/"],
+    "category": "Media"
+  },
+  {
+    "title": "ChangeDetection",
+    "url": "https://changedetection.io/",
+    "urls": ["https://changedetection.io/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "Avnac Design",
+    "url": "https://avnac.design/",
+    "urls": ["https://avnac.design/"],
+    "category": "Media"
+  },
+  {
+    "title": "Supoclip",
+    "url": "https://www.supoclip.com/",
+    "urls": ["https://www.supoclip.com/"],
+    "category": "Media"
+  },
+  {
+    "title": "Daily Tools",
+    "url": "https://daily-tools-kohl.vercel.app/",
+    "urls": ["https://daily-tools-kohl.vercel.app/"],
+    "category": "Documents"
+  },
+  {
+    "title": "Vercel",
+    "url": "https://vercel.com/",
+    "urls": ["https://vercel.com/"],
+    "category": "Hosting"
+  },
+  {
+    "title": "Android FOSS",
+    "url": "https://offa.github.io/android-foss/",
+    "urls": ["https://offa.github.io/android-foss/"],
+    "category": "Android"
+  },
+  {
+    "title": "EZighar",
+    "url": "https://ezighar.com/",
+    "urls": ["https://ezighar.com/"],
+    "category": "Shopping"
+  },
+  {
+    "title": "Locally Uncensored",
+    "url": "https://locallyuncensored.com/",
+    "urls": ["https://locallyuncensored.com/"],
+    "category": "AI"
+  },
+  {
+    "title": "Klic Studio",
+    "url": "http://klic.studio/",
+    "urls": ["http://klic.studio/"],
+    "category": "Media"
+  },
+  {
+    "title": "AnythingLLM",
+    "url": "https://anythingllm.com/",
+    "urls": ["https://anythingllm.com/"],
+    "category": "AI"
+  },
+  {
+    "title": "Puter Web OS",
+    "url": "https://puter.com/",
+    "urls": ["https://puter.com/"],
+    "category": "Search"
+  },
+  {
+    "title": "Ziziyi Office",
+    "url": "https://office.ziziyi.com/",
+    "urls": ["https://office.ziziyi.com/"],
+    "category": "Documents"
+  },
+  {
+    "title": "Readme Hub",
+    "url": "https://iamkaif.me/readme-hub/",
+    "urls": ["https://iamkaif.me/readme-hub/"],
+    "category": "Coding"
+  },
+  {
+    "title": "Vidbox Dev",
+    "url": "https://vidbox.dev/home",
+    "urls": ["https://vidbox.dev/home"],
+    "category": "Streaming"
+  },
+  {
+    "title": "LibreChat",
+    "url": "https://www.librechat.ai/",
+    "urls": ["https://www.librechat.ai/"],
+    "category": "AI"
+  },
+  {
+    "title": "FreeConvert",
+    "url": "https://www.freeconvert.com/",
+    "urls": ["https://www.freeconvert.com/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "CloudConvert",
+    "url": "https://cloudconvert.com/",
+    "urls": ["https://cloudconvert.com/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "Tolaria Markdown",
+    "url": "https://tolaria.md/",
+    "urls": ["https://tolaria.md/"],
+    "category": "Documents"
+  },
+  {
+    "title": "Nextup Resource",
+    "url": "https://nextup-resource.vercel.app/",
+    "urls": ["https://nextup-resource.vercel.app/"],
+    "category": "Tools & Utilities"
+  },
+  {
+    "title": "Urv AI Chat",
+    "url": "https://perchance.org/urv-ai-chat",
+    "urls": ["https://perchance.org/urv-ai-chat"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Pollinations AI",
+    "url": "https://pollinations.ai/",
+    "urls": ["https://pollinations.ai/"],
+    "category": "AI"
+  },
+  {
+    "title": "Generators 2.0",
+    "url": "https://perchance.org/generators-2-0",
+    "urls": ["https://perchance.org/generators-2-0"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Omni Continuum",
+    "url": "https://perchance.org/omni-continuum",
+    "urls": ["https://perchance.org/omni-continuum"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Omni Wendigo",
+    "url": "https://perchance.org/omni-wendigo",
+    "urls": ["https://perchance.org/omni-wendigo"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Omni Kepler WebGPU",
+    "url": "https://perchance.org/omni-kepler-webgpu",
+    "urls": ["https://perchance.org/omni-kepler-webgpu"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Omni Magellan Generators",
+    "url": "https://perchance.org/omni-magellan",
+    "urls": ["https://perchance.org/omni-magellan"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Image Hosting for Devs",
+    "url": "https://perchance.org/image-hosting-for-devs",
+    "urls": ["https://perchance.org/image-hosting-for-devs"],
+    "category": "Perchance"
+  },
+  {
+    "title": "Perchance Web Search",
+    "url": "https://perchance.org/web-search",
+    "urls": ["https://perchance.org/web-search"],
+    "category": "Search"
   }
 ]
