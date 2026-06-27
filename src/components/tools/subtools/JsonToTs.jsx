@@ -12,6 +12,29 @@ const JsonToTs = () => {
             const obj = JSON.parse(input);
             const interfaces = new Map();
 
+            const deepMerge = (target, source) => {
+                for (const key in source) {
+                    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                        if (!target[key]) target[key] = {};
+                        deepMerge(target[key], source[key]);
+                    } else if (Array.isArray(source[key])) {
+                        if (!target[key]) target[key] = [];
+                        // For arrays, we just want to know if there's an object inside for the next step
+                        if (source[key].length > 0) {
+                            if (typeof source[key][0] === 'object' && source[key][0] !== null && !Array.isArray(source[key][0])) {
+                                if (target[key].length === 0) target[key].push({});
+                                deepMerge(target[key][0], source[key][0]);
+                            } else {
+                                target[key] = source[key];
+                            }
+                        }
+                    } else {
+                        target[key] = source[key];
+                    }
+                }
+                return target;
+            };
+
             const getTypeName = (val, key) => {
                 const type = typeof val;
                 if (val === null) return 'any';
@@ -20,6 +43,20 @@ const JsonToTs = () => {
                 if (type === 'boolean') return 'boolean';
                 if (Array.isArray(val)) {
                     if (val.length === 0) return 'any[]';
+
+                    // Check if it's an array of objects (not nested arrays)
+                    if (typeof val[0] === 'object' && val[0] !== null && !Array.isArray(val[0])) {
+                        const merged = {};
+                        val.forEach(item => {
+                            if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+                                deepMerge(merged, item);
+                            }
+                        });
+                        const subName = key.charAt(0).toUpperCase() + key.slice(1);
+                        generateInterface(merged, subName, val);
+                        return `${subName}[]`;
+                    }
+
                     const subType = getTypeName(val[0], key);
                     return `${subType}[]`;
                 }
@@ -31,20 +68,38 @@ const JsonToTs = () => {
                 return 'any';
             };
 
-            const generateInterface = (o, name) => {
+            const generateInterface = (o, name, originalArray = null) => {
                 if (interfaces.has(name)) return;
                 let str = `interface ${name} {\n`;
                 Object.entries(o).forEach(([k, v]) => {
                     const type = getTypeName(v, k);
-                    str += `  ${k}: ${type};\n`;
+                    const isOptional = originalArray && originalArray.some(item => item && typeof item === 'object' && item[k] === undefined);
+                    str += `  ${k}${isOptional ? '?' : ''}: ${type};\n`;
                 });
                 str += '}\n';
                 interfaces.set(name, str);
             };
 
-            generateInterface(obj, interfaceName);
+            if (Array.isArray(obj)) {
+                if (obj.length > 0 && typeof obj[0] === 'object' && obj[0] !== null && !Array.isArray(obj[0])) {
+                    const merged = {};
+                    obj.forEach(item => {
+                        if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+                            deepMerge(merged, item);
+                        }
+                    });
+                    generateInterface(merged, interfaceName, obj);
+                } else {
+                    const type = obj.length > 0 ? (Array.isArray(obj[0]) ? 'any[]' : typeof obj[0]) : 'any';
+                    setResult({ text: `type ${interfaceName} = ${type}[];`, filename: 'types.ts' });
+                    return;
+                }
+            } else {
+                generateInterface(obj, interfaceName);
+            }
 
             let finalTs = '';
+            // Sort by dependency (simple reverse map order often works for simple cases)
             Array.from(interfaces.values()).reverse().forEach(inter => {
                 finalTs += inter + '\n';
             });

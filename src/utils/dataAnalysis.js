@@ -100,8 +100,14 @@ export const runDataQualitySuite = (data) => {
 
         const numericValues = values.map(v => parseFloat(v)).filter(v => !isNaN(v));
         if (numericValues.length > 0) {
-            const mean = math.mean(numericValues);
-            const std = math.std(numericValues);
+            let sum = 0;
+            for (let i = 0; i < numericValues.length; i++) sum += numericValues[i];
+            const mean = sum / numericValues.length;
+
+            let sqDiffSum = 0;
+            for (let i = 0; i < numericValues.length; i++) sqDiffSum += Math.pow(numericValues[i] - mean, 2);
+            const std = Math.sqrt(sqDiffSum / numericValues.length);
+
             const min = mean - 3 * std;
             const max = mean + 3 * std;
             const outliers = numericValues.filter(v => v < min || v > max).length;

@@ -8,7 +8,14 @@ const SqlFormatter = () => {
     const formatSql = () => {
         if (!input.trim()) return;
         try {
-            let sql = input.replace(/\s+/g, ' ').trim();
+            // Protect strings from being formatted
+            const strings = [];
+            let sql = input.replace(/(['"])(?:(?!\1|\\).|\\.)*\1/g, (match) => {
+                strings.push(match);
+                return `__SQL_STR_${strings.length - 1}__`;
+            });
+
+            sql = sql.replace(/\s+/g, ' ').trim();
 
             const reservedWords = [
                 'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'GROUP BY', 'ORDER BY',
@@ -25,25 +32,28 @@ const SqlFormatter = () => {
             });
 
             // Advanced formatting logic
-            const blockKeywords = ['SELECT', 'FROM', 'WHERE', 'GROUP BY', 'ORDER BY', 'SET', 'VALUES', 'INSERT INTO', 'UPDATE', 'HAVING'];
-            const inlineKeywords = ['AND', 'OR', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'UNION'];
-
-            let formatted = sql;
+            const blockKeywords = ['SELECT', 'FROM', 'WHERE', 'GROUP BY', 'ORDER BY', 'SET', 'VALUES', 'INSERT INTO', 'UPDATE', 'HAVING', 'UNION'];
+            const inlineKeywords = ['AND', 'OR', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN'];
 
             blockKeywords.forEach(word => {
                 const regex = new RegExp(`\\b${word}\\b`, 'g');
-                formatted = formatted.replace(regex, `\n${word}\n  `);
+                sql = sql.replace(regex, `\n${word}\n  `);
             });
 
             inlineKeywords.forEach(word => {
                 const regex = new RegExp(`\\b${word}\\b`, 'g');
-                formatted = formatted.replace(regex, `\n  ${word}`);
+                sql = sql.replace(regex, `\n  ${word}`);
             });
 
             // Handle commas
-            formatted = formatted.replace(/,/g, ',\n  ');
+            sql = sql.replace(/,/g, ',\n  ');
 
-            const finalLines = formatted.split('\n')
+            // Restore strings
+            strings.forEach((str, i) => {
+                sql = sql.replace(`__SQL_STR_${i}__`, str);
+            });
+
+            const finalLines = sql.split('\n')
                 .map(line => line.trimEnd())
                 .filter(line => line.trim().length > 0);
 

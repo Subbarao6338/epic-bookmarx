@@ -48,18 +48,23 @@ Use the navigation bar at the bottom (or side on desktop) to switch between the 
 ## 🚀 Recent Improvements & Bug Fixes
 
 - **Developer Hub**:
-    - Re-implemented **SQL Formatter** and **KQL Formatter** with standard indentation and keyword highlighting.
-    - Upgraded **JSON to TypeScript** converter to support complex nested objects and custom interface names.
-    - Introduced **Code Inspiration** hub with modern snippets for React, CSS, and Utility functions.
-- **Productivity & Docs**:
+    - Improved **SQL Formatter** with string literal protection and enhanced block/inline indentation logic.
+    - Completely re-implemented **XML Formatter** using `DOMParser` for reliable formatting of tags, attributes, and comments.
+    - Upgraded **JSON to TypeScript** converter with robust deep-merging for arrays of objects and automatic identification of optional fields.
+    - Optimized **KQL Formatter** and expanded the **Code Inspiration** hub with modern snippets.
+- **Media & Web**:
+    - Integrated **AI Video Summarization** into the Social Downloader hub (requires Gemini API).
     - Expanded the offline **Doc Translator** dictionary and improved case-insensitive matching.
     - Optimized **Code Minifier** with new support for HTML minification.
     - Significantly expanded **Unit Converter** with Area, Volume, and Time categories.
 - **Data Science**:
+    - Optimized performance for the **Data Science Hub** and **Advanced Data Hub** using iterative statistical calculations to handle large datasets without stack overflow.
     - Enhanced Multivariate Anomaly Detection using Mahalanobis Distance for high-dimensional data.
 - **Infrastructure**:
+    - Refactored core **Tool Configuration** into a centralized utility for better maintenance and dynamic tool discovery.
     - Fixed Notion Integration validation bug (moved to POST requests).
     - Improved sub-tool mapping and deep linking for AI tools.
+    - Enhanced **Ops Center** lineage tracking with dynamic tool metadata integration.
 - **Projects**:
     - Updated project showcase with real-world repositories: Epic Bookmarx, Omni Toolbox, and Omni Web.
 

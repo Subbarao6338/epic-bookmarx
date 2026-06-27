@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { storage } from '../../../utils/storage';
+import { TOOLS } from '../../../utils/tools';
 
 const OpsLineage = () => {
     const [lineage, setLineage] = useState([]);
 
     useEffect(() => {
         const recent = storage.getJSON('hub_recent_tools', []);
-        // Map hub IDs to readable names (mocking titles as we don't have the full TOOLS array here)
-        const hubMap = {
-            'ai-main': 'AI Hub',
-            'agent-main': 'Agent Lab',
-            'doc-main': 'Media & Docs',
-            'web-main': 'Web Tools',
-            'data-main': 'Data Science',
-            'dev-main': 'Dev Hub',
-            'network-main': 'Network Hub',
-            'ops-main': 'Ops Center',
-            'notion-main': 'Notion Hub',
-            'time-main': 'Date & Time'
-        };
 
-        const flow = recent.map(id => hubMap[id] || id);
+        const flow = recent.map(id => {
+            const tool = TOOLS.find(t => t.id === id);
+            return tool ? tool.title : id;
+        });
         setLineage(flow);
     }, []);
 

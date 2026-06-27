@@ -8,17 +8,62 @@ const XmlTools = () => {
     const formatXml = () => {
         if (!input) return;
         try {
-            let formatted = '';
-            let indent = '';
-            const tab = '  ';
-            input.split(/>\s*</).forEach(node => {
-                if (node.match(/^\/\w/)) indent = indent.substring(tab.length);
-                formatted += indent + '<' + node + '>\n';
-                if (node.match(/^<?\w[^>]*[^\/]$/) && !node.startsWith('?')) indent += tab;
-            });
-            setResult({ text: formatted.substring(1, formatted.length - 2), filename: 'formatted.xml' });
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(input, 'text/xml');
+
+            const errorNode = xmlDoc.querySelector('parsererror');
+            if (errorNode) throw new Error(errorNode.textContent);
+
+            const formatNode = (node, level = 0) => {
+                const indent = '  '.repeat(level);
+                let result = '';
+
+                if (node.nodeType === 1) { // Element
+                    result += `\n${indent}<${node.nodeName}`;
+                    for (let i = 0; i < node.attributes.length; i++) {
+                        const attr = node.attributes[i];
+                        result += ` ${attr.nodeName}="${attr.nodeValue}"`;
+                    }
+
+                    if (node.childNodes.length === 0) {
+                        result += '/>';
+                    } else {
+                        result += '>';
+                        let hasElements = false;
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            const child = node.childNodes[i];
+                            if (child.nodeType === 1) {
+                                hasElements = true;
+                                result += formatNode(child, level + 1);
+                            } else if (child.nodeType === 3 && child.nodeValue.trim()) {
+                                result += child.nodeValue.trim();
+                            } else if (child.nodeType === 8) { // Comment
+                                result += `\n${'  '.repeat(level + 1)}<!--${child.nodeValue}-->`;
+                            }
+                        }
+                        if (hasElements) result += `\n${indent}`;
+                        result += `</${node.nodeName}>`;
+                    }
+                } else if (node.nodeType === 9) { // Document
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        result += formatNode(node.childNodes[i], level);
+                    }
+                } else if (node.nodeType === 7) { // Processing Instruction
+                    result += `<?${node.target} ${node.data}?>`;
+                }
+
+                return result;
+            };
+
+            let formatted = formatNode(xmlDoc).trim();
+            if (input.trim().startsWith('<?xml')) {
+                const xmlDeclaration = input.match(/<\?xml.*?\?>/)[0];
+                formatted = xmlDeclaration + '\n' + formatted;
+            }
+
+            setResult({ text: formatted, filename: 'formatted.xml' });
         } catch (e) {
-            setResult({ error: e.message });
+            setResult({ error: 'XML Format error: ' + e.message });
         }
     };
 

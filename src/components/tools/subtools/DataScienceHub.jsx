@@ -9,12 +9,22 @@ const DataScienceHub = ({ data }) => {
             const vals = data.map(row => parseFloat(row[k])).filter(v => !isNaN(v));
             if (vals.length > 0) {
                 const sorted = [...vals].sort((a, b) => a - b);
+
+                // Iterative min/max to avoid stack overflow on large arrays
+                let min = vals[0], max = vals[0], sum = 0;
+                for (let i = 0; i < vals.length; i++) {
+                    if (vals[i] < min) min = vals[i];
+                    if (vals[i] > max) max = vals[i];
+                    sum += vals[i];
+                }
+                const avg = sum / vals.length;
+
                 res[k] = {
-                    min: Math.min(...vals),
-                    max: Math.max(...vals),
-                    avg: (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2),
+                    min,
+                    max,
+                    avg: avg.toFixed(2),
                     median: sorted[Math.floor(sorted.length / 2)],
-                    std: Math.sqrt(vals.map(v => Math.pow(v - (vals.reduce((a,b)=>a+b,0)/vals.length), 2)).reduce((a,b)=>a+b,0) / vals.length).toFixed(2)
+                    std: Math.sqrt(vals.map(v => Math.pow(v - avg, 2)).reduce((a,b)=>a+b,0) / vals.length).toFixed(2)
                 };
             }
         });

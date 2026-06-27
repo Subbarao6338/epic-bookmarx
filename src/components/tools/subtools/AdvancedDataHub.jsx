@@ -33,8 +33,16 @@ const AdvancedDataHub = ({ data }) => {
                     const anomalies = [];
                     numericCols.forEach(col => {
                         const vals = data.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
-                        const m = vals.reduce((a, b) => a + b, 0) / vals.length;
-                        const s = Math.sqrt(vals.map(v => Math.pow(v - m, 2)).reduce((a, b) => a + b, 0) / vals.length);
+                        if (vals.length === 0) return;
+
+                        let sum = 0;
+                        for (let i = 0; i < vals.length; i++) sum += vals[i];
+                        const m = sum / vals.length;
+
+                        let sqDiffSum = 0;
+                        for (let i = 0; i < vals.length; i++) sqDiffSum += Math.pow(vals[i] - m, 2);
+                        const s = Math.sqrt(sqDiffSum / vals.length);
+
                         data.forEach((row, idx) => {
                             const val = parseFloat(row[col]);
                             if (Math.abs(val - m) > 3 * s) anomalies.push({ row: idx, column: col, value: val });
