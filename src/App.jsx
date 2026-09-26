@@ -55,6 +55,7 @@ function App() {
   const [hideBookmarks, setHideBookmarks] = useLocalStorageState('hub_hide_bookmarks', false, 'boolean');
   const [hideToolbox, setHideToolbox] = useLocalStorageState('hub_hide_toolbox', false, 'boolean');
   const [showProjectsTab, setShowProjectsTab] = useLocalStorageState('hub_show_projects_tab', false, 'boolean');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useLocalStorageState('hub_sidebar_collapsed', false, 'boolean');
 
   const setTab = React.useCallback((tab, skipHistory = false) => {
     setCurrentTab(tab);
@@ -377,6 +378,8 @@ function App() {
           theme={theme}
           setTheme={setTheme}
           currentProfileName={enableProfiles ? currentProfileName : 'Default'}
+          isCollapsed={isSidebarCollapsed}
+          setIsCollapsed={setIsSidebarCollapsed}
         />
       )}
       <div className="search-dismiss-overlay" onClick={() => setSearchActive(false)}></div>
