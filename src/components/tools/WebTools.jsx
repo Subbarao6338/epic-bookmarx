@@ -3,6 +3,7 @@ import ErrorBoundary from '../ErrorBoundary';
 import ToolResult from './ToolResult';
 
 // Lazy load subtools
+const ExtensionSources = lazy(() => import('./subtools/ExtensionSources'));
 const SocialAudit = lazy(() => import('./subtools/SocialAudit'));
 const SocialDownloader = lazy(() => import('./subtools/SocialDownloader'));
 const WebArchive = lazy(() => import('./subtools/WebArchive'));
@@ -12,6 +13,7 @@ const Bookmarklets = lazy(() => import('./subtools/Bookmarklets'));
 const UrlToMarkdown = lazy(() => import('./subtools/UrlToMarkdown'));
 
 const WEB_TABS = [
+  { id: 'extension-sources', label: 'Extension Sources', icon: 'extension' },
   { id: 'social', label: 'Social Audit', icon: 'share' },
   { id: 'social-downloader', label: 'Social Downloader', icon: 'download' },
   { id: 'archive', label: 'Web Archive', icon: 'history' },
@@ -92,6 +94,7 @@ const WebTools = ({ toolId, onSubtoolChange }) => {
       <div className="hub-content animate-fadeIn">
         <ErrorBoundary>
           <Suspense fallback={<div className="text-center p-20 rotating material-icons">refresh</div>}>
+            {activeTab === 'extension-sources' && <ExtensionSources />}
             {activeTab === 'social' && <SocialAudit />}
             {activeTab === 'social-downloader' && <SocialDownloader />}
             {activeTab === 'archive' && <WebArchive />}

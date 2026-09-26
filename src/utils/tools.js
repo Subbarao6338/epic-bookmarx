@@ -134,6 +134,7 @@ export const TOOLS = [
     { id: 'lineage', title: 'Data Lineage', icon: 'account_tree', category: 'System Tools', component: OpsTools, subTools: [] },
 
     // 38. Web Tools
+    { id: 'extension-sources', title: 'Extension Sources', icon: 'extension', category: 'Web Tools', component: WebTools, subTools: [] },
     { id: 'archive', title: 'Web Archive', icon: 'history', category: 'Web Tools', component: WebTools, subTools: [] },
     { id: 'url2pdf', title: 'URL to PDF', icon: 'picture_as_pdf', category: 'Web Tools', component: WebTools, subTools: [] },
     { id: 'userscripts', title: 'User Scripts', icon: 'code', category: 'Web Tools', component: WebTools, subTools: [] },
