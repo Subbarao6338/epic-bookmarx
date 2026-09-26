@@ -14,7 +14,9 @@ const Sidebar = ({
   setSearchActive,
   theme,
   setTheme,
-  currentProfileName
+  currentProfileName,
+  isCollapsed,
+  setIsCollapsed
 }) => {
   const [searchPlaceholder, setSearchPlaceholder] = useState('Search...');
   const tips = [
@@ -57,12 +59,24 @@ const Sidebar = ({
   };
 
   return (
-    <aside className="app-sidebar glass-card">
+    <aside className={`app-sidebar glass-card ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-brand">
-        <div className="logo-icon-wrapper">
-          <img src="/assets/favicon.svg" className="app-logo-img" alt="Logo" style={{ width: '28px', height: '28px' }} />
+        <div className="sidebar-brand-left">
+          <div className="logo-icon-wrapper">
+            <img src="/assets/favicon.svg" className="app-logo-img" alt="Logo" style={{ width: '28px', height: '28px' }} />
+          </div>
+          <h1 className="sidebar-title">{appName || 'Epic Toolbox'}</h1>
         </div>
-        <h1 className="sidebar-title">{appName || 'Epic Toolbox'}</h1>
+        <button
+          className="sidebar-collapse-toggle"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <span className="material-icons">
+            {isCollapsed ? 'chevron_right' : 'chevron_left'}
+          </span>
+        </button>
       </div>
 
       <div className="sidebar-search">
@@ -141,9 +155,9 @@ const Sidebar = ({
 
       {currentTab === 'bookmarks' && (
         <div className="sidebar-actions-panel">
-          <button className="btn-primary w-full sidebar-action-btn" onClick={onAddClick}>
+          <button className="btn-primary w-full sidebar-action-btn" onClick={onAddClick} title="New Bookmark">
             <span className="material-icons">add_link</span>
-            <span>New Bookmark</span>
+            <span className="nav-label">New Bookmark</span>
           </button>
         </div>
       )}

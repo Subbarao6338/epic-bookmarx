@@ -409,14 +409,14 @@ const ExtensionSources = () => {
       {/* Visible URLs Box */}
       <div className="grid gap-6 p-10" style={{ background: 'var(--card-bg)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
         {/* Repo Web URL */}
-        <div className="flex-between gap-10" style={{ fontSize: '0.75rem' }}>
-          <div className="grid gap-2 overflow-hidden" style={{ flex: 1 }}>
+        <div className="flex-between flex-wrap gap-10" style={{ fontSize: '0.75rem' }}>
+          <div className="grid gap-2 overflow-hidden" style={{ flex: 1, minWidth: 0 }}>
             <span className="smallest opacity-5 font-bold uppercase" style={{ fontSize: '0.62rem', letterSpacing: '0.5px' }}>Web Repository URL</span>
             <a
               href={source.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-truncate opacity-9 hover-underline font-mono"
+              className="opacity-9 hover-underline font-mono break-all"
               style={{ fontSize: '0.72rem', color: 'var(--brand-accent)', textDecoration: 'none' }}
               title={source.url}
             >
@@ -437,11 +437,11 @@ const ExtensionSources = () => {
         </div>
 
         {/* Source Raw URL */}
-        <div className="flex-between gap-10 border-t pt-6" style={{ fontSize: '0.75rem', borderColor: 'rgba(255,255,255,0.06)' }}>
-          <div className="grid gap-2 overflow-hidden" style={{ flex: 1 }}>
+        <div className="flex-between flex-wrap gap-10 border-t pt-6" style={{ fontSize: '0.75rem', borderColor: 'rgba(255,255,255,0.06)' }}>
+          <div className="grid gap-2 overflow-hidden" style={{ flex: 1, minWidth: 0 }}>
             <span className="smallest opacity-5 font-bold uppercase" style={{ fontSize: '0.62rem', letterSpacing: '0.5px' }}>Raw Manifest / Source JSON</span>
             <span
-              className="text-truncate opacity-8 font-mono"
+              className="opacity-8 font-mono break-all"
               style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}
               title={source.repoUrl}
             >
